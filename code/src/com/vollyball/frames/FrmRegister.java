@@ -27,6 +27,7 @@ public class FrmRegister extends javax.swing.JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         pgrStatus.setValue(25);
         pgrStatus.setStringPainted(true);
+        lblFinish.setVisible(false);
     }
 
     /**
@@ -41,6 +42,7 @@ public class FrmRegister extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         pgrStatus = new javax.swing.JProgressBar(0,100);
         lblStatus = new javax.swing.JLabel();
+        lblFinish = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         lblHeader = new javax.swing.JLabel();
         panDetails = new javax.swing.JPanel();
@@ -54,6 +56,15 @@ public class FrmRegister extends javax.swing.JFrame {
         lblStatus.setForeground(new java.awt.Color(255, 255, 255));
         lblStatus.setText("Step 1 Of 3 : Product Activation");
 
+        lblFinish.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblFinish.setForeground(new java.awt.Color(255, 255, 255));
+        lblFinish.setText("FINISH");
+        lblFinish.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblFinishMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -63,7 +74,8 @@ public class FrmRegister extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 161, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                        .addComponent(lblFinish))
                     .addComponent(pgrStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(52, 52, 52))
         );
@@ -73,7 +85,9 @@ public class FrmRegister extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addComponent(pgrStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblStatus)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblStatus)
+                    .addComponent(lblFinish))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
@@ -123,9 +137,15 @@ public class FrmRegister extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void lblFinishMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFinishMouseClicked
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_lblFinishMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
+    public static javax.swing.JLabel lblFinish;
     public static javax.swing.JLabel lblHeader;
     public static javax.swing.JLabel lblStatus;
     public static javax.swing.JPanel panDetails;

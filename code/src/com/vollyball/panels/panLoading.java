@@ -5,6 +5,7 @@
  */
 package com.vollyball.panels;
 
+import com.vollyball.db.Setup;
 import com.vollyball.frames.FrmRegister;
 
 /**
@@ -12,6 +13,8 @@ import com.vollyball.frames.FrmRegister;
  * @author nishant.vibhute
  */
 public class panLoading extends javax.swing.JPanel {
+
+    Setup setup = new Setup();
 
     /**
      * Creates new form panLoading
@@ -21,6 +24,7 @@ public class panLoading extends javax.swing.JPanel {
         FrmRegister.lblHeader.setText("Finalizing");
         FrmRegister.lblStatus.setText("Step 3 Of 3 : Finalizing");
         FrmRegister.pgrStatus.setValue(100);
+        setup.start();
     }
 
     /**
