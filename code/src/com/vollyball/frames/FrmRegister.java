@@ -20,9 +20,9 @@ public class FrmRegister extends javax.swing.JFrame {
      * Creates new form FrmRegister
      */
     public FrmRegister() {
+        setVisible(true);
         Controller.panActivate = new PanActivate();
         initComponents();
-        setVisible(true);
         panDetails.add(Controller.panActivate, BorderLayout.CENTER);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         pgrStatus.setValue(25);
@@ -139,7 +139,8 @@ public class FrmRegister extends javax.swing.JFrame {
 
     private void lblFinishMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFinishMouseClicked
         // TODO add your handling code here:
-        System.exit(0);
+        dispose();
+        new FrmLogin();
     }//GEN-LAST:event_lblFinishMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -5,9 +5,12 @@
  */
 package com.vollyball.controller;
 
+import com.vollyball.bean.UserBean;
+import com.vollyball.frames.FrmLogin;
 import com.vollyball.frames.FrmRegister;
 import com.vollyball.util.CommonUtil;
 import java.io.File;
+import java.util.LinkedHashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -23,6 +26,8 @@ public class Controller {
     public static JPanel panUserDetails;
     public static JPanel panDetails;
     public static JPanel panLoading;
+    public static LinkedHashMap<Integer, String> stepCompleted = new LinkedHashMap<Integer, String>();
+    public static UserBean userBean = new UserBean();
 
     public static void main(String args[]) {
 
@@ -31,6 +36,8 @@ public class Controller {
         File file = new File(CommonUtil.getResourceProperty("db.name"));
         if (!file.exists()) {
             frmMain = new FrmRegister();
+        } else {
+            new FrmLogin();
         }
     }
 

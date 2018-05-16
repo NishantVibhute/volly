@@ -19,11 +19,14 @@ import java.util.logging.Logger;
  */
 public class DbUtil {
 
+    String dbUrl = CommonUtil.getResourceProperty("db.name");
+
     public boolean createNewDatabase() {
         boolean isCreated = false;
         Connection conn = null;
-        String url = "jdbc:sqlite:" + CommonUtil.getResourceProperty("db.name");
+        String url = "jdbc:sqlite:" + dbUrl;
         try {
+
             conn = DriverManager.getConnection(url);
             if (conn != null) {
                 DatabaseMetaData meta = conn.getMetaData();
@@ -46,7 +49,7 @@ public class DbUtil {
         Connection c = null;
         try {
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:" + CommonUtil.getResourceProperty("db.name"));
+            c = DriverManager.getConnection("jdbc:sqlite:" + dbUrl);
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }

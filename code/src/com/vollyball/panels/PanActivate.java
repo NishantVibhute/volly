@@ -5,6 +5,7 @@
  */
 package com.vollyball.panels;
 
+import com.vollyball.bean.UserBean;
 import com.vollyball.controller.Controller;
 import com.vollyball.frames.FrmRegister;
 import java.awt.BorderLayout;
@@ -35,7 +36,7 @@ public class PanActivate extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txtCode = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -55,14 +56,14 @@ public class PanActivate extends javax.swing.JPanel {
 
         jPanel3.setBackground(new java.awt.Color(46, 64, 87));
 
-        jTextField1.setBackground(new java.awt.Color(46, 64, 87));
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField1.setBorder(null);
-        jTextField1.setCaretColor(new java.awt.Color(255, 255, 255));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtCode.setBackground(new java.awt.Color(46, 64, 87));
+        txtCode.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtCode.setForeground(new java.awt.Color(255, 255, 255));
+        txtCode.setBorder(null);
+        txtCode.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtCode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtCodeActionPerformed(evt);
             }
         });
 
@@ -72,14 +73,14 @@ public class PanActivate extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jTextField1)
+                .addComponent(txtCode)
                 .addGap(10, 10, 10))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(3, 3, 3)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3))
         );
 
@@ -194,12 +195,14 @@ public class PanActivate extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtCodeActionPerformed
 
     private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
         // TODO add your handling code here:
+        UserBean ub = Controller.userBean;
+        ub.setCode(txtCode.getText());
         Controller.panUserDetails = new PanUserDetails();
         Controller.panActivate.setVisible(false);
         FrmRegister.panDetails.add(Controller.panUserDetails, BorderLayout.CENTER);
@@ -216,7 +219,7 @@ public class PanActivate extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel panActivate;
+    private javax.swing.JTextField txtCode;
     // End of variables declaration//GEN-END:variables
 }
