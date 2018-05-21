@@ -6,15 +6,24 @@
 package com.vollyball.frames;
 
 import com.vollyball.controller.Controller;
+import com.vollyball.panels.PanCompRow;
 import com.vollyball.panels.PanNewCompetition;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.UIManager;
 
 /**
  *
  * @author nishant.vibhute
  */
 public class FrmDashboard extends javax.swing.JFrame {
+
+    JPanel panCompListValue = new PanCompListValue();
 
     /**
      * Creates new form FrmMain
@@ -23,8 +32,58 @@ public class FrmDashboard extends javax.swing.JFrame {
         setVisible(true);
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        Controller.panNewCompetition = new PanNewCompetition();
-        panContent.add(Controller.panNewCompetition, BorderLayout.CENTER);
+//        Controller.panNewCompetition = new PanNewCompetition();
+//
+//        Dimension dim = panContent.getSize();
+//
+//        Controller.panNewCompetition.setBounds(dim.width / 2 - 463 / 2, dim.height / 2 - 553 / 2, 463, 553);
+//        panContent.add(Controller.panNewCompetition);
+
+//        Controller.PanCompList = new PanCompList();
+//
+        Dimension dim = panContent.getSize();
+        Controller.panCompListValue = new PanCompListValue();
+//
+//        Controller.PanCompList.setBounds(dim.width / 2 - 463 / 2, dim.height / 2 - 553 / 2, 463, 553);
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+        }
+
+        Controller.panCompListValue.setBounds(0, 0, dim.width, dim.height);
+        panContent.add(Controller.panCompListValue);
+
+    }
+
+    public class PanCompListValue extends JPanel {
+
+        private JPanel mainList;
+
+        public PanCompListValue() {
+            setLayout(new BorderLayout());
+            mainList = new JPanel(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridwidth = GridBagConstraints.REMAINDER;
+            gbc.weightx = 1;
+            gbc.weighty = 1;
+            mainList.add(new JPanel(), gbc);
+            add(new JScrollPane(mainList));
+
+            for (int i = 0; i <= 50; i++) {
+                JPanel panel = new PanCompRow();
+//                panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
+                GridBagConstraints gbcRow = new GridBagConstraints();
+                gbcRow.gridwidth = GridBagConstraints.REMAINDER;
+                gbcRow.weightx = 1;
+                gbcRow.fill = GridBagConstraints.HORIZONTAL;
+                mainList.add(panel, gbcRow, 0);
+                validate();
+                repaint();
+
+            }
+
+        }
+
     }
 
     /**
@@ -38,6 +97,8 @@ public class FrmDashboard extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         panContent = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        newComp = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,35 +108,94 @@ public class FrmDashboard extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1259, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 53, Short.MAX_VALUE)
+            .addGap(0, 70, Short.MAX_VALUE)
         );
 
-        panContent.setLayout(new java.awt.BorderLayout());
+        panContent.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout panContentLayout = new javax.swing.GroupLayout(panContent);
+        panContent.setLayout(panContentLayout);
+        panContentLayout.setHorizontalGroup(
+            panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 800, Short.MAX_VALUE)
+        );
+        panContentLayout.setVerticalGroup(
+            panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 686, Short.MAX_VALUE)
+        );
+
+        jPanel2.setBackground(new java.awt.Color(204, 102, 0));
+
+        newComp.setText("New");
+        newComp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newCompActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(newComp, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(newComp, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(631, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(panContent, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void newCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCompActionPerformed
+        // TODO add your handling code here:
+        Controller.panNewCompetition = new PanNewCompetition();
+//
+        Dimension dim = panContent.getSize();
+
+        Controller.panNewCompetition.setBounds(dim.width / 2 - 463 / 2, dim.height / 2 - 553 / 2, 463, 553);
+        panContent.add(Controller.panNewCompetition);
+        Controller.panCompListValue.setVisible(false);
+    }//GEN-LAST:event_newCompActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton newComp;
     private javax.swing.JPanel panContent;
     // End of variables declaration//GEN-END:variables
 }

@@ -90,7 +90,7 @@ public class FrmLogin extends javax.swing.JFrame {
         int i = lg.checkLogin(user, pass);
 
         if (i != 0) {
-            JOptionPane.showMessageDialog(this, "Success");
+//            JOptionPane.showMessageDialog(this, "Success");
             this.dispose();
             new FrmDashboard();
         } else {

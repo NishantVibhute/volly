@@ -27,6 +27,8 @@ public class Controller {
     public static JPanel panDetails;
     public static JPanel panLoading;
     public static JPanel panNewCompetition;
+    public static JPanel PanCompList;
+    public static JPanel panCompListValue;
     public static LinkedHashMap<Integer, String> stepCompleted = new LinkedHashMap<Integer, String>();
     public static UserBean userBean = new UserBean();
 

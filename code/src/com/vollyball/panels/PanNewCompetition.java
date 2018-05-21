@@ -5,7 +5,16 @@
  */
 package com.vollyball.panels;
 
-import java.sql.Date;
+import com.vollyball.bean.CompetitionBean;
+import com.vollyball.controller.Controller;
+import com.vollyball.dao.CompetitionDao;
+import com.vollyball.util.DateLabelFormatter;
+import java.awt.Color;
+import java.awt.event.ItemEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.swing.JOptionPane;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
@@ -16,19 +25,28 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
  */
 public class PanNewCompetition extends javax.swing.JPanel {
 
+    UtilDateModel modelStart = new UtilDateModel();
+    JDatePanelImpl datePanelStart = new JDatePanelImpl(modelStart);
+    UtilDateModel modelEnd = new UtilDateModel();
+    JDatePanelImpl datePanelEnd = new JDatePanelImpl(modelEnd);
+    JDatePickerImpl datePickerStart = new JDatePickerImpl(datePanelStart, new DateLabelFormatter());
+    JDatePickerImpl datePickerEnd = new JDatePickerImpl(datePanelEnd, new DateLabelFormatter());
+    String ageGroup;
+    CompetitionDao competitionDao = new CompetitionDao();
+
     /**
      * Creates new form PanNewCompetition
      */
     public PanNewCompetition() {
         initComponents();
 
-        UtilDateModel model = new UtilDateModel();
-        JDatePanelImpl datePanel = new JDatePanelImpl(model);
-        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
-        datePicker.setBounds(0, 0, 319, 28);
-        panStartDate.add(datePicker);
-        Date selectedDate = (Date) datePicker.getModel().getValue();
-        String date = selectedDate + "";
+        datePickerStart.setBounds(0, 0, 319, 28);
+        datePickerStart.setBackground(Color.WHITE);
+        panStartDate.add(datePickerStart);
+
+        datePickerEnd.setBounds(0, 0, 319, 28);
+        datePickerEnd.setBackground(Color.WHITE);
+        panEndDate.add(datePickerEnd);
 
     }
 
@@ -43,6 +61,7 @@ public class PanNewCompetition extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jTextField1 = new javax.swing.JTextField();
         txtCompName = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -50,17 +69,22 @@ public class PanNewCompetition extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtEndDate = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtAgeGroup = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        butSubmit = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtVenue = new javax.swing.JTextArea();
+        panEndDate = new javax.swing.JPanel();
         panStartDate = new javax.swing.JPanel();
+        jComboBox1 = new javax.swing.JComboBox();
+        jComboBox2 = new javax.swing.JComboBox();
+        jButton1 = new javax.swing.JButton();
+        butCancel = new javax.swing.JButton();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
+
+        jTextField1.setText("jTextField1");
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -105,31 +129,15 @@ public class PanNewCompetition extends javax.swing.JPanel {
         jLabel4.setForeground(new java.awt.Color(45, 62, 79));
         jLabel4.setText("End Date");
 
-        txtEndDate.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtEndDate.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txtEndDate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEndDateActionPerformed(evt);
-            }
-        });
-
         jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(45, 62, 79));
         jLabel5.setText("Age group");
 
-        txtAgeGroup.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtAgeGroup.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txtAgeGroup.addActionListener(new java.awt.event.ActionListener() {
+        butSubmit.setBackground(new java.awt.Color(45, 62, 79));
+        butSubmit.setText("Submit");
+        butSubmit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAgeGroupActionPerformed(evt);
-            }
-        });
-
-        jButton1.setBackground(new java.awt.Color(45, 62, 79));
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                butSubmitActionPerformed(evt);
             }
         });
 
@@ -137,6 +145,21 @@ public class PanNewCompetition extends javax.swing.JPanel {
         txtVenue.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         txtVenue.setRows(5);
         jScrollPane2.setViewportView(txtVenue);
+
+        panEndDate.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout panEndDateLayout = new javax.swing.GroupLayout(panEndDate);
+        panEndDate.setLayout(panEndDateLayout);
+        panEndDateLayout.setHorizontalGroup(
+            panEndDateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panEndDateLayout.setVerticalGroup(
+            panEndDateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 28, Short.MAX_VALUE)
+        );
+
+        panStartDate.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout panStartDateLayout = new javax.swing.GroupLayout(panStartDate);
         panStartDate.setLayout(panStartDateLayout);
@@ -146,8 +169,31 @@ public class PanNewCompetition extends javax.swing.JPanel {
         );
         panStartDateLayout.setVerticalGroup(
             panStartDateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 35, Short.MAX_VALUE)
+            .addGap(0, 28, Short.MAX_VALUE)
         );
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Under", "Open" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14", "16", "18", "21" }));
+        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox2ItemStateChanged(evt);
+            }
+        });
+
+        jButton1.setText("Reset");
+
+        butCancel.setText("Cancel");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -158,16 +204,24 @@ public class PanNewCompetition extends javax.swing.JPanel {
                 .addGap(71, 71, 71)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5)
-                    .addComponent(txtAgeGroup, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
-                    .addComponent(txtEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1)
                     .addComponent(txtCompName)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2)
-                    .addComponent(panStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+                    .addComponent(panEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(butSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(butCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(71, 71, 71))
         );
         layout.setVerticalGroup(
@@ -184,36 +238,87 @@ public class PanNewCompetition extends javax.swing.JPanel {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtAgeGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(butSubmit, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(butCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(50, 50, 50))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtEndDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEndDateActionPerformed
+    private void butSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butSubmitActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtEndDateActionPerformed
+        Date selectedStartDate = (Date) datePickerStart.getModel().getValue();
+        String startDate = selectedStartDate + "";
 
-    private void txtAgeGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAgeGroupActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAgeGroupActionPerformed
+        Date selectedEndDate = (Date) datePickerEnd.getModel().getValue();
+        String endDate = selectedEndDate + "";
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        CompetitionBean cb = new CompetitionBean();
+        cb.setName(txtCompName.getText());
+        cb.setVenue(txtVenue.getText());
+        cb.setStartDate(new SimpleDateFormat("yyyy-MM-dd").format(selectedStartDate));
+        cb.setEndDate(new SimpleDateFormat("yyyy-MM-dd").format(selectedEndDate));
+        cb.setAgeGroup(ageGroup);
+        int count = competitionDao.insertCompetition(cb);
+
+        if (count != 0) {
+            JOptionPane.showMessageDialog(this, "Inserted");
+            this.setVisible(false);
+            Controller.panCompListValue.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed");
+        }
+
+    }//GEN-LAST:event_butSubmitActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // TODO add your handling code here:
+
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            Object item = evt.getItem();
+
+            if (item.equals("Open")) {
+                ageGroup = "Open";
+            } else {
+                ageGroup = "";
+            }
+            // do something with object
+        }
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            Object item = evt.getItem();
+            ageGroup = "Under " + item;
+            // do something with object
+        }
+    }//GEN-LAST:event_jComboBox2ItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton butCancel;
+    private javax.swing.JButton butSubmit;
     private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -224,10 +329,10 @@ public class PanNewCompetition extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel panEndDate;
     private javax.swing.JPanel panStartDate;
-    private javax.swing.JTextField txtAgeGroup;
     private javax.swing.JTextField txtCompName;
-    private javax.swing.JTextField txtEndDate;
     private javax.swing.JTextArea txtVenue;
     // End of variables declaration//GEN-END:variables
 }
