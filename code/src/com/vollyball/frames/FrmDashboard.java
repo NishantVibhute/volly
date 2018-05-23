@@ -5,13 +5,16 @@
  */
 package com.vollyball.frames;
 
+import com.vollyball.bean.CompetitionBean;
 import com.vollyball.controller.Controller;
+import com.vollyball.dao.CompetitionDao;
 import com.vollyball.panels.PanCompRow;
 import com.vollyball.panels.PanNewCompetition;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,7 +26,7 @@ import javax.swing.UIManager;
  */
 public class FrmDashboard extends javax.swing.JFrame {
 
-    JPanel panCompListValue = new PanCompListValue();
+    public PanCompListValue panCompListValue;
 
     /**
      * Creates new form FrmMain
@@ -32,31 +35,27 @@ public class FrmDashboard extends javax.swing.JFrame {
         setVisible(true);
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-//        Controller.panNewCompetition = new PanNewCompetition();
-//
-//        Dimension dim = panContent.getSize();
-//
-//        Controller.panNewCompetition.setBounds(dim.width / 2 - 463 / 2, dim.height / 2 - 553 / 2, 463, 553);
-//        panContent.add(Controller.panNewCompetition);
 
-//        Controller.PanCompList = new PanCompList();
-//
         Dimension dim = panContent.getSize();
-        Controller.panCompListValue = new PanCompListValue();
-//
-//        Controller.PanCompList.setBounds(dim.width / 2 - 463 / 2, dim.height / 2 - 553 / 2, 463, 553);
+        panCompListValue = new PanCompListValue();
+
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
         }
 
-        Controller.panCompListValue.setBounds(0, 0, dim.width, dim.height);
-        panContent.add(Controller.panCompListValue);
+        panCompListValue.setBounds(0, 0, dim.width, dim.height);
+        panContent.add(panCompListValue);
 
+    }
+
+    public void refresh() {
+        panCompListValue.add();
     }
 
     public class PanCompListValue extends JPanel {
 
+        CompetitionDao competitionDao = new CompetitionDao();
         private JPanel mainList;
 
         public PanCompListValue() {
@@ -69,8 +68,28 @@ public class FrmDashboard extends javax.swing.JFrame {
             mainList.add(new JPanel(), gbc);
             add(new JScrollPane(mainList));
 
-            for (int i = 0; i <= 50; i++) {
-                JPanel panel = new PanCompRow();
+            List<CompetitionBean> competitionList = competitionDao.getCompetitionList();
+            for (CompetitionBean cb : competitionList) {
+                JPanel panel = new PanCompRow(cb);
+//                panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
+                GridBagConstraints gbcRow = new GridBagConstraints();
+                gbcRow.gridwidth = GridBagConstraints.REMAINDER;
+                gbcRow.weightx = 1;
+                gbcRow.gridheight = 2;
+                gbcRow.fill = GridBagConstraints.HORIZONTAL;
+                mainList.add(panel, gbcRow, 0);
+                validate();
+                repaint();
+
+            }
+
+        }
+
+        public void add() {
+            mainList.removeAll();
+            List<CompetitionBean> competitionList = competitionDao.getCompetitionList();
+            for (CompetitionBean cb : competitionList) {
+                PanCompRow panel = new PanCompRow(cb);
 //                panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
                 GridBagConstraints gbcRow = new GridBagConstraints();
                 gbcRow.gridwidth = GridBagConstraints.REMAINDER;
@@ -81,7 +100,6 @@ public class FrmDashboard extends javax.swing.JFrame {
                 repaint();
 
             }
-
         }
 
     }
@@ -125,7 +143,7 @@ public class FrmDashboard extends javax.swing.JFrame {
         );
         panContentLayout.setVerticalGroup(
             panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 686, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jPanel2.setBackground(new java.awt.Color(204, 102, 0));
@@ -170,11 +188,12 @@ public class FrmDashboard extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(panContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -189,13 +208,13 @@ public class FrmDashboard extends javax.swing.JFrame {
 
         Controller.panNewCompetition.setBounds(dim.width / 2 - 463 / 2, dim.height / 2 - 553 / 2, 463, 553);
         panContent.add(Controller.panNewCompetition);
-        Controller.panCompListValue.setVisible(false);
+        panCompListValue.setVisible(false);
     }//GEN-LAST:event_newCompActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton newComp;
-    private javax.swing.JPanel panContent;
+    public javax.swing.JPanel panContent;
     // End of variables declaration//GEN-END:variables
 }

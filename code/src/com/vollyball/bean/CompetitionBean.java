@@ -17,6 +17,7 @@ public class CompetitionBean {
     String startDate;
     String EndDate;
     String ageGroup;
+    int isDeleted;
 
     public int getId() {
         return id;
@@ -64,6 +65,14 @@ public class CompetitionBean {
 
     public void setEndDate(String EndDate) {
         this.EndDate = EndDate;
+    }
+
+    public int getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
 }

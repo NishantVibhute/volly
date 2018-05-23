@@ -278,7 +278,8 @@ public class PanNewCompetition extends javax.swing.JPanel {
         if (count != 0) {
             JOptionPane.showMessageDialog(this, "Inserted");
             this.setVisible(false);
-            Controller.panCompListValue.setVisible(true);
+            Controller.frmDashBoard.panCompListValue.setVisible(true);
+            Controller.frmDashBoard.refresh();
         } else {
             JOptionPane.showMessageDialog(this, "Failed");
         }

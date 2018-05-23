@@ -5,6 +5,7 @@
  */
 package com.vollyball.frames;
 
+import com.vollyball.controller.Controller;
 import com.vollyball.dao.LoginDao;
 import javax.swing.JOptionPane;
 
@@ -92,7 +93,7 @@ public class FrmLogin extends javax.swing.JFrame {
         if (i != 0) {
 //            JOptionPane.showMessageDialog(this, "Success");
             this.dispose();
-            new FrmDashboard();
+            Controller.frmDashBoard = new FrmDashboard();
         } else {
             JOptionPane.showMessageDialog(this, "Failed");
         }

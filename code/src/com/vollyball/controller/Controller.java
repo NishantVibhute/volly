@@ -6,12 +6,17 @@
 package com.vollyball.controller;
 
 import com.vollyball.bean.UserBean;
+import com.vollyball.frames.FrmDashboard;
 import com.vollyball.frames.FrmLogin;
 import com.vollyball.frames.FrmRegister;
+import com.vollyball.panels.PanActivate;
+import com.vollyball.panels.PanComptitionHome;
+import com.vollyball.panels.PanNewCompetition;
+import com.vollyball.panels.PanUserDetails;
+import com.vollyball.panels.panLoading;
 import com.vollyball.util.CommonUtil;
 import java.io.File;
 import java.util.LinkedHashMap;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -20,15 +25,16 @@ import javax.swing.JPanel;
  */
 public class Controller {
 
-    public static JFrame frmMain;
+    public static FrmRegister frmMain;
+    public static FrmDashboard frmDashBoard;
 
-    public static JPanel panActivate;
-    public static JPanel panUserDetails;
+    public static PanActivate panActivate;
+    public static PanUserDetails panUserDetails;
     public static JPanel panDetails;
-    public static JPanel panLoading;
-    public static JPanel panNewCompetition;
-    public static JPanel PanCompList;
-    public static JPanel panCompListValue;
+    public static panLoading panLoading;
+    public static PanNewCompetition panNewCompetition;
+    public static PanComptitionHome panComptitionHome;
+
     public static LinkedHashMap<Integer, String> stepCompleted = new LinkedHashMap<Integer, String>();
     public static UserBean userBean = new UserBean();
 
