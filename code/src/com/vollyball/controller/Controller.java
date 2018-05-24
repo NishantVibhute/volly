@@ -37,6 +37,7 @@ public class Controller {
 
     public static LinkedHashMap<Integer, String> stepCompleted = new LinkedHashMap<Integer, String>();
     public static UserBean userBean = new UserBean();
+    public static int competitionId;
 
     public static void main(String args[]) {
 

@@ -125,9 +125,11 @@ public class PanCompRow extends javax.swing.JPanel {
         Controller.panComptitionHome = new PanComptitionHome(cb);
 //
         Dimension dim = Controller.frmDashBoard.panContent.getSize();
+//        Controller.frmDashBoard.panCompHeading.setVisible(false);
+        Controller.frmDashBoard.panCompListValue.setVisible(false);
 
         Controller.panComptitionHome.setBounds(0, 0, 800, 686);
-        Controller.frmDashBoard.panCompListValue.setVisible(false);
+
         Controller.frmDashBoard.panContent.add(Controller.panComptitionHome);
 
     }//GEN-LAST:event_jPanel1MouseClicked

@@ -6,10 +6,8 @@
 package com.vollyball.frames;
 
 import com.vollyball.bean.CompetitionBean;
-import com.vollyball.controller.Controller;
 import com.vollyball.dao.CompetitionDao;
 import com.vollyball.panels.PanCompRow;
-import com.vollyball.panels.PanNewCompetition;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -35,7 +33,6 @@ public class FrmDashboard extends javax.swing.JFrame {
         setVisible(true);
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-
         Dimension dim = panContent.getSize();
         panCompListValue = new PanCompListValue();
 
@@ -44,9 +41,8 @@ public class FrmDashboard extends javax.swing.JFrame {
         } catch (Exception ex) {
         }
 
-        panCompListValue.setBounds(0, 0, dim.width, dim.height);
+        panCompListValue.setBounds(0, 100, dim.width, dim.height);
         panContent.add(panCompListValue);
-
     }
 
     public void refresh() {
@@ -115,8 +111,6 @@ public class FrmDashboard extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         panContent = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        newComp = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -130,7 +124,7 @@ public class FrmDashboard extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 70, Short.MAX_VALUE)
+            .addGap(0, 58, Short.MAX_VALUE)
         );
 
         panContent.setBackground(new java.awt.Color(255, 255, 255));
@@ -139,37 +133,11 @@ public class FrmDashboard extends javax.swing.JFrame {
         panContent.setLayout(panContentLayout);
         panContentLayout.setHorizontalGroup(
             panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGap(0, 1043, Short.MAX_VALUE)
         );
         panContentLayout.setVerticalGroup(
             panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jPanel2.setBackground(new java.awt.Color(204, 102, 0));
-
-        newComp.setText("New");
-        newComp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newCompActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(newComp, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(newComp, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(631, Short.MAX_VALUE))
+            .addGap(0, 583, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -180,8 +148,6 @@ public class FrmDashboard extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -189,32 +155,15 @@ public class FrmDashboard extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(panContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addComponent(panContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void newCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCompActionPerformed
-        // TODO add your handling code here:
-        Controller.panNewCompetition = new PanNewCompetition();
-//
-        Dimension dim = panContent.getSize();
-
-        Controller.panNewCompetition.setBounds(dim.width / 2 - 463 / 2, dim.height / 2 - 553 / 2, 463, 553);
-        panContent.add(Controller.panNewCompetition);
-        panCompListValue.setVisible(false);
-    }//GEN-LAST:event_newCompActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JButton newComp;
     public javax.swing.JPanel panContent;
     // End of variables declaration//GEN-END:variables
 }

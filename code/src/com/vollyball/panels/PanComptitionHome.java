@@ -6,6 +6,7 @@
 package com.vollyball.panels;
 
 import com.vollyball.bean.CompetitionBean;
+import com.vollyball.controller.Controller;
 import com.vollyball.dialog.CreateMatchDialog;
 import java.awt.Color;
 
@@ -23,6 +24,7 @@ public class PanComptitionHome extends javax.swing.JPanel {
         initComponents();
         lblComHeading.setText(cb.getName());
         panNewButton.setVisible(false);
+        Controller.competitionId = cb.getId();
     }
 
     /**
