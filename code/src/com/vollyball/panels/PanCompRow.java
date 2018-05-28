@@ -121,15 +121,10 @@ public class PanCompRow extends javax.swing.JPanel {
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
         // TODO add your handling code here:
-
         Controller.panComptitionHome = new PanComptitionHome(cb);
-//
         Dimension dim = Controller.frmDashBoard.panContent.getSize();
-//        Controller.frmDashBoard.panCompHeading.setVisible(false);
         Controller.frmDashBoard.panCompListValue.setVisible(false);
-
         Controller.panComptitionHome.setBounds(0, 0, 800, 686);
-
         Controller.frmDashBoard.panContent.add(Controller.panComptitionHome);
 
     }//GEN-LAST:event_jPanel1MouseClicked

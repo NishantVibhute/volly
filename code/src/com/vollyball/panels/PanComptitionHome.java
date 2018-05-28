@@ -6,9 +6,16 @@
 package com.vollyball.panels;
 
 import com.vollyball.bean.CompetitionBean;
+import com.vollyball.bean.Team;
 import com.vollyball.controller.Controller;
+import com.vollyball.dao.TeamDao;
 import com.vollyball.dialog.CreateMatchDialog;
+import com.vollyball.dialog.CreateTeamDialog;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -25,6 +32,8 @@ public class PanComptitionHome extends javax.swing.JPanel {
         lblComHeading.setText(cb.getName());
         panNewButton.setVisible(false);
         Controller.competitionId = cb.getId();
+        Controller.panTeams = new PanTeams();
+        Controller.panMatches = new PanMatches();
     }
 
     /**
@@ -50,7 +59,7 @@ public class PanComptitionHome extends javax.swing.JPanel {
         panTeam = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
+        panCompetitionContent = new javax.swing.JPanel();
 
         jPanel1.setBackground(new java.awt.Color(27, 34, 136));
 
@@ -245,16 +254,16 @@ public class PanComptitionHome extends javax.swing.JPanel {
             .addComponent(panTeam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        jPanel6.setBackground(new java.awt.Color(251, 205, 1));
+        panCompetitionContent.setBackground(new java.awt.Color(251, 205, 1));
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panCompetitionContentLayout = new javax.swing.GroupLayout(panCompetitionContent);
+        panCompetitionContent.setLayout(panCompetitionContentLayout);
+        panCompetitionContentLayout.setHorizontalGroup(
+            panCompetitionContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 794, Short.MAX_VALUE)
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panCompetitionContentLayout.setVerticalGroup(
+            panCompetitionContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 478, Short.MAX_VALUE)
         );
 
@@ -264,7 +273,7 @@ public class PanComptitionHome extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panCompetitionContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,7 +282,7 @@ public class PanComptitionHome extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panCompetitionContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -292,22 +301,51 @@ public class PanComptitionHome extends javax.swing.JPanel {
         panTeam.setBackground(new Color(27, 34, 136));
         panNewButton.setVisible(true);
         lblNewButton.setText("New Match");
+        Dimension dim = panCompetitionContent.getSize();
+        Controller.panMatches.setBounds(0, 0, dim.width, dim.height);
+        panCompetitionContent.add(Controller.panMatches);
+        Controller.panTeams.setVisible(false);
+        Controller.panMatches.setVisible(true);
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
+        Controller.panTeams.setVisible(true);
+        Controller.panMatches.setVisible(false);
+        TeamDao teamDao = new TeamDao();
         panDashBoard.setBackground(new Color(27, 34, 136));
         panMatches.setBackground(new Color(27, 34, 136));
         panTeam.setBackground(new Color(244, 195, 1));
         panNewButton.setVisible(true);
         lblNewButton.setText("New Team");
+        Dimension dim = panCompetitionContent.getSize();
+        Controller.panTeams.setBounds(0, 0, dim.width, dim.height);
+        panCompetitionContent.add(Controller.panTeams);
+        List<Team> teams = teamDao.getTeams(Controller.competitionId);
+
+        DefaultTableModel model = (DefaultTableModel) Controller.panTeams.tbTeamList.getModel();
+        int i = 0;
+        for (Team team : teams) {
+            i++;
+            Object[] row = {i, team.getName()};
+            model.addRow(row);
+        }
+
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void lblNewButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewButtonMouseClicked
         // TODO add your handling code here:
-        CreateMatchDialog obj = new CreateMatchDialog();
-        obj.init();
-        obj.show();
+        Object o = evt.getSource();
+        String t = ((JLabel) o).getText();
+        if (t.equals("New Match")) {
+            CreateMatchDialog obj = new CreateMatchDialog();
+            obj.init();
+            obj.show();
+        } else {
+            CreateTeamDialog obj = new CreateTeamDialog();
+            obj.init();
+            obj.show();
+        }
     }//GEN-LAST:event_lblNewButtonMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -319,9 +357,9 @@ public class PanComptitionHome extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JLabel lblComHeading;
     private javax.swing.JLabel lblNewButton;
+    private javax.swing.JPanel panCompetitionContent;
     private javax.swing.JPanel panDashBoard;
     private javax.swing.JPanel panMatches;
     private javax.swing.JPanel panNewButton;

@@ -12,6 +12,11 @@ import com.vollyball.util.CommonUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -65,6 +70,29 @@ public class TeamDao {
         }
         return count;
 
+    }
+
+    public List<Team> getTeams(int id) {
+        List<Team> teamList = new ArrayList<>();
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.teams"));
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Team t = new Team();
+                t.setId(rs.getInt(1));
+                t.setName(rs.getString(2));
+                teamList.add(t);
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return teamList;
     }
 
 }

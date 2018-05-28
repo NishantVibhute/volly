@@ -5,7 +5,7 @@
  */
 package com.vollyball.dialog;
 
-import com.vollyball.panels.PanNewMatch;
+import com.vollyball.panels.PanNewCompetition;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -18,7 +18,7 @@ import javax.swing.JFrame;
  *
  * @author nishant.vibhute
  */
-public class CreateMatchDialog {
+public class CreateCompetitionDialog {
 
     private JFrame parentFrame;
     private JDialog dialog;
@@ -27,12 +27,12 @@ public class CreateMatchDialog {
         try {
 //            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
-            this.dialog = new JDialog(this.parentFrame, "New Match", true);
+            this.dialog = new JDialog(this.parentFrame, "New Competition", true);
 
             this.dialog.setResizable(false);
             this.dialog.getContentPane().add(createPane());
             this.dialog.pack();
-            this.dialog.setSize(418, 505);
+            this.dialog.setSize(470, 560);
 
             Dimension Size = Toolkit.getDefaultToolkit().getScreenSize();
             this.dialog.setLocation(new Double((Size.getWidth() / 2) - (dialog.getWidth() / 2)).intValue(), new Double((Size.getHeight() / 2) - (dialog.getHeight() / 2)).intValue());
@@ -44,7 +44,7 @@ public class CreateMatchDialog {
     }
 
     protected Container createPane() {
-        PanNewMatch panMatch = new PanNewMatch();
+        PanNewCompetition panMatch = new PanNewCompetition();
 
         return panMatch;
 
