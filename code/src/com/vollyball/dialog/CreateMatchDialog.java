@@ -45,9 +45,7 @@ public class CreateMatchDialog {
 
     protected Container createPane() {
         PanNewMatch panMatch = new PanNewMatch();
-
         return panMatch;
-
     }
 
     public void show() {

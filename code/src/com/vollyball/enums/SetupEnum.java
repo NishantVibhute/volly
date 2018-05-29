@@ -30,7 +30,8 @@ public enum SetupEnum {
     InsertRating(17, "Ratings Inserted"),
     InsertSkills(18, "Skills Inserted"),
     InsertSkillDetails(19, "Skill details Inserted"),
-    InsertUser(20, "User Inserted");
+    InsertUser(20, "User Inserted"),
+    MatchPlayers(210, "Match Player");
 
     int step;
     String value;

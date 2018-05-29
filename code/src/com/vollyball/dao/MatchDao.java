@@ -76,4 +76,55 @@ public class MatchDao {
         }
         return matchList;
     }
+
+    public MatchBean getMatchesById(int id, int matchId) {
+        MatchBean mb = new MatchBean();
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.matchesbyid"));
+            ps.setInt(1, id);
+            ps.setInt(2, matchId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                mb.setTeam1name(rs.getString(1));
+                mb.setTeam2name(rs.getString(2));
+                mb.setDate(rs.getString(3));
+                mb.setTeam1(rs.getInt(4));
+                mb.setTeam2(rs.getInt(5));
+                mb.setId(rs.getInt(6));
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return mb;
+    }
+
+    public int insertMatchPlayers(int matchId, int teamid, List<Integer> players) {
+        int count = 0;
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("delete.matchPlayers"));
+            ps1.setInt(1, matchId);
+            ps1.setInt(2, teamid);
+            ps1.executeUpdate();
+
+            for (int id : players) {
+                PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("insert.matchplayers"));
+                ps.setInt(1, matchId);
+                ps.setInt(2, teamid);
+                ps.setInt(3, id);
+
+                count = ps.executeUpdate();
+            }
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return count;
+    }
 }

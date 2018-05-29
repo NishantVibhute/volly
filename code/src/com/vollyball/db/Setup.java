@@ -46,6 +46,7 @@ public class Setup extends Thread {
             createRallyTable(80);
             createRallyDetailsTable(80);
             createRallyDetailsCriteriaTable(80);
+            createMatchPlayer(80);
             insertRatings(90);
             insertSkills(95);
             insertSkillDetails(97);
@@ -115,6 +116,10 @@ public class Setup extends Thread {
 
     public void createRallyTable(int status) {
         executeQuery(CommonUtil.getResourceProperty("create.rally"), SetupEnum.Rally, status);
+    }
+
+    public void createMatchPlayer(int status) {
+        executeQuery(CommonUtil.getResourceProperty("create.matchplayers"), SetupEnum.Rally, status);
     }
 
     public void createRallyDetailsTable(int status) {

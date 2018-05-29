@@ -95,4 +95,50 @@ public class TeamDao {
         return teamList;
     }
 
+    public List<Player> getTeamPlayers(int id) {
+        List<Player> playerList = new ArrayList<>();
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.players"));
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Player t = new Player();
+                t.setId(rs.getInt(1));
+                t.setName(rs.getString(2));
+                t.setChestNo(rs.getString(3));
+                playerList.add(t);
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return playerList;
+    }
+
+    public List<Integer> getMatchPlayers(int id, int teamId) {
+        List<Integer> playerList = new ArrayList<>();
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.matchplayers"));
+            ps.setInt(1, teamId);
+            ps.setInt(2, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                playerList.add(rs.getInt(1));
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return playerList;
+    }
+
 }

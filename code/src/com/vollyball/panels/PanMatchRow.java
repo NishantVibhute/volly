@@ -6,7 +6,7 @@
 package com.vollyball.panels;
 
 import com.vollyball.bean.MatchBean;
-import javax.swing.JOptionPane;
+import com.vollyball.dialog.CreateMatchEvaluationDialog;
 
 /**
  *
@@ -199,13 +199,19 @@ public class PanMatchRow extends javax.swing.JPanel {
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "" + matchId1);
+        CreateMatchEvaluationDialog obj = new CreateMatchEvaluationDialog();
+        obj.setMatchId(matchId1);
+        obj.init();
+        obj.show();
 
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "" + matchId2);
+        CreateMatchEvaluationDialog obj = new CreateMatchEvaluationDialog();
+        obj.setMatchId(matchId2);
+        obj.init();
+        obj.show();
     }//GEN-LAST:event_jPanel2MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
