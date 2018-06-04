@@ -57,6 +57,7 @@ public class TeamDao {
                             ps2.setString(1, p.getName());
                             ps2.setString(2, p.getChestNo());
                             ps2.setInt(3, id);
+                            ps2.setInt(4, p.getPosition());
                             ps2.executeUpdate();
                         }
                     }
@@ -109,6 +110,7 @@ public class TeamDao {
                 t.setId(rs.getInt(1));
                 t.setName(rs.getString(2));
                 t.setChestNo(rs.getString(3));
+                t.setPosition(rs.getInt(4));
                 playerList.add(t);
 
             }

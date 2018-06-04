@@ -27,11 +27,15 @@ public enum SetupEnum {
     Rally(14, "rally"),
     RallyDetails(15, "rally_details"),
     RallyDetailsCriteria(16, "rally_details_criteria"),
-    InsertRating(17, "Ratings Inserted"),
-    InsertSkills(18, "Skills Inserted"),
-    InsertSkillDetails(19, "Skill details Inserted"),
-    InsertUser(20, "User Inserted"),
-    MatchPlayers(210, "Match Player");
+    ROTATIONORDER(17, "Rotation Order"),
+    SUBSTITUTION(18, "Substituition"),
+    PLUSMINUS(19, "Plus Minus"),
+    TIMEOUT(20, "Time out"),
+    InsertRating(21, "Ratings Inserted"),
+    InsertSkills(22, "Skills Inserted"),
+    InsertSkillDetails(23, "Skill details Inserted"),
+    InsertUser(24, "User Inserted"),
+    MatchPlayers(25, "Match Player");
 
     int step;
     String value;

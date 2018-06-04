@@ -6,17 +6,12 @@
 package com.vollyball.panels;
 
 import com.vollyball.bean.MatchBean;
-import com.vollyball.bean.Player;
 import com.vollyball.controller.Controller;
 import com.vollyball.dao.MatchDao;
 import com.vollyball.dao.TeamDao;
-import com.vollyball.frames.FrmMatchEvaluation;
-import java.util.ArrayList;
+import com.vollyball.dialog.MatchSetDialog;
+import com.vollyball.dialog.SelectTeamPlayerDialog;
 import java.util.LinkedHashMap;
-import java.util.List;
-import javax.swing.JOptionPane;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,83 +20,61 @@ import javax.swing.table.DefaultTableModel;
  */
 public class PanMatchEvaluationHome extends javax.swing.JPanel {
 
-    LinkedHashMap<String, Integer> teamsMap;
-    LinkedHashMap<String, Integer> playerMap;
+    LinkedHashMap<Integer, String> teamsMap;
     TeamDao td = new TeamDao();
     DefaultTableModel model, modelSelectedPlayer;
     int selectedTeam, matchId;
     MatchDao matchDao = new MatchDao();
+    int evaluatingTeam = 0, opponentTeam = 0;
+    SelectTeamPlayerDialog selectTeamPlayerDialog;
 
     /**
      * Creates new form MatchEvaluationHome
+     *
+     * @param matchId
      */
     public PanMatchEvaluationHome(int matchId) {
         initComponents();
         this.matchId = matchId;
+        setTeamName();
 
+    }
+
+    public void setTeamName() {
         MatchBean team = matchDao.getMatchesById(Controller.competitionId, matchId);
         teamsMap = new LinkedHashMap<>();
-        playerMap = new LinkedHashMap<>();
-        model = (DefaultTableModel) tbAllPlayers.getModel();
-        modelSelectedPlayer = (DefaultTableModel) tbSelectedPlayers.getModel();
-        cmbSelectTeam.addItem("Select");
-        teamsMap.put(team.getTeam1name(), team.getTeam1());
-        teamsMap.put(team.getTeam2name(), team.getTeam2());
-        cmbSelectTeam.addItem(team.getTeam1name());
-        cmbSelectTeam.addItem(team.getTeam2name());
+        teamsMap.put(team.getTeam1(), team.getTeam1name());
+        teamsMap.put(team.getTeam2(), team.getTeam2name());
+        int id = matchDao.isTeamSelected(matchId);
 
-        tbAllPlayers.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    String selectedName = null;
-                    String selectedChest = null;
-                    String selectedPosition = null;
-
-                    int selectedRow = tbAllPlayers.getSelectedRow();
-                    for (int i = 0; i <= selectedRow; i++) {
-                        selectedName = (String) tbAllPlayers.getValueAt(selectedRow, 0);
-                        selectedChest = (String) tbAllPlayers.getValueAt(selectedRow, 1);
-                        selectedPosition = (String) tbAllPlayers.getValueAt(selectedRow, 2);
-
-                    }
-                    if (selectedName != null) {
-
-                        Object[] row = {selectedName, selectedChest, selectedPosition};
-                        modelSelectedPlayer.addRow(row);
-                        model.removeRow(selectedRow);
-                        int rows = tbSelectedPlayers.getRowCount();
-                        lblSelectCount.setText("Selected : " + rows);
-                    }
-                }
+        if (id != 0) {
+            if (id == team.getTeam1()) {
+                evaluatingTeam = team.getTeam1();
+                opponentTeam = team.getTeam2();
+                selectHomeTeam.setText(team.getTeam1name());
+                selectOpponentTeam.setText(team.getTeam2name());
+            } else {
+                evaluatingTeam = team.getTeam2();
+                opponentTeam = team.getTeam1();
+                selectHomeTeam.setText(team.getTeam2name());
+                selectOpponentTeam.setText(team.getTeam1name());
             }
-        });
+        } else {
+            selectHomeTeam.setText("Select");
+            selectOpponentTeam.setText("________________");
+        }
+    }
 
-        tbSelectedPlayers.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    String selectedName = null;
-                    String selectedChest = null;
-                    String selectedPosition = null;
+    public LinkedHashMap<Integer, String> getTeamsMap() {
+        return teamsMap;
+    }
 
-                    int selectedRow = tbSelectedPlayers.getSelectedRow();
-                    for (int i = 0; i <= selectedRow; i++) {
-                        selectedName = (String) tbSelectedPlayers.getValueAt(selectedRow, 0);
-                        selectedChest = (String) tbSelectedPlayers.getValueAt(selectedRow, 1);
-                        selectedPosition = (String) tbSelectedPlayers.getValueAt(selectedRow, 2);
+    public int getEvaluatingTeam() {
+        return evaluatingTeam;
+    }
 
-                    }
-                    if (selectedName != null) {
-                        Object[] row = {selectedName, selectedChest, selectedPosition};
-                        model.addRow(row);
-                        modelSelectedPlayer.removeRow(selectedRow);
-                        int rows = tbSelectedPlayers.getRowCount();
-                        lblSelectCount.setText("Selected : " + rows);
-                    }
-                }
-            }
-        });
+    public int getOpponentTeam() {
+        return opponentTeam;
     }
 
     /**
@@ -114,28 +87,21 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        cmbSelectTeam = new javax.swing.JComboBox();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbSelectedPlayers = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tbAllPlayers = new javax.swing.JTable();
-        jPanel12 = new javax.swing.JPanel();
+        selectHomeTeam = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        lblSelectCount = new javax.swing.JLabel();
+        selectOpponentTeam = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        set1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        set2 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        set5 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        set4 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
+        set3 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
@@ -147,161 +113,73 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(57, 74, 108));
 
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Evaluating Team :");
+
+        selectHomeTeam.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        selectHomeTeam.setForeground(new java.awt.Color(251, 205, 1));
+        selectHomeTeam.setText("Select");
+        selectHomeTeam.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                selectHomeTeamMouseClicked(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Opponent Team :");
+
+        selectOpponentTeam.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        selectOpponentTeam.setForeground(new java.awt.Color(255, 255, 255));
+        selectOpponentTeam.setText("________________");
+        selectOpponentTeam.setToolTipText("");
+        selectOpponentTeam.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                selectOpponentTeamMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(selectHomeTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(selectOpponentTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
-        );
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(57, 74, 108)));
-
-        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel8.setText("Select Evaluating Team");
-
-        cmbSelectTeam.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        cmbSelectTeam.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cmbSelectTeamItemStateChanged(evt);
-            }
-        });
-
-        tbSelectedPlayers.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        tbSelectedPlayers.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Name", "Chest No.", "Position"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tbSelectedPlayers);
-
-        tbAllPlayers.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        tbAllPlayers.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Name", "Chest No.", "Position"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(tbAllPlayers);
-
-        jPanel12.setBackground(new java.awt.Color(58, 74, 108));
-
-        jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("SAVE");
-        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel9MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel9)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jLabel13.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel13.setText("Select Players");
-
-        lblSelectCount.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        lblSelectCount.setText("Selected : 0");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(254, 254, 254)
-                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(258, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cmbSelectTeam, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblSelectCount, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(20, 20, 20))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbSelectTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(lblSelectCount))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(35, 35, 35)
-                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectHomeTeam)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectOpponentTeam))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel3.setForeground(new java.awt.Color(57, 74, 108));
 
         jPanel4.setBackground(new java.awt.Color(57, 74, 108));
+        jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("SET 1");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        set1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        set1.setForeground(new java.awt.Color(255, 255, 255));
+        set1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        set1.setText("SET 1");
+        set1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                set1MouseClicked(evt);
             }
         });
 
@@ -309,113 +187,87 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(set1, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(set1, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
         );
 
         jPanel6.setBackground(new java.awt.Color(57, 74, 108));
+        jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("SET 2");
+        set2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        set2.setForeground(new java.awt.Color(255, 255, 255));
+        set2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        set2.setText("SET 2");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(set2, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(set2, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
         );
 
         jPanel7.setBackground(new java.awt.Color(57, 74, 108));
+        jPanel7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("SET 5");
+        set5.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        set5.setForeground(new java.awt.Color(255, 255, 255));
+        set5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        set5.setText("SET 5");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(set5, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(set5, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
         );
 
         jPanel8.setBackground(new java.awt.Color(57, 74, 108));
+        jPanel8.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("SET 4");
+        set4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        set4.setForeground(new java.awt.Color(255, 255, 255));
+        set4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        set4.setText("SET 4");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(set4, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(set4, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
         );
 
         jPanel10.setBackground(new java.awt.Color(57, 74, 108));
+        jPanel10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("SET 3");
+        set3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        set3.setForeground(new java.awt.Color(255, 255, 255));
+        set3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        set3.setText("SET 3");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(set3, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(set3, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
@@ -524,14 +376,14 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
             .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(406, 406, 406)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addGap(406, 406, 406))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -547,7 +399,7 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -556,110 +408,62 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cmbSelectTeamItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbSelectTeamItemStateChanged
+    private void set1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_set1MouseClicked
         // TODO add your handling code here:
-        Object item = evt.getItem();
-        String team1 = "" + item;
+        MatchSetDialog obj = new MatchSetDialog();
+        obj.setSetFields(1, this.matchId, this.evaluatingTeam, this.opponentTeam);
+        obj.init();
+        obj.show();
+    }//GEN-LAST:event_set1MouseClicked
 
-        for (int i = model.getRowCount() - 1; i >= 0; i--) {
-            model.removeRow(i);
-
-        }
-
-        for (int i = modelSelectedPlayer.getRowCount() - 1; i >= 0; i--) {
-
-            modelSelectedPlayer.removeRow(i);
-
-        }
-
-        if (!team1.equals("Select")) {
-            List<Player> playerList = td.getTeamPlayers(teamsMap.get(team1));
-            List<Integer> selectedPlayers = td.getMatchPlayers(this.matchId, teamsMap.get(team1));
-            selectedTeam = teamsMap.get(team1);
-            int i = 0;
-            for (Player player : playerList) {
-                playerMap.put(player.getName(), player.getId());
-                if (selectedPlayers.contains(player.getId())) {
-                    Object[] row = {player.getName(), player.getChestNo(), "Server"};
-                    modelSelectedPlayer.addRow(row);
-                } else {
-                    Object[] row = {player.getName(), player.getChestNo(), "Server"};
-                    model.addRow(row);
-                }
-            }
-            int rows = tbSelectedPlayers.getRowCount();
-            lblSelectCount.setText("Selected : " + rows);
-        }
-    }//GEN-LAST:event_cmbSelectTeamItemStateChanged
-
-    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+    private void selectHomeTeamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectHomeTeamMouseClicked
         // TODO add your handling code here:
+        selectTeamPlayerDialog = new SelectTeamPlayerDialog();
+        selectTeamPlayerDialog.setMatchId(this.matchId);
+        selectTeamPlayerDialog.init();
+        selectTeamPlayerDialog.show();
 
-        List<Integer> players = new ArrayList<>();
-        for (int i = 0; i < tbSelectedPlayers.getRowCount(); i++) {
-            players.add(playerMap.get(tbSelectedPlayers.getValueAt(i, 0)));
-        }
+    }//GEN-LAST:event_selectHomeTeamMouseClicked
 
-        int count = matchDao.insertMatchPlayers(this.matchId, selectedTeam, players);
-        if (count != 0) {
-            JOptionPane.showMessageDialog(this, "Inserted");
-        } else {
-            JOptionPane.showMessageDialog(this, "Failed");
-        }
-    }//GEN-LAST:event_jLabel9MouseClicked
-
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void selectOpponentTeamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectOpponentTeamMouseClicked
         // TODO add your handling code here:
-        new FrmMatchEvaluation().setVisible(true);
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_selectOpponentTeamMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JComboBox cmbSelectTeam;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel lblSelectCount;
-    private javax.swing.JTable tbAllPlayers;
-    private javax.swing.JTable tbSelectedPlayers;
+    private javax.swing.JLabel selectHomeTeam;
+    private javax.swing.JLabel selectOpponentTeam;
+    private javax.swing.JLabel set1;
+    private javax.swing.JLabel set2;
+    private javax.swing.JLabel set3;
+    private javax.swing.JLabel set4;
+    private javax.swing.JLabel set5;
     // End of variables declaration//GEN-END:variables
 }

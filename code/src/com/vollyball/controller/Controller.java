@@ -11,6 +11,8 @@ import com.vollyball.frames.FrmLogin;
 import com.vollyball.frames.FrmRegister;
 import com.vollyball.panels.PanActivate;
 import com.vollyball.panels.PanComptitionHome;
+import com.vollyball.panels.PanMatchEvaluationHome;
+import com.vollyball.panels.PanMatchSet;
 import com.vollyball.panels.PanMatches;
 import com.vollyball.panels.PanNewCompetition;
 import com.vollyball.panels.PanTeams;
@@ -38,7 +40,8 @@ public class Controller {
     public static PanComptitionHome panComptitionHome;
     public static PanTeams panTeams;
     public static PanMatches panMatches;
-
+    public static PanMatchEvaluationHome panMatchEvaluationHome;
+    public static PanMatchSet panMatchSet;
     public static LinkedHashMap<Integer, String> stepCompleted = new LinkedHashMap<Integer, String>();
     public static UserBean userBean = new UserBean();
     public static int competitionId;

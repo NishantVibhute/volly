@@ -7,7 +7,14 @@ package com.vollyball.util;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -36,6 +43,32 @@ public class CommonUtil {
         String value = prop.getProperty(name);
         return value;
 
+    }
+
+    public static String ConvertDateFromNormalToDB(String from) {
+        DateFormat originalFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = originalFormat.parse(from);
+        } catch (ParseException ex) {
+            Logger.getLogger(CommonUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String formattedDate = targetFormat.format(date);  // 20120821
+        return formattedDate;
+    }
+
+    public static String ConvertDateFromDbToNormal(String from) {
+        DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        DateFormat targetFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = null;
+        try {
+            date = originalFormat.parse(from);
+        } catch (ParseException ex) {
+            Logger.getLogger(CommonUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String formattedDate = targetFormat.format(date);  // 20120821
+        return formattedDate;
     }
 
 }

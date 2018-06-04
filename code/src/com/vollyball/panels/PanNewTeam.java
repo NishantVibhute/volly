@@ -9,8 +9,10 @@ import com.vollyball.bean.Player;
 import com.vollyball.bean.Team;
 import com.vollyball.controller.Controller;
 import com.vollyball.dao.TeamDao;
+import com.vollyball.enums.PlayerPosition;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,12 +22,34 @@ import javax.swing.JOptionPane;
 public class PanNewTeam extends javax.swing.JPanel {
 
     List<Player> playerList;
+    List<JComboBox> position = new ArrayList<>();
 
     /**
      * Creates new form PanNewTeam
      */
     public PanNewTeam() {
         initComponents();
+        position.add(cmbPositon1);
+        position.add(cmbPositon2);
+        position.add(cmbPositon3);
+        position.add(cmbPositon4);
+        position.add(cmbPositon5);
+        position.add(cmbPositon6);
+        position.add(cmbPositon7);
+        position.add(cmbPositon8);
+        position.add(cmbPositon9);
+        position.add(cmbPositon10);
+        position.add(cmbPositon11);
+        position.add(cmbPositon12);
+
+        for (int i = 0; i < position.size(); i++) {
+
+            for (PlayerPosition pp : PlayerPosition.values()) {
+                position.get(i).addItem(pp.getName());
+
+            }
+
+        }
     }
 
     /**
@@ -349,7 +373,6 @@ public class PanNewTeam extends javax.swing.JPanel {
             }
         });
 
-        cmbPositon1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPositon1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -378,7 +401,6 @@ public class PanNewTeam extends javax.swing.JPanel {
             }
         });
 
-        cmbPositon2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPositon2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextField29.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -399,7 +421,6 @@ public class PanNewTeam extends javax.swing.JPanel {
             }
         });
 
-        cmbPositon3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPositon3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextField32.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -420,7 +441,6 @@ public class PanNewTeam extends javax.swing.JPanel {
             }
         });
 
-        cmbPositon4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPositon4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextField35.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -441,7 +461,6 @@ public class PanNewTeam extends javax.swing.JPanel {
             }
         });
 
-        cmbPositon5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPositon5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextField38.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -462,7 +481,6 @@ public class PanNewTeam extends javax.swing.JPanel {
             }
         });
 
-        cmbPositon6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPositon6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextField41.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -483,7 +501,6 @@ public class PanNewTeam extends javax.swing.JPanel {
             }
         });
 
-        cmbPositon7.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPositon7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextField44.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -504,7 +521,6 @@ public class PanNewTeam extends javax.swing.JPanel {
             }
         });
 
-        cmbPositon8.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPositon8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextField59.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -525,7 +541,6 @@ public class PanNewTeam extends javax.swing.JPanel {
             }
         });
 
-        cmbPositon9.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPositon9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextField62.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -546,7 +561,6 @@ public class PanNewTeam extends javax.swing.JPanel {
             }
         });
 
-        cmbPositon10.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPositon10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextField65.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -567,7 +581,6 @@ public class PanNewTeam extends javax.swing.JPanel {
             }
         });
 
-        cmbPositon11.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPositon11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextField68.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -588,7 +601,6 @@ public class PanNewTeam extends javax.swing.JPanel {
             }
         });
 
-        cmbPositon12.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPositon12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -1003,18 +1015,18 @@ public class PanNewTeam extends javax.swing.JPanel {
         team.setCompId(Controller.competitionId);
 
         playerList = new ArrayList<>();
-        addPlayer(txtPlayerName1.getText(), txtChest1.getText());
-        addPlayer(txtPlayerName2.getText(), txtChest2.getText());
-        addPlayer(txtPlayerName3.getText(), txtChest3.getText());
-        addPlayer(txtPlayerName4.getText(), txtChest4.getText());
-        addPlayer(txtPlayerName5.getText(), txtChest5.getText());
-        addPlayer(txtPlayerName6.getText(), txtChest6.getText());
-        addPlayer(txtPlayerName7.getText(), txtChest7.getText());
-        addPlayer(txtPlayerName8.getText(), txtChest8.getText());
-        addPlayer(txtPlayerName9.getText(), txtChest9.getText());
-        addPlayer(txtPlayerName10.getText(), txtChest10.getText());
-        addPlayer(txtPlayerName11.getText(), txtChest11.getText());
-        addPlayer(txtPlayerName12.getText(), txtChest12.getText());
+        addPlayer(txtPlayerName1.getText(), txtChest1.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon1.getSelectedItem())).getId());
+        addPlayer(txtPlayerName2.getText(), txtChest2.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon2.getSelectedItem())).getId());
+        addPlayer(txtPlayerName3.getText(), txtChest3.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon3.getSelectedItem())).getId());
+        addPlayer(txtPlayerName4.getText(), txtChest4.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon4.getSelectedItem())).getId());
+        addPlayer(txtPlayerName5.getText(), txtChest5.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon5.getSelectedItem())).getId());
+        addPlayer(txtPlayerName6.getText(), txtChest6.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon6.getSelectedItem())).getId());
+        addPlayer(txtPlayerName7.getText(), txtChest7.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon7.getSelectedItem())).getId());
+        addPlayer(txtPlayerName8.getText(), txtChest8.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon8.getSelectedItem())).getId());
+        addPlayer(txtPlayerName9.getText(), txtChest9.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon9.getSelectedItem())).getId());
+        addPlayer(txtPlayerName10.getText(), txtChest10.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon10.getSelectedItem())).getId());
+        addPlayer(txtPlayerName11.getText(), txtChest11.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon11.getSelectedItem())).getId());
+        addPlayer(txtPlayerName12.getText(), txtChest12.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon12.getSelectedItem())).getId());
         team.setPlayerList(playerList);
         int id = teamDao.insertTeam(team);
 
@@ -1026,10 +1038,11 @@ public class PanNewTeam extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jLabel1MouseClicked
 
-    public void addPlayer(String name, String chestNum) {
+    public void addPlayer(String name, String chestNum, int position) {
         Player p = new Player();
         p.setName(name);
         p.setChestNo(chestNum);
+        p.setPosition(position);
         playerList.add(p);
     }
 

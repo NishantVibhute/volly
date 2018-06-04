@@ -6,6 +6,9 @@
 package com.vollyball.dao;
 
 import com.vollyball.bean.MatchBean;
+import com.vollyball.bean.MatchSet;
+import com.vollyball.bean.SetRotationOrder;
+import com.vollyball.bean.SetSubstitution;
 import com.vollyball.db.DbUtil;
 import com.vollyball.util.CommonUtil;
 import java.sql.Connection;
@@ -110,7 +113,7 @@ public class MatchDao {
             this.con = db.getConnection();
             PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("delete.matchPlayers"));
             ps1.setInt(1, matchId);
-            ps1.setInt(2, teamid);
+//            ps1.setInt(2, teamid);
             ps1.executeUpdate();
 
             for (int id : players) {
@@ -127,4 +130,151 @@ public class MatchDao {
         }
         return count;
     }
+
+    public int isTeamSelected(int matchId) {
+        int id = 0;
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.isMatchSelected"));
+            ps.setInt(1, matchId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+
+    public int saveMatchSet(MatchSet ms) {
+        int id = 0;
+        int mid = 0;
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("insert.matchset"));
+            ps.setInt(1, ms.getMatchId());
+            ps.setInt(2, ms.getEvaluationTeamId());
+            ps.setInt(3, ms.getOpponentTeamId());
+            ps.setInt(4, ms.getSetNo());
+            ps.setString(5, ms.getScore());
+            ps.setInt(6, ms.getWon_by());
+            ps.setString(7, ms.getStart_time());
+            ps.setString(8, ms.getEnd_time());
+            ps.setString(9, ms.getEvaluator());
+            ps.setString(10, ms.getDate());
+            id = ps.executeUpdate();
+
+            if (id != 0) {
+
+                PreparedStatement ps3 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.latest.matchset.id"));
+                ResultSet rs = ps3.executeQuery();
+
+                while (rs.next()) {
+                    mid = rs.getInt(1);
+                }
+
+                for (SetRotationOrder s : ms.getRotationOrder()) {
+                    PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("insert.matchset.rotationorder"));
+                    ps1.setInt(1, s.getPosition());
+                    ps1.setInt(2, s.getPlayerId());
+                    ps1.setInt(3, mid);
+                    ps1.executeUpdate();
+                }
+
+                for (SetSubstitution s : ms.getSetSubstitutions()) {
+                    if (s.getPosition() != 7) {
+                        PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("insert.matchset.substitution"));
+                        ps1.setInt(1, s.getPosition());
+                        ps1.setInt(2, s.getRotation_player_id());
+                        ps1.setInt(3, mid);
+                        ps1.executeUpdate();
+                    }
+                }
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return mid;
+
+    }
+
+    public MatchSet getMatchSet(int setId, int matchId) {
+
+        MatchSet ms = new MatchSet();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.matchset"));
+            ps.setInt(1, matchId);
+            ps.setInt(2, setId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ms.setId(rs.getInt(1));
+                ms.setMatchId(rs.getInt(2));
+                ms.setEvaluationTeamId(rs.getInt(3));
+                ms.setOpponentTeamId(rs.getInt(4));
+                ms.setSetNo(rs.getInt(5));
+                ms.setScore(rs.getString(6));
+                ms.setWon_by(rs.getInt(7));
+                ms.setStart_time(rs.getString(8));
+                ms.setEnd_time(rs.getString(9));
+                ms.setEvaluator(rs.getString(10));
+                ms.setDate(rs.getString(11));
+            }
+
+            if (ms.getId() != 0) {
+                List<SetRotationOrder> rotationOrder = new ArrayList<>();
+
+                PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.matchset.rotationorder"));
+                ps1.setInt(1, ms.getId());
+                ResultSet rs1 = ps1.executeQuery();
+
+                while (rs1.next()) {
+                    SetRotationOrder s = new SetRotationOrder();
+                    s.setId(rs1.getInt(1));
+                    s.setPosition(rs1.getInt(2));
+                    s.setPlayerId(rs1.getInt(3));
+                    s.setMatch_evaluation_id(rs1.getInt(4));
+                    rotationOrder.add(s);
+
+                }
+                ms.setRotationOrder(rotationOrder);
+                List<SetSubstitution> setSubstitutions = new ArrayList<>();
+                PreparedStatement ps2 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.matchset.substitution"));
+                ps2.setInt(1, ms.getId());
+                ResultSet rs2 = ps2.executeQuery();
+
+                while (rs2.next()) {
+                    SetSubstitution s = new SetSubstitution();
+                    s.setId(rs2.getInt(1));
+                    s.setPosition(rs2.getInt(2));
+                    s.setRotation_player_id(rs2.getInt(3));
+                    s.setMatch_evaluation_id(rs2.getInt(4));
+                    s.setSubstitutePlayerId(rs2.getInt(5));
+                    s.setPoint1(rs2.getString(6));
+                    s.setPoint2(rs2.getString(7));
+                    setSubstitutions.add(s);
+
+                }
+                ms.setSetSubstitutions(setSubstitutions);
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return ms;
+
+    }
+
 }

@@ -43,4 +43,22 @@ public enum Skill {
         this.type = type;
     }
 
+    public static Skill getIdByName(String name) {
+        for (Skill e : values()) {
+            if (e.type.equals(name)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public static Skill getNameById(int id) {
+        for (Skill e : values()) {
+            if (e.id == id) {
+                return e;
+            }
+        }
+        return null;
+    }
+
 }

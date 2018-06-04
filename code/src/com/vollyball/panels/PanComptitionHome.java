@@ -327,7 +327,7 @@ public class PanComptitionHome extends javax.swing.JPanel {
         int i = 0;
         for (Team team : teams) {
             i++;
-            Object[] row = {i, team.getName()};
+            Object[] row = {i, team.getName(), team};
             model.addRow(row);
         }
 
