@@ -3,37 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.vollyball.frames;
-
-import com.vollyball.panels.PanVolleyCourt;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+package com.vollyball.panels;
 
 /**
  *
  * @author nishant.vibhute
  */
-public class FrmCompetition extends javax.swing.JFrame {
+public class PanVolleyCourtImage extends javax.swing.JPanel {
 
     /**
-     * Creates new form FrmCompetition
+     * Creates new form PanVolleyCourtImage
      */
-    public FrmCompetition() {
-
+    public PanVolleyCourtImage() {
         initComponents();
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-        setVisible(true);
-        PanVolleyCourt pan = new PanVolleyCourt();
-        pan.setBounds(0, 0, 571, 324);
-        pan.setValues(0, 0, 300, 300);
-        this.add(pan);
-        validate();
-        repaint();
-    }
-
-    public static void main(String args[]) {
-        new FrmCompetition();
     }
 
     /**
@@ -45,10 +27,8 @@ public class FrmCompetition extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 400, Short.MAX_VALUE)
@@ -57,8 +37,6 @@ public class FrmCompetition extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

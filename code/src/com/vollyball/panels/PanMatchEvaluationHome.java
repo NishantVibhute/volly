@@ -201,6 +201,11 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
         set2.setForeground(new java.awt.Color(255, 255, 255));
         set2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         set2.setText("SET 2");
+        set2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                set2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -220,6 +225,11 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
         set5.setForeground(new java.awt.Color(255, 255, 255));
         set5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         set5.setText("SET 5");
+        set5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                set5MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -239,6 +249,11 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
         set4.setForeground(new java.awt.Color(255, 255, 255));
         set4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         set4.setText("SET 4");
+        set4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                set4MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -258,6 +273,11 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
         set3.setForeground(new java.awt.Color(255, 255, 255));
         set3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         set3.setText("SET 3");
+        set3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                set3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -439,6 +459,38 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
     private void selectOpponentTeamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectOpponentTeamMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_selectOpponentTeamMouseClicked
+
+    private void set2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_set2MouseClicked
+        // TODO add your handling code here:
+        MatchSetDialog obj = new MatchSetDialog();
+        obj.setSetFields(2, this.matchId, this.evaluatingTeam, this.opponentTeam);
+        obj.init();
+        obj.show();
+    }//GEN-LAST:event_set2MouseClicked
+
+    private void set3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_set3MouseClicked
+        // TODO add your handling code here:
+        MatchSetDialog obj = new MatchSetDialog();
+        obj.setSetFields(3, this.matchId, this.evaluatingTeam, this.opponentTeam);
+        obj.init();
+        obj.show();
+    }//GEN-LAST:event_set3MouseClicked
+
+    private void set4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_set4MouseClicked
+        // TODO add your handling code here:
+        MatchSetDialog obj = new MatchSetDialog();
+        obj.setSetFields(4, this.matchId, this.evaluatingTeam, this.opponentTeam);
+        obj.init();
+        obj.show();
+    }//GEN-LAST:event_set4MouseClicked
+
+    private void set5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_set5MouseClicked
+        // TODO add your handling code here:
+        MatchSetDialog obj = new MatchSetDialog();
+        obj.setSetFields(5, this.matchId, this.evaluatingTeam, this.opponentTeam);
+        obj.init();
+        obj.show();
+    }//GEN-LAST:event_set5MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel10;

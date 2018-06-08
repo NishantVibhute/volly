@@ -1,6 +1,8 @@
 package com.vollyball.panels;
 
+import com.vollyball.bean.Player;
 import com.vollyball.controller.Controller;
+import java.util.LinkedHashMap;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,7 +15,9 @@ import com.vollyball.controller.Controller;
  */
 public class PanRallyBut extends javax.swing.JPanel {
 
-    int j;
+    int rallyNum;
+    int evaluationId;
+    public LinkedHashMap<Integer, Player> positionMap;
 
     /**
      * Creates new form PanRallyBut
@@ -22,9 +26,11 @@ public class PanRallyBut extends javax.swing.JPanel {
         initComponents();
     }
 
-    public void setRally(int i) {
-        jLabel1.setText("" + i);
-        this.j = i;
+    public void setRally(int i, int evaluationId, LinkedHashMap<Integer, Player> positionMap) {
+        butRally.setText("" + i);
+        this.rallyNum = i;
+        this.evaluationId = evaluationId;
+        this.positionMap = positionMap;
 
     }
 
@@ -37,19 +43,19 @@ public class PanRallyBut extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        butRally = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(54, 78, 108));
         setForeground(new java.awt.Color(54, 78, 108));
 
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("jLabel1");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        butRally.setBackground(new java.awt.Color(255, 255, 255));
+        butRally.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        butRally.setForeground(new java.awt.Color(255, 255, 255));
+        butRally.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        butRally.setText("jLabel1");
+        butRally.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                butRallyMouseClicked(evt);
             }
         });
 
@@ -57,37 +63,25 @@ public class PanRallyBut extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE)
+            .addComponent(butRally, javax.swing.GroupLayout.PREFERRED_SIZE, 40, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+            .addComponent(butRally, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        // TODO add your handling code here:
-//        JOptionPane.showMessageDialog(this, j);
-        PanRallyLiveEvaluation pan = Controller.panMatchSet.getPanRallyMap().get(j);
-
-        if (pan.rallyNum == Controller.panMatchSet.currentRally) {
-            pan.showButton();
-        }
-
-//        if (pan == null) {
-//            pan = new PanRallyLiveEvaluation(j);
-//        }
+    private void butRallyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butRallyMouseClicked
+        Controller.panMatchSet.panRallyCurrent = new PanRallyLiveEvaluation(rallyNum, evaluationId, positionMap);
+        Controller.panMatchSet.panNext.setVisible(true);
         Controller.panMatchSet.panRallyShow.removeAll();
+        Controller.panMatchSet.panRallyShow.add(Controller.panMatchSet.panRallyCurrent);
         Controller.panMatchSet.validate();
         Controller.panMatchSet.repaint();
 
-        Controller.panMatchSet.panRallyShow.add(pan);
-        Controller.panMatchSet.validate();
-        Controller.panMatchSet.repaint();
-
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_butRallyMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel butRally;
     // End of variables declaration//GEN-END:variables
 }

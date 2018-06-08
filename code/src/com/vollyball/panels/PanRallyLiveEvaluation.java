@@ -5,18 +5,28 @@
  */
 package com.vollyball.panels;
 
+import com.vollyball.bean.Player;
 import com.vollyball.bean.RallyEvaluation;
 import com.vollyball.bean.RallyEvaluationSkillScore;
 import com.vollyball.controller.Controller;
 import com.vollyball.dao.RallyDao;
 import com.vollyball.enums.Skill;
 import java.awt.AWTException;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.ComponentOrientation;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Robot;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTextField;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -25,84 +35,159 @@ import javax.swing.JTextField;
 public class PanRallyLiveEvaluation extends javax.swing.JPanel {
 
     Robot robot;
-    List<JTextField> skillList = new ArrayList<>();
-    List<JTextField> chestList = new ArrayList<>();
-    List<JTextField> scoreList = new ArrayList<>();
-    public int rallyNum, matchEvaluationId;
+    public int rallyNum, matchEvaluationId, id;
+    String result = "";
     RallyDao rallyDao = new RallyDao();
+    PanCompListValue panCompListValue;
+    public List<PanRallyEvaluationRow> panListRow = new ArrayList<>();
+    LinkedHashMap<Integer, Player> positionMap;
+    int k;
+    int rallyRow = 0;
+    public boolean isInserted = false;
+    public String startTime, endTime;
 
     /**
      * Creates new form PanRally
+     *
+     * @param rallyNum
+     * @param matchEvaluationId
+     * @param getData
      */
-    public PanRallyLiveEvaluation(int rallyNum, int matchEvaluationId, boolean getData) {
+    public PanRallyLiveEvaluation(int rallyNum, int matchEvaluationId, LinkedHashMap<Integer, Player> positionMap) {
+
         initComponents();
+        k = 1;
+        this.positionMap = positionMap;
         this.rallyNum = rallyNum;
         this.matchEvaluationId = matchEvaluationId;
         lblRallyNum.setText("" + rallyNum);
+
         try {
             robot = new Robot();
         } catch (AWTException ex) {
             Logger.getLogger(PanRallyLiveEvaluation.class.getName()).log(Level.SEVERE, null, ex);
         }
+        panCompListValue = new PanCompListValue();
+        RallyEvaluation re = rallyDao.getRally(rallyNum, matchEvaluationId);
+        if (re.getId() != 0) {
+            isInserted = true;
 
-        skillList.add(txtSkill1);
-        skillList.add(txtSkill2);
-        skillList.add(txtSkill3);
-        skillList.add(txtSkill4);
-        skillList.add(txtSkill5);
-        skillList.add(txtSkill6);
-        skillList.add(txtSkill7);
-        skillList.add(txtSkill8);
-        skillList.add(txtSkill9);
-        skillList.add(txtSkill10);
-        skillList.add(txtSkill11);
+            panCompListValue.addRallyList();
+            this.id = re.getId();
+            Controller.panMatchSet.butNext.setText("Update");
+        } else {
+            panCompListValue.addBlankRow();
+            Controller.panMatchSet.butNext.setText("Save");
+        }
+        panCompListValue.setBounds(0, 0, 340, 300);
+        panDynamic.add(panCompListValue);
 
-        chestList.add(lblChestNo1);
-        chestList.add(lblChestNo2);
-        chestList.add(lblChestNo3);
-        chestList.add(lblChestNo4);
-        chestList.add(lblChestNo5);
-        chestList.add(lblChestNo6);
-        chestList.add(lblChestNo7);
-        chestList.add(lblChestNo8);
-        chestList.add(lblChestNo9);
-        chestList.add(lblChestNo10);
-        chestList.add(lblChestNo11);
+    }
 
-        scoreList.add(lblScore1);
-        scoreList.add(lblScore2);
-        scoreList.add(lblScore3);
-        scoreList.add(lblScore4);
-        scoreList.add(lblScore5);
-        scoreList.add(lblScore6);
-        scoreList.add(lblScore7);
-        scoreList.add(lblScore8);
-        scoreList.add(lblScore9);
-        scoreList.add(lblScore10);
-        scoreList.add(lblScore11);
+    public void refresh() {
+        panCompListValue.add();
+    }
 
-        if (getData) {
-            panNext.setVisible(false);
-            RallyEvaluation re = rallyDao.getRally(rallyNum, matchEvaluationId);
-            txtResult.setText(re.getResult());
-            int i = 0;
-            for (RallyEvaluationSkillScore ress : re.getRallyEvaluationSkillScore()) {
+    public void addToPosition(int m) {
+        panCompListValue.addToPosition(m);
+    }
 
-                skillList.get(i).setText(Skill.getNameById(ress.getSkillId()).getType());
-                chestList.get(i).setText("" + ress.getPlayerId());
-                scoreList.get(i).setText("" + ress.getScore());
-                i++;
-            }
+    public class PanCompListValue extends JPanel {
+
+        private JPanel mainList;
+        JScrollPane s;
+
+        public PanCompListValue() {
+
+            setLayout(new BorderLayout());
+            mainList = new JPanel(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridwidth = GridBagConstraints.REMAINDER;
+            gbc.weightx = 1;
+            gbc.weighty = 1;
+            mainList.add(new JPanel(), gbc);
+            mainList.setBackground(Color.WHITE);
+            s = new JScrollPane(mainList);
+            s.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+            s.getVerticalScrollBar().setPreferredSize(new Dimension(15, 0));
+            s.getVerticalScrollBar().setBackground(Color.red);
+            s.setBackground(Color.WHITE);
+            s.setBorder(null);
+            add(s);
+
         }
 
-    }
+        public void addBlankRow() {
+            PanRallyEvaluationRow panel = new PanRallyEvaluationRow(PanRallyLiveEvaluation.this);
+            GridBagConstraints gbcRow = new GridBagConstraints();
+            gbcRow.gridwidth = GridBagConstraints.REMAINDER;
+            gbcRow.weightx = 1;
+            gbcRow.gridheight = 2;
+            gbcRow.fill = GridBagConstraints.HORIZONTAL;
+            panel.hideButton();
+            mainList.add(panel, gbcRow, 0);
+            validate();
+            repaint();
+            panListRow.add(panel);
+        }
 
-    public void showButton() {
-        panNext.setVisible(true);
-    }
+        public void add() {
 
-    public void hideButton() {
-        panNext.setVisible(false);
+            PanRallyEvaluationRow panel = new PanRallyEvaluationRow(PanRallyLiveEvaluation.this);
+            panel.hideButton();
+            GridBagConstraints gbcRow = new GridBagConstraints();
+            gbcRow.gridwidth = GridBagConstraints.REMAINDER;
+            gbcRow.weightx = 1;
+            gbcRow.gridheight = 2;
+            gbcRow.fill = GridBagConstraints.HORIZONTAL;
+            mainList.add(panel, gbcRow, k);
+            validate();
+            repaint();
+            JScrollBar vertical = s.getVerticalScrollBar();
+            vertical.setValue(vertical.getMaximum());
+            k++;
+            panListRow.add(panel);
+        }
+
+        public void addToPosition(int m) {
+            PanRallyEvaluationRow panel = new PanRallyEvaluationRow(PanRallyLiveEvaluation.this);
+            GridBagConstraints gbcRow = new GridBagConstraints();
+            gbcRow.gridwidth = GridBagConstraints.REMAINDER;
+            gbcRow.weightx = 1;
+            gbcRow.gridheight = 2;
+            gbcRow.fill = GridBagConstraints.HORIZONTAL;
+            mainList.add(panel, gbcRow, m);
+            validate();
+            repaint();
+            JScrollBar vertical = s.getVerticalScrollBar();
+            vertical.setValue(vertical.getMaximum());
+            k++;
+            panListRow.add(panel);
+        }
+
+        public void addRallyList() {
+            RallyEvaluation re = rallyDao.getRally(rallyNum, matchEvaluationId);
+            lblResult.setText(re.getHomeScore() + " - " + re.getOpponentScore());
+            lblRallyStartTime.setText(re.getStartTime());
+            lblRallyEndTime.setText(re.getEndTime());
+
+            for (RallyEvaluationSkillScore ress : re.getRallyEvaluationSkillScore()) {
+                rallyRow++;
+                PanRallyEvaluationRow panel = new PanRallyEvaluationRow(PanRallyLiveEvaluation.this);
+                panel.setValues(Skill.getNameById(ress.getSkillId()).getType(), "" + ress.getPlayerId(), ress.getScore());
+                GridBagConstraints gbcRow = new GridBagConstraints();
+                gbcRow.gridwidth = GridBagConstraints.REMAINDER;
+                gbcRow.weightx = 1;
+                gbcRow.gridheight = 2;
+                gbcRow.fill = GridBagConstraints.HORIZONTAL;
+                mainList.add(panel, gbcRow, 0);
+                validate();
+                repaint();
+                JScrollBar vertical = s.getVerticalScrollBar();
+                vertical.setValue(vertical.getMaximum());
+                panListRow.add(panel);
+            }
+        }
     }
 
     /**
@@ -117,51 +202,21 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         lblRallyNum = new javax.swing.JLabel();
-        txtResult = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        txtSkill1 = new javax.swing.JTextField();
-        lblChestNo1 = new javax.swing.JTextField();
-        lblScore1 = new javax.swing.JTextField();
-        txtSkill2 = new javax.swing.JTextField();
-        lblChestNo2 = new javax.swing.JTextField();
-        lblScore2 = new javax.swing.JTextField();
-        txtSkill3 = new javax.swing.JTextField();
-        lblChestNo3 = new javax.swing.JTextField();
-        lblScore3 = new javax.swing.JTextField();
-        txtSkill4 = new javax.swing.JTextField();
-        lblChestNo4 = new javax.swing.JTextField();
-        lblScore4 = new javax.swing.JTextField();
-        txtSkill5 = new javax.swing.JTextField();
-        lblChestNo5 = new javax.swing.JTextField();
-        lblScore5 = new javax.swing.JTextField();
-        txtSkill6 = new javax.swing.JTextField();
-        lblChestNo6 = new javax.swing.JTextField();
-        lblScore6 = new javax.swing.JTextField();
-        txtSkill7 = new javax.swing.JTextField();
-        lblChestNo7 = new javax.swing.JTextField();
-        lblScore7 = new javax.swing.JTextField();
-        txtSkill8 = new javax.swing.JTextField();
-        lblChestNo8 = new javax.swing.JTextField();
-        lblScore8 = new javax.swing.JTextField();
-        txtSkill9 = new javax.swing.JTextField();
-        lblChestNo9 = new javax.swing.JTextField();
-        lblScore9 = new javax.swing.JTextField();
-        txtSkill10 = new javax.swing.JTextField();
-        lblChestNo10 = new javax.swing.JTextField();
-        lblScore10 = new javax.swing.JTextField();
-        txtSkill11 = new javax.swing.JTextField();
-        lblChestNo11 = new javax.swing.JTextField();
-        lblScore11 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        lblRallyEndTime = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        panNext = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
+        lblRallyStartTime = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        panDynamic = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        lblResult = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -180,13 +235,25 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Rally :");
 
-        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Result :");
-
         lblRallyNum.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         lblRallyNum.setForeground(new java.awt.Color(251, 205, 1));
         lblRallyNum.setText("0");
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Start Time :");
+
+        lblRallyEndTime.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        lblRallyEndTime.setForeground(new java.awt.Color(251, 201, 0));
+        lblRallyEndTime.setText(" ");
+
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("End Time :");
+
+        lblRallyStartTime.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        lblRallyStartTime.setForeground(new java.awt.Color(251, 201, 0));
+        lblRallyStartTime.setText(" ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -198,10 +265,14 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblRallyNum)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel7)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblRallyStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 19, Short.MAX_VALUE)
+                .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtResult, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
+                .addComponent(lblRallyEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,377 +280,126 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
                 .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel7)
-                    .addComponent(lblRallyNum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblRallyNum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5)
+                    .addComponent(lblRallyEndTime)
+                    .addComponent(jLabel6)
+                    .addComponent(lblRallyStartTime))
                 .addContainerGap(12, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(txtResult)
-                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel3.setBackground(new java.awt.Color(54, 78, 108));
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Skill");
-        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        panDynamic.setBackground(new java.awt.Color(255, 255, 255));
+        panDynamic.setForeground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Chest No.");
-        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Score");
-        jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-
-        txtSkill1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtSkill1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtSkill1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-        txtSkill1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtSkill1KeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSkill1KeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtSkill1KeyTyped(evt);
-            }
-        });
-
-        lblChestNo1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblChestNo1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblChestNo1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-        lblChestNo1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                lblChestNo1KeyReleased(evt);
-            }
-        });
-
-        lblScore1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblScore1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblScore1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        txtSkill2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtSkill2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtSkill2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-        txtSkill2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSkill2KeyReleased(evt);
-            }
-        });
-
-        lblChestNo2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblChestNo2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblChestNo2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        lblScore2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblScore2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblScore2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        txtSkill3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtSkill3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtSkill3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-        txtSkill3.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSkill3KeyReleased(evt);
-            }
-        });
-
-        lblChestNo3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblChestNo3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblChestNo3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        lblScore3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblScore3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblScore3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        txtSkill4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtSkill4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtSkill4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-        txtSkill4.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSkill4KeyReleased(evt);
-            }
-        });
-
-        lblChestNo4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblChestNo4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblChestNo4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        lblScore4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblScore4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblScore4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        txtSkill5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtSkill5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtSkill5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-        txtSkill5.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSkill5KeyReleased(evt);
-            }
-        });
-
-        lblChestNo5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblChestNo5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblChestNo5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        lblScore5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblScore5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblScore5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        txtSkill6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtSkill6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtSkill6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-        txtSkill6.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSkill6KeyReleased(evt);
-            }
-        });
-
-        lblChestNo6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblChestNo6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblChestNo6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        lblScore6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblScore6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblScore6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        txtSkill7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtSkill7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtSkill7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-        txtSkill7.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSkill7KeyReleased(evt);
-            }
-        });
-
-        lblChestNo7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblChestNo7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblChestNo7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        lblScore7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblScore7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblScore7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        txtSkill8.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtSkill8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtSkill8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-        txtSkill8.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSkill8KeyReleased(evt);
-            }
-        });
-
-        lblChestNo8.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblChestNo8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblChestNo8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        lblScore8.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblScore8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblScore8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        txtSkill9.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtSkill9.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtSkill9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-        txtSkill9.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSkill9KeyReleased(evt);
-            }
-        });
-
-        lblChestNo9.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblChestNo9.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblChestNo9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        lblScore9.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblScore9.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblScore9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        txtSkill10.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtSkill10.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtSkill10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-        txtSkill10.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSkill10KeyReleased(evt);
-            }
-        });
-
-        lblChestNo10.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblChestNo10.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblChestNo10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        lblScore10.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblScore10.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblScore10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        txtSkill11.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtSkill11.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtSkill11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-        txtSkill11.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSkill11KeyReleased(evt);
-            }
-        });
-
-        lblChestNo11.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblChestNo11.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblChestNo11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        lblScore11.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblScore11.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        lblScore11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtSkill11)
-                    .addComponent(txtSkill10, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtSkill9, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtSkill8, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtSkill7, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtSkill6, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtSkill5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtSkill4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtSkill3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtSkill2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtSkill1)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblChestNo11)
-                    .addComponent(lblChestNo10, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblChestNo9, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblChestNo8, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblChestNo7, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblChestNo6, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblChestNo5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblChestNo4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblChestNo3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblChestNo2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-                    .addComponent(lblChestNo1))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(lblScore10, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblScore8, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblScore7, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblScore6, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblScore5, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblScore4, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblScore3, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblScore2, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblScore9)
-                    .addComponent(lblScore11)
-                    .addComponent(lblScore1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+        javax.swing.GroupLayout panDynamicLayout = new javax.swing.GroupLayout(panDynamic);
+        panDynamic.setLayout(panDynamicLayout);
+        panDynamicLayout.setHorizontalGroup(
+            panDynamicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSkill1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblChestNo1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblScore1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSkill2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblChestNo2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblScore2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSkill3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblChestNo3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblScore3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSkill4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblChestNo4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblScore4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSkill5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblChestNo5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblScore5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSkill6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblChestNo6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblScore6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSkill7, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblChestNo7, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblScore7, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSkill8, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblChestNo8, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblScore8, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSkill9, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblChestNo9, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblScore9, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSkill10, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblChestNo10, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblScore10, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSkill11, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblChestNo11, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblScore11, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+        panDynamicLayout.setVerticalGroup(
+            panDynamicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
 
-        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel5.setText("Start Time :");
+        jPanel6.setBackground(new java.awt.Color(54, 78, 108));
+        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
 
-        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel6.setText("End Time :");
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("Skill");
+        jLabel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
-        panNext.setBackground(new java.awt.Color(0, 102, 0));
-        panNext.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        panNext.setForeground(new java.awt.Color(54, 78, 108));
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("Chest No");
+        jLabel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
-        jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("NEXT");
-        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel9MouseClicked(evt);
-            }
-        });
+        jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Score");
+        jLabel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
-        javax.swing.GroupLayout panNextLayout = new javax.swing.GroupLayout(panNext);
-        panNext.setLayout(panNextLayout);
-        panNextLayout.setHorizontalGroup(
-            panNextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
-        panNextLayout.setVerticalGroup(
-            panNextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jPanel7.setBackground(new java.awt.Color(54, 78, 108));
+        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
+
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Result :");
+
+        lblResult.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblResult.setForeground(new java.awt.Color(251, 201, 0));
+        lblResult.setText(" ");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblResult, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(121, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(lblResult))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panDynamic, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(47, 47, 47))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(panDynamic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -587,28 +407,15 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panNext, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(100, 100, 100))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel5)
-                .addGap(10, 10, 10)
-                .addComponent(jLabel6)
-                .addGap(10, 10, 10)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(panNext, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -628,229 +435,24 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtSkill1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSkill1KeyPressed
-
-    }//GEN-LAST:event_txtSkill1KeyPressed
-
-    private void txtSkill1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSkill1KeyReleased
-        // TODO add your handling code here:
-        JTextField comp = (JTextField) evt.getSource();
-        char text = evt.getKeyChar();
-        setValue(comp, text);
-
-    }//GEN-LAST:event_txtSkill1KeyReleased
-
-    private void txtSkill1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSkill1KeyTyped
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_txtSkill1KeyTyped
-
-    private void lblChestNo1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblChestNo1KeyReleased
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_lblChestNo1KeyReleased
-
-    private void txtSkill2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSkill2KeyReleased
-        JTextField comp = (JTextField) evt.getSource();
-        char text = evt.getKeyChar();
-        setValue(comp, text);
-
-    }//GEN-LAST:event_txtSkill2KeyReleased
-
-    private void txtSkill3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSkill3KeyReleased
-        JTextField comp = (JTextField) evt.getSource();
-        char text = evt.getKeyChar();
-        setValue(comp, text);
-    }//GEN-LAST:event_txtSkill3KeyReleased
-
-    private void txtSkill4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSkill4KeyReleased
-        JTextField comp = (JTextField) evt.getSource();
-        char text = evt.getKeyChar();
-        setValue(comp, text);
-    }//GEN-LAST:event_txtSkill4KeyReleased
-
-    private void txtSkill5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSkill5KeyReleased
-        JTextField comp = (JTextField) evt.getSource();
-        char text = evt.getKeyChar();
-        setValue(comp, text);
-    }//GEN-LAST:event_txtSkill5KeyReleased
-
-    private void txtSkill6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSkill6KeyReleased
-        JTextField comp = (JTextField) evt.getSource();
-        char text = evt.getKeyChar();
-        setValue(comp, text);
-    }//GEN-LAST:event_txtSkill6KeyReleased
-
-    private void txtSkill7KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSkill7KeyReleased
-        JTextField comp = (JTextField) evt.getSource();
-        char text = evt.getKeyChar();
-        setValue(comp, text);
-    }//GEN-LAST:event_txtSkill7KeyReleased
-
-    private void txtSkill8KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSkill8KeyReleased
-        JTextField comp = (JTextField) evt.getSource();
-        char text = evt.getKeyChar();
-        setValue(comp, text);
-    }//GEN-LAST:event_txtSkill8KeyReleased
-
-    private void txtSkill9KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSkill9KeyReleased
-        JTextField comp = (JTextField) evt.getSource();
-        char text = evt.getKeyChar();
-        setValue(comp, text);
-    }//GEN-LAST:event_txtSkill9KeyReleased
-
-    private void txtSkill10KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSkill10KeyReleased
-        JTextField comp = (JTextField) evt.getSource();
-        char text = evt.getKeyChar();
-        setValue(comp, text);
-    }//GEN-LAST:event_txtSkill10KeyReleased
-
-    private void txtSkill11KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSkill11KeyReleased
-        JTextField comp = (JTextField) evt.getSource();
-        char text = evt.getKeyChar();
-        setValue(comp, text);
-    }//GEN-LAST:event_txtSkill11KeyReleased
-
-    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        // TODO add your handling code here:
-        RallyEvaluation r = new RallyEvaluation();
-        r.setRallyNum(this.rallyNum);
-        r.setResult(txtResult.getText());
-        r.setMatchEvaluationId(matchEvaluationId);
-
-        for (int i = 0; i < skillList.size(); i++) {
-            try {
-                if (!skillList.get(i).getText().isEmpty()) {
-                    RallyEvaluationSkillScore rs = new RallyEvaluationSkillScore();
-                    rs.setSkill(skillList.get(i).getText());
-                    rs.setSkillId(Skill.getIdByName(skillList.get(i).getText()).getId());
-                    rs.setChestNo(chestList.get(i).getText());
-                    rs.setPlayerId(Integer.parseInt(chestList.get(i).getText()));
-                    rs.setScore(Integer.parseInt(scoreList.get(i).getText()));
-                    r.getRallyEvaluationSkillScore().add(rs);
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(PanRallyLiveEvaluation.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
-
-        PanRallyLiveEvaluation panNew = Controller.panMatchSet.getPanRallyMap().get(this.rallyNum);
-
-        if (panNew == null) {
-            int id = rallyDao.insertRally(r);
-
-        }
-
-        PanRallyLiveEvaluation panold = Controller.panMatchSet.getPanRallyMap().get(this.rallyNum - 1);
-        panold.hideButton();
-        Controller.panMatchSet.getPanRallyMap().put(this.rallyNum - 1, panold);
-
-        Controller.panMatchSet.currentRally = Controller.panMatchSet.currentRally + 1;
-        Controller.panMatchSet.panRallyShow.removeAll();
-        Controller.panMatchSet.validate();
-        Controller.panMatchSet.repaint();
-        PanRallyLiveEvaluation pan = new PanRallyLiveEvaluation(Controller.panMatchSet.currentRally, matchEvaluationId, false);
-
-        Controller.panMatchSet.panRallyShow.add(pan);
-
-        PanRallyBut pnBut = new PanRallyBut();
-        pnBut.setRally(Controller.panMatchSet.currentRally);
-        Controller.panMatchSet.panRallyList.add(pnBut);
-        Controller.panMatchSet.validate();
-        Controller.panMatchSet.repaint();
-
-    }//GEN-LAST:event_jLabel9MouseClicked
-
-    public void setValue(JTextField txt, char key) {
-        switch (("" + key).toUpperCase()) {
-            case "S":
-                txt.setText("");
-                txt.setText(Skill.Service.getType());
-
-//                robot.keyPress(KeyEvent.VK_TAB);
-                break;
-            case "A":
-                txt.setText("");
-                txt.setText(Skill.Attack.getType());
-//                robot.keyPress(KeyEvent.VK_TAB);
-                break;
-            case "B":
-                txt.setText("");
-                txt.setText(Skill.Block.getType());
-//                robot.keyPress(KeyEvent.VK_TAB);
-                break;
-            case "E":
-                txt.setText("");
-                txt.setText(Skill.Set.getType());
-//                robot.keyPress(KeyEvent.VK_TAB);
-                break;
-            case "R":
-                txt.setText("");
-                txt.setText(Skill.Reception.getType());
-//                robot.keyPress(KeyEvent.VK_TAB);
-                break;
-            case "D":
-                txt.setText("");
-                txt.setText(Skill.Defence.getType());
-//                robot.keyPress(KeyEvent.VK_TAB);
-                break;
-            default:
-                txt.setText("");
-                txt.setText("");
-                break;
-        }
-
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JTextField lblChestNo1;
-    private javax.swing.JTextField lblChestNo10;
-    private javax.swing.JTextField lblChestNo11;
-    private javax.swing.JTextField lblChestNo2;
-    private javax.swing.JTextField lblChestNo3;
-    private javax.swing.JTextField lblChestNo4;
-    private javax.swing.JTextField lblChestNo5;
-    private javax.swing.JTextField lblChestNo6;
-    private javax.swing.JTextField lblChestNo7;
-    private javax.swing.JTextField lblChestNo8;
-    private javax.swing.JTextField lblChestNo9;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    public javax.swing.JLabel lblRallyEndTime;
     private javax.swing.JLabel lblRallyNum;
-    private javax.swing.JTextField lblScore1;
-    private javax.swing.JTextField lblScore10;
-    private javax.swing.JTextField lblScore11;
-    private javax.swing.JTextField lblScore2;
-    private javax.swing.JTextField lblScore3;
-    private javax.swing.JTextField lblScore4;
-    private javax.swing.JTextField lblScore5;
-    private javax.swing.JTextField lblScore6;
-    private javax.swing.JTextField lblScore7;
-    private javax.swing.JTextField lblScore8;
-    private javax.swing.JTextField lblScore9;
-    private javax.swing.JPanel panNext;
-    private javax.swing.JTextField txtResult;
-    private javax.swing.JTextField txtSkill1;
-    private javax.swing.JTextField txtSkill10;
-    private javax.swing.JTextField txtSkill11;
-    private javax.swing.JTextField txtSkill2;
-    private javax.swing.JTextField txtSkill3;
-    private javax.swing.JTextField txtSkill4;
-    private javax.swing.JTextField txtSkill5;
-    private javax.swing.JTextField txtSkill6;
-    private javax.swing.JTextField txtSkill7;
-    private javax.swing.JTextField txtSkill8;
-    private javax.swing.JTextField txtSkill9;
+    public javax.swing.JLabel lblRallyStartTime;
+    public javax.swing.JLabel lblResult;
+    private javax.swing.JPanel panDynamic;
     // End of variables declaration//GEN-END:variables
 }

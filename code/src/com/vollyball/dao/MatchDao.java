@@ -158,12 +158,11 @@ public class MatchDao {
             ps.setInt(2, ms.getEvaluationTeamId());
             ps.setInt(3, ms.getOpponentTeamId());
             ps.setInt(4, ms.getSetNo());
-            ps.setString(5, ms.getScore());
-            ps.setInt(6, ms.getWon_by());
-            ps.setString(7, ms.getStart_time());
-            ps.setString(8, ms.getEnd_time());
-            ps.setString(9, ms.getEvaluator());
-            ps.setString(10, ms.getDate());
+            ps.setInt(5, ms.getWon_by());
+            ps.setString(6, ms.getStart_time());
+            ps.setString(7, ms.getEnd_time());
+            ps.setString(8, ms.getEvaluator());
+            ps.setString(9, ms.getDate());
             id = ps.executeUpdate();
 
             if (id != 0) {
@@ -222,12 +221,13 @@ public class MatchDao {
                 ms.setEvaluationTeamId(rs.getInt(3));
                 ms.setOpponentTeamId(rs.getInt(4));
                 ms.setSetNo(rs.getInt(5));
-                ms.setScore(rs.getString(6));
-                ms.setWon_by(rs.getInt(7));
-                ms.setStart_time(rs.getString(8));
-                ms.setEnd_time(rs.getString(9));
-                ms.setEvaluator(rs.getString(10));
-                ms.setDate(rs.getString(11));
+                ms.setHomeScore(rs.getInt(6));
+                ms.setOpponentScore(rs.getInt(7));
+                ms.setWon_by(rs.getInt(8));
+                ms.setStart_time(rs.getString(9));
+                ms.setEnd_time(rs.getString(10));
+                ms.setEvaluator(rs.getString(11));
+                ms.setDate(rs.getString(12));
             }
 
             if (ms.getId() != 0) {
@@ -275,6 +275,46 @@ public class MatchDao {
 
         return ms;
 
+    }
+
+    public int updateSubstitution(int subPlayerId, String score, int position, int matchEvaluationId) {
+        int id = 0;
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("update.matchset.substitution.point1"));
+            ps1.setInt(1, subPlayerId);
+            ps1.setString(2, score);
+            ps1.setInt(3, position);
+            ps1.setInt(4, matchEvaluationId);
+            id = ps1.executeUpdate();
+
+            this.db.closeConnection(con);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MatchDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+
+    public int updateSubstitutionPoint2(String score, int position, int matchEvaluationId) {
+        int id = 0;
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("update.matchset.substitution.point2"));
+
+            ps1.setString(1, score);
+            ps1.setInt(2, position);
+            ps1.setInt(3, matchEvaluationId);
+            id = ps1.executeUpdate();
+
+            this.db.closeConnection(con);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MatchDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
     }
 
 }
