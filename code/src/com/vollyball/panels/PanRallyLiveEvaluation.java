@@ -742,9 +742,9 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
 
         }
 
-        PanRallyLiveEvaluation panold = Controller.panMatchSet.getPanRallyMap().get(this.rallyNum - 1);
-        panold.hideButton();
-        Controller.panMatchSet.getPanRallyMap().put(this.rallyNum - 1, panold);
+//        PanRallyLiveEvaluation panold = Controller.panMatchSet.getPanRallyMap().get(this.rallyNum - 1);
+//        panold.hideButton();
+//        Controller.panMatchSet.getPanRallyMap().put(this.rallyNum - 1, panold);
 
         Controller.panMatchSet.currentRally = Controller.panMatchSet.currentRally + 1;
         Controller.panMatchSet.panRallyShow.removeAll();
