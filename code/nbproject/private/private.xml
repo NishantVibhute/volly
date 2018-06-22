@@ -3,7 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/H:/vollyball/volley/code/src/com/vollyball/frames/FrmLogin.java</file>
+            <file>file:/H:/vollyball/volley/code/src/com/vollyball/dialog/CreateMatchDialog.java</file>
+            <file>file:/H:/vollyball/volley/code/src/com/vollyball/panels/PanNewCompetition.java</file>
+            <file>file:/H:/vollyball/volley/code/src/com/vollyball/panels/PanMatchSet.java</file>
+            <file>file:/H:/vollyball/volley/code/src/com/vollyball/panels/PanCompRow.java</file>
+            <file>file:/H:/vollyball/volley/code/src/com/vollyball/controller/Controller.java</file>
+            <file>file:/H:/vollyball/volley/code/src/com/vollyball/panels/PanComptitionHome.java</file>
+            <file>file:/H:/vollyball/volley/code/src/com/vollyball/panels/PanTeams.java</file>
+            <file>file:/H:/vollyball/volley/code/src/com/vollyball/panels/PanMatches.java</file>
             <file>file:/H:/vollyball/volley/code/src/com/vollyball/panels/PanRallyLiveEvaluation.java</file>
+            <file>file:/H:/vollyball/volley/code/src/com/vollyball/frames/FrmDashboard.java</file>
+            <file>file:/H:/vollyball/volley/code/src/com/vollyball/frames/FrmCompetition.java</file>
+            <file>file:/H:/vollyball/volley/code/src/com/vollyball/panels/PanCompetitionList.java</file>
         </group>
     </open-files>
 </project-private>

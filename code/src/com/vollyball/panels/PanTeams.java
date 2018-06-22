@@ -5,6 +5,10 @@
  */
 package com.vollyball.panels;
 
+import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
+import java.awt.Dimension;
+import javax.swing.table.JTableHeader;
+
 /**
  *
  * @author nishant.vibhute
@@ -16,6 +20,8 @@ public class PanTeams extends javax.swing.JPanel {
      */
     public PanTeams() {
         initComponents();
+        JTableHeader th = tbTeamList.getTableHeader();
+th.setPreferredSize(new Dimension(50, 50));
     }
 
     /**
@@ -30,6 +36,10 @@ public class PanTeams extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbTeamList = new javax.swing.JTable();
 
+        setBackground(new java.awt.Color(255, 51, 255));
+        setLayout(new java.awt.BorderLayout());
+
+        tbTeamList.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         tbTeamList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -38,18 +48,11 @@ public class PanTeams extends javax.swing.JPanel {
                 "Sr No", "Name"
             }
         ));
+        tbTeamList.setRowHeight(25);
+        tbTeamList.setRowMargin(2);
         jScrollPane1.setViewportView(tbTeamList);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
-        );
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

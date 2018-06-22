@@ -16,7 +16,10 @@ public class RallyEvaluation {
 
     int id;
     int rallyNum;
-    String result;
+    int homeScore;
+    int opponentScore;
+    String startTime;
+    String endTime;
     int matchEvaluationId;
     List<RallyEvaluationSkillScore> rallyEvaluationSkillScore = new ArrayList<>();
 
@@ -36,12 +39,36 @@ public class RallyEvaluation {
         this.rallyNum = rallyNum;
     }
 
-    public String getResult() {
-        return result;
+    public int getHomeScore() {
+        return homeScore;
     }
 
-    public void setResult(String result) {
-        this.result = result;
+    public void setHomeScore(int homeScore) {
+        this.homeScore = homeScore;
+    }
+
+    public int getOpponentScore() {
+        return opponentScore;
+    }
+
+    public void setOpponentScore(int opponentScore) {
+        this.opponentScore = opponentScore;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public List<RallyEvaluationSkillScore> getRallyEvaluationSkillScore() {

@@ -35,8 +35,8 @@ public class PanMatches extends javax.swing.JPanel {
         } catch (Exception ex) {
         }
 
-        panMatchListValue.setBounds(0, 0, 749, 433);
-        panMatchContent.add(panMatchListValue);
+//        panMatchListValue.setBounds(0, 0, 749, 433);
+        panMatchContent.add(panMatchListValue,BorderLayout.CENTER);
     }
 
     public class PanMatchListValue extends JPanel {
@@ -153,16 +153,7 @@ public class PanMatches extends javax.swing.JPanel {
 
         panMatchContent = new javax.swing.JPanel();
 
-        javax.swing.GroupLayout panMatchContentLayout = new javax.swing.GroupLayout(panMatchContent);
-        panMatchContent.setLayout(panMatchContentLayout);
-        panMatchContentLayout.setHorizontalGroup(
-            panMatchContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 749, Short.MAX_VALUE)
-        );
-        panMatchContentLayout.setVerticalGroup(
-            panMatchContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 433, Short.MAX_VALUE)
-        );
+        panMatchContent.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

@@ -19,7 +19,8 @@ public class MatchSet {
     int evaluationTeamId;
     int opponentTeamId;
     int setNo;
-    String score;
+    int homeScore;
+    int opponentScore;
     int won_by;
     String start_time;
     String end_time;
@@ -69,12 +70,20 @@ public class MatchSet {
         this.setNo = setNo;
     }
 
-    public String getScore() {
-        return score;
+    public int getHomeScore() {
+        return homeScore;
     }
 
-    public void setScore(String score) {
-        this.score = score;
+    public void setHomeScore(int homeScore) {
+        this.homeScore = homeScore;
+    }
+
+    public int getOpponentScore() {
+        return opponentScore;
+    }
+
+    public void setOpponentScore(int opponentScore) {
+        this.opponentScore = opponentScore;
     }
 
     public int getWon_by() {
