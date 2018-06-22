@@ -21,6 +21,8 @@ public class RallyEvaluation {
     String startTime;
     String endTime;
     int matchEvaluationId;
+    int op;
+    int tf;
     List<RallyEvaluationSkillScore> rallyEvaluationSkillScore = new ArrayList<>();
 
     public int getId() {
@@ -85,6 +87,22 @@ public class RallyEvaluation {
 
     public void setMatchEvaluationId(int matchEvaluationId) {
         this.matchEvaluationId = matchEvaluationId;
+    }
+
+    public int getOp() {
+        return op;
+    }
+
+    public void setOp(int op) {
+        this.op = op;
+    }
+
+    public int getTf() {
+        return tf;
+    }
+
+    public void setTf(int tf) {
+        this.tf = tf;
     }
 
 }

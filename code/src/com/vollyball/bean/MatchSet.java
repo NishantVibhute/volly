@@ -26,9 +26,12 @@ public class MatchSet {
     String end_time;
     String evaluator;
     String date;
+    int op;
+    int tf;
 
     List<SetRotationOrder> rotationOrder = new ArrayList<>();
     List<SetSubstitution> setSubstitutions = new ArrayList<>();
+    List<SetTimeout> setTimeout = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -140,6 +143,30 @@ public class MatchSet {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public int getOp() {
+        return op;
+    }
+
+    public void setOp(int op) {
+        this.op = op;
+    }
+
+    public int getTf() {
+        return tf;
+    }
+
+    public void setTf(int tf) {
+        this.tf = tf;
+    }
+
+    public List<SetTimeout> getSetTimeout() {
+        return setTimeout;
+    }
+
+    public void setSetTimeout(List<SetTimeout> setTimeout) {
+        this.setTimeout = setTimeout;
     }
 
 }

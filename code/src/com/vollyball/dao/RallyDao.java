@@ -46,6 +46,12 @@ public class RallyDao {
                 ps4.setInt(3, re.getMatchEvaluationId());
                 ps4.executeUpdate();
 
+                PreparedStatement ps5 = this.con.prepareStatement(CommonUtil.getResourceProperty("update.matchset.plusminus"));
+                ps5.setInt(1, re.getOp());
+                ps5.setInt(2, re.getTf());
+                ps5.setInt(3, re.getMatchEvaluationId());
+                ps5.executeUpdate();
+
                 PreparedStatement ps3 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.latest.rally.id"));
                 ResultSet rs = ps3.executeQuery();
 

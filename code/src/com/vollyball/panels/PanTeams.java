@@ -5,7 +5,6 @@
  */
 package com.vollyball.panels;
 
-import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import java.awt.Dimension;
 import javax.swing.table.JTableHeader;
 
@@ -21,7 +20,7 @@ public class PanTeams extends javax.swing.JPanel {
     public PanTeams() {
         initComponents();
         JTableHeader th = tbTeamList.getTableHeader();
-th.setPreferredSize(new Dimension(50, 50));
+        th.setPreferredSize(new Dimension(50, 50));
     }
 
     /**

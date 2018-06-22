@@ -58,6 +58,7 @@ public class PanRallyNew extends javax.swing.JPanel {
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
         Controller.panMatchSet.newRally();
+        Controller.panMatchSet.panNext.setVisible(true);
     }//GEN-LAST:event_jLabel1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

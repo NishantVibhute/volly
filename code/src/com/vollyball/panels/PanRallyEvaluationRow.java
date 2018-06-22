@@ -8,6 +8,7 @@ package com.vollyball.panels;
 import com.vollyball.bean.Player;
 import com.vollyball.controller.Controller;
 import com.vollyball.dao.TeamDao;
+import com.vollyball.enums.Rating;
 import com.vollyball.enums.Skill;
 import java.awt.AWTException;
 import java.awt.Robot;
@@ -52,7 +53,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
         for (Map.Entry<Integer, Player> entry : p.positionMap.entrySet()) {
             cmbChest.addItem(entry.getValue().getChestNo());
         }
-        for (Skill dir : Skill.values()) {
+        for (Rating dir : Rating.values()) {
             cmbScore.addItem(dir.getId());
         }
 
@@ -95,7 +96,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
         });
 
         cmbChest.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        cmbChest.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0" }));
+        cmbChest.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "" }));
         cmbChest.setToolTipText("");
         cmbChest.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
         cmbChest.addItemListener(new java.awt.event.ItemListener() {
@@ -105,7 +106,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
         });
 
         cmbScore.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        cmbScore.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0" }));
+        cmbScore.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "" }));
         cmbScore.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
         cmbScore.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -173,7 +174,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
         // TODO add your handling code here:
 
         String item = String.valueOf(evt.getItem());
-        if (!evt.getItem().equals("0")) {
+        if (!evt.getItem().equals("")) {
             if (!p.isInserted) {
                 switch (item) {
 
@@ -186,7 +187,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
                         p.lblRallyEndTime.setText(p.endTime);
                         break;
                     case "5":
-                        if (skill.equals(Skill.Service.getType()) || skill.equals(Skill.Attack.getType()) || skill.equals(Skill.Block.getType())) {
+                        if (skill.equals(Skill.Service.getType()) || skill.equals(Skill.Attack.getType()) || skill.equals(Skill.Block.getType()) || skill.equals(Skill.OP.getType())) {
                             Controller.panMatchSet.homeScore++;
                             p.lblResult.setText(Controller.panMatchSet.homeScore + " - " + Controller.panMatchSet.opponentScore);
                             SimpleDateFormat formatterTime1 = new SimpleDateFormat("HH:mm:ss");
@@ -220,36 +221,49 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
             case "A":
                 txt.setText("");
                 txt.setText(Skill.Attack.getType());
-                skill = Skill.Service.getType();
+                skill = Skill.Attack.getType();
                 robot.keyPress(KeyEvent.VK_TAB);
                 break;
             case "B":
                 txt.setText("");
                 txt.setText(Skill.Block.getType());
-                skill = Skill.Service.getType();
+                skill = Skill.Block.getType();
                 robot.keyPress(KeyEvent.VK_TAB);
                 break;
             case "E":
                 txt.setText("");
                 txt.setText(Skill.Set.getType());
-                skill = Skill.Service.getType();
+                skill = Skill.Set.getType();
                 robot.keyPress(KeyEvent.VK_TAB);
                 break;
             case "R":
                 txt.setText("");
                 txt.setText(Skill.Reception.getType());
-                skill = Skill.Service.getType();
+                skill = Skill.Reception.getType();
                 robot.keyPress(KeyEvent.VK_TAB);
                 break;
             case "D":
                 txt.setText("");
                 txt.setText(Skill.Defence.getType());
-                skill = Skill.Service.getType();
+                skill = Skill.Defence.getType();
                 robot.keyPress(KeyEvent.VK_TAB);
+                break;
+            case "O":
+                txt.setText("");
+                txt.setText(Skill.OP.getType());
+                skill = Skill.OP.getType();
+                cmbScore.setSelectedItem(5);
+                break;
+            case "T":
+                txt.setText("");
+                txt.setText(Skill.TF.getType());
+                skill = Skill.TF.getType();
+                cmbScore.setSelectedItem(1);
                 break;
             default:
                 txt.setText("");
-                txt.setText("");
+                cmbScore.setSelectedIndex(0);
+                cmbChest.setSelectedIndex(0);
                 break;
         }
 

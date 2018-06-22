@@ -9,6 +9,7 @@ import com.vollyball.bean.MatchBean;
 import com.vollyball.bean.MatchSet;
 import com.vollyball.bean.SetRotationOrder;
 import com.vollyball.bean.SetSubstitution;
+import com.vollyball.bean.SetTimeout;
 import com.vollyball.db.DbUtil;
 import com.vollyball.util.CommonUtil;
 import java.sql.Connection;
@@ -192,6 +193,12 @@ public class MatchDao {
                     }
                 }
 
+                PreparedStatement ps5 = this.con.prepareStatement(CommonUtil.getResourceProperty("insert.matchset.plusminus"));
+                ps5.setInt(1, 0);
+                ps5.setInt(2, 0);
+                ps5.setInt(3, mid);
+                ps5.executeUpdate();
+
             }
 
             db.closeConnection(con);
@@ -266,6 +273,32 @@ public class MatchDao {
                 }
                 ms.setSetSubstitutions(setSubstitutions);
 
+                PreparedStatement ps6 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.matchset.plusminus"));
+                ps6.setInt(1, ms.getId());
+                ResultSet rs6 = ps6.executeQuery();
+
+                while (rs6.next()) {
+                    ms.setOp(rs6.getInt(1));
+                    ms.setTf(rs6.getInt(2));
+
+                }
+
+                List<SetTimeout> setTimeout = new ArrayList<>();
+                PreparedStatement ps7 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.matchset.timeout"));
+                ps7.setInt(1, ms.getId());
+                ResultSet rs7 = ps7.executeQuery();
+
+                while (rs7.next()) {
+                    SetTimeout s = new SetTimeout();
+                    s.setPosition(rs7.getInt(1));
+                    s.setTeam(rs7.getString(2));
+                    s.setScoreA(rs7.getInt(3));
+                    s.setScoreB(rs7.getInt(4));
+                    setTimeout.add(s);
+
+                }
+                ms.setSetTimeout(setTimeout);
+
             }
 
             db.closeConnection(con);
@@ -307,6 +340,49 @@ public class MatchDao {
             ps1.setString(1, score);
             ps1.setInt(2, position);
             ps1.setInt(3, matchEvaluationId);
+            id = ps1.executeUpdate();
+
+            this.db.closeConnection(con);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MatchDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+
+    public int getTimeOutCount(int matchEvaluationId) {
+        int id = 0;
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.matchset.timeout.count"));
+            ps1.setInt(1, matchEvaluationId);
+            ResultSet rs1 = ps1.executeQuery();
+
+            while (rs1.next()) {
+                id = rs1.getInt(1);
+            }
+
+            this.db.closeConnection(con);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MatchDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+
+    public int insertTimeout(SetTimeout st) {
+        int id = 0;
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("insert.matchset.timeout"));
+
+            ps1.setInt(1, st.getPosition());
+            ps1.setString(2, st.getTeam());
+            ps1.setInt(3, st.getScoreA());
+            ps1.setInt(4, st.getScoreB());
+            ps1.setInt(5, st.getMatchEvalId());
             id = ps1.executeUpdate();
 
             this.db.closeConnection(con);
