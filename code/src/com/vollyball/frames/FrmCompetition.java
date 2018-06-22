@@ -26,8 +26,11 @@ public class FrmCompetition extends javax.swing.JFrame {
         setVisible(true);
         PanVolleyCourt pan = new PanVolleyCourt();
         pan.setBounds(0, 0, 571, 324);
-        pan.setValues(0, 0, 300, 300);
+        pan.setValues(98, 77, 471, 161);
+        pan.setValues(473, 162, 345, 77);
+//        pan.repaint();
         this.add(pan);
+        setSize(571, 324);
         validate();
         repaint();
     }
