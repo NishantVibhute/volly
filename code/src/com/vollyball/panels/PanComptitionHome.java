@@ -35,6 +35,17 @@ public class PanComptitionHome extends javax.swing.JPanel {
         Controller.competitionId = cb.getId();
         Controller.panTeams = new PanTeams();
         Controller.panMatches = new PanMatches();
+        panMatches.setBackground(new Color(255, 255, 255));
+        panTeams.setBackground(new Color(57, 74, 108));
+        lblMatch.setForeground(new Color(57, 74, 108));
+        lblTeam.setForeground(new Color(255, 255, 255));
+        panNewButton.setVisible(true);
+        lblNewButton.setText("New Match");
+        Dimension dim = panCompetitionContent.getSize();
+        Controller.panMatches.setBounds(0, 0, dim.width, dim.height);
+        panCompetitionContent.add(Controller.panMatches);
+        Controller.panTeams.setVisible(false);
+        Controller.panMatches.setVisible(true);
     }
 
     /**
@@ -191,10 +202,10 @@ public class PanComptitionHome extends javax.swing.JPanel {
 
     private void lblMatchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMatchMouseClicked
         // TODO add your handling code here:
-       
+
         panMatches.setBackground(new Color(255, 255, 255));
-        panTeams.setBackground(new Color(57,74,108));
-        lblMatch.setForeground(new Color(57,74,108));
+        panTeams.setBackground(new Color(57, 74, 108));
+        lblMatch.setForeground(new Color(57, 74, 108));
         lblTeam.setForeground(new Color(255, 255, 255));
         panNewButton.setVisible(true);
         lblNewButton.setText("New Match");
@@ -210,19 +221,23 @@ public class PanComptitionHome extends javax.swing.JPanel {
         Controller.panTeams.setVisible(true);
         Controller.panMatches.setVisible(false);
         TeamDao teamDao = new TeamDao();
-        
-        panMatches.setBackground(new Color(57,74,108));
+
+        panMatches.setBackground(new Color(57, 74, 108));
         panTeams.setBackground(new Color(255, 255, 255));
-     lblTeam.setForeground(new Color(57,74,108));
+        lblTeam.setForeground(new Color(57, 74, 108));
         lblMatch.setForeground(new Color(255, 255, 255));
         panNewButton.setVisible(true);
         lblNewButton.setText("New Team");
         Dimension dim = panCompetitionContent.getSize();
 //        Controller.panTeams.setBounds(0, 0, dim.width, dim.height);
-        panCompetitionContent.add(Controller.panTeams,BorderLayout.CENTER);
+        panCompetitionContent.add(Controller.panTeams, BorderLayout.CENTER);
+        DefaultTableModel model = (DefaultTableModel) Controller.panTeams.tbTeamList.getModel();
+        for (int i = model.getRowCount() - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+
         List<Team> teams = teamDao.getTeams(Controller.competitionId);
 
-        DefaultTableModel model = (DefaultTableModel) Controller.panTeams.tbTeamList.getModel();
         int i = 0;
         for (Team team : teams) {
             i++;

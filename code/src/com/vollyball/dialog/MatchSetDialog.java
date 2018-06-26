@@ -28,6 +28,7 @@ public class MatchSetDialog {
     int matchId;
     int teamEvaluateId;
     int opponentId;
+    int evaluationType;
 
     public void init() {
         try {
@@ -48,15 +49,16 @@ public class MatchSetDialog {
         }
     }
 
-    public void setSetFields(int setNum, int matchId, int teamEvaluateId, int opponentId) {
+    public void setSetFields(int setNum, int matchId, int teamEvaluateId, int opponentId, int evaluationType) {
         this.setNum = setNum;
         this.matchId = matchId;
         this.teamEvaluateId = teamEvaluateId;
         this.opponentId = opponentId;
+        this.evaluationType = evaluationType;
     }
 
     protected Container createPane() {
-        Controller.panMatchSet = new PanMatchSet(setNum, matchId, teamEvaluateId, opponentId);
+        Controller.panMatchSet = new PanMatchSet(setNum, matchId, teamEvaluateId, opponentId, evaluationType);
 
         return Controller.panMatchSet;
 

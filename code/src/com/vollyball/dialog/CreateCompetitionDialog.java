@@ -32,7 +32,7 @@ public class CreateCompetitionDialog {
             this.dialog.setResizable(false);
             this.dialog.getContentPane().add(createPane());
             this.dialog.pack();
-            this.dialog.setSize(470, 560);
+//            this.dialog.setSize(470, 560);
 
             Dimension Size = Toolkit.getDefaultToolkit().getScreenSize();
             this.dialog.setLocation(new Double((Size.getWidth() / 2) - (dialog.getWidth() / 2)).intValue(), new Double((Size.getHeight() / 2) - (dialog.getHeight() / 2)).intValue());
@@ -57,7 +57,7 @@ public class CreateCompetitionDialog {
         this.dialog.setVisible(true);
     }
 
-    protected void close() {
+    public void close() {
         this.dialog.dispose();
         this.dialog.setVisible(false);
     }

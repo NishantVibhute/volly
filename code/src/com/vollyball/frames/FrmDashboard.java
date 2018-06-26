@@ -5,20 +5,11 @@
  */
 package com.vollyball.frames;
 
-import com.vollyball.bean.CompetitionBean;
 import com.vollyball.controller.Controller;
-import com.vollyball.dao.CompetitionDao;
-import com.vollyball.dialog.CreateCompetitionDialog;
-import com.vollyball.panels.PanCompRow;
 import com.vollyball.panels.PanCompetitionList;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.List;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 
 /**
@@ -26,8 +17,6 @@ import javax.swing.UIManager;
  * @author nishant.vibhute
  */
 public class FrmDashboard extends javax.swing.JFrame {
-
-  
 
     /**
      * Creates new form FrmMain
@@ -37,19 +26,16 @@ public class FrmDashboard extends javax.swing.JFrame {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         Dimension dim = panContent.getSize();
-       Controller.panCompetitionList = new PanCompetitionList();
-        
+        Controller.panCompetitionList = new PanCompetitionList();
+
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
         }
 //        panContent.setSize(500,500);
 //        Controller.panCompetitionList.setBounds(10, 10,500, 500);
-        panContent.add(Controller.panCompetitionList,BorderLayout.CENTER);
+        panContent.add(Controller.panCompetitionList, BorderLayout.CENTER);
     }
-
-   
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -75,6 +61,11 @@ public class FrmDashboard extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(251, 205, 1));
         jLabel1.setText("PES-VB");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -141,7 +132,7 @@ public class FrmDashboard extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(149, 149, 149)
+                .addGap(178, 178, 178)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(178, 178, 178))
         );
@@ -169,6 +160,15 @@ public class FrmDashboard extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        panContent.removeAll();
+        Controller.panCompetitionList = new PanCompetitionList();
+        panContent.add(Controller.panCompetitionList, BorderLayout.CENTER);
+        this.validate();
+        this.repaint();
+    }//GEN-LAST:event_jLabel1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

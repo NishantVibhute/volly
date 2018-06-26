@@ -24,7 +24,9 @@ import javax.swing.UIManager;
  */
 public class PanCompetitionList extends javax.swing.JPanel {
 
-      public PanCompListValue panCompListValue;
+    public PanCompListValue panCompListValue;
+    public CreateCompetitionDialog createCompetitionDialog;
+
     /**
      * Creates new form PanCompetitionList
      */
@@ -32,7 +34,6 @@ public class PanCompetitionList extends javax.swing.JPanel {
         initComponents();
         panCompListValue = new PanCompListValue();
         Dimension dim = panListContent.getSize();
-        
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -40,14 +41,13 @@ public class PanCompetitionList extends javax.swing.JPanel {
         }
 
 //        panCompListValue.setBounds(0, 0, dim.width, dim.height);
-        panListContent.add(panCompListValue,BorderLayout.CENTER);
+        panListContent.add(panCompListValue, BorderLayout.CENTER);
     }
-    
-     public void refresh() {
+
+    public void refresh() {
         panCompListValue.add();
     }
 
-    
     public class PanCompListValue extends JPanel {
 
         CompetitionDao competitionDao = new CompetitionDao();
@@ -73,7 +73,6 @@ public class PanCompetitionList extends javax.swing.JPanel {
                 gbcRow.gridheight = 2;
                 gbcRow.fill = GridBagConstraints.HORIZONTAL;
                 mainList.add(panel, gbcRow, 0);
-                
 
             }
 
@@ -190,11 +189,10 @@ public class PanCompetitionList extends javax.swing.JPanel {
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
-        CreateCompetitionDialog obj = new CreateCompetitionDialog();
-        obj.init();
-        obj.show();
+        createCompetitionDialog = new CreateCompetitionDialog();
+        createCompetitionDialog.init();
+        createCompetitionDialog.show();
     }//GEN-LAST:event_jLabel1MouseClicked
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

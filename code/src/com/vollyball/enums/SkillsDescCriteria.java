@@ -5,6 +5,9 @@
  */
 package com.vollyball.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author nishant.vibhute
@@ -19,7 +22,7 @@ public enum SkillsDescCriteria {
     ServiceF(6, "Receiver Position", 1),
     ServiceG(7, "Score at the time of ace serve", 1),
     ServiceH(8, "Serve in situation", 1),
-    ServiceI(9, "Opponents Setter Position", 1);
+    ServiceI(9, "Setter Position", 1);
 
     int id;
     String type;
@@ -53,6 +56,16 @@ public enum SkillsDescCriteria {
 
     public void setSkillId(int skillId) {
         this.skillId = skillId;
+    }
+
+    public static List<SkillsDescCriteria> getTypeBySkill(int skillId) {
+        List<SkillsDescCriteria> list = new ArrayList<>();
+        for (SkillsDescCriteria e : values()) {
+            if (e.skillId == skillId) {
+                list.add(e);
+            }
+        }
+        return list;
     }
 
 }

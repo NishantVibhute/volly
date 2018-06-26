@@ -16,6 +16,7 @@ import com.vollyball.controller.Controller;
 import com.vollyball.dao.MatchDao;
 import com.vollyball.dao.RallyDao;
 import com.vollyball.dao.TeamDao;
+import com.vollyball.dialog.CreatePanRallyPostEvaluationDialog;
 import com.vollyball.dialog.SetRotationDialog;
 import com.vollyball.dialog.SetSubstituteSelectPlayerDialog;
 import com.vollyball.enums.Skill;
@@ -65,6 +66,7 @@ public class PanMatchSet extends javax.swing.JPanel {
     String currentScore;
     String startTime, endTime;
     int op = 0, tf = 0;
+    int evaluationType;
 
     /**
      * Creates new form PanMatchSet
@@ -74,7 +76,7 @@ public class PanMatchSet extends javax.swing.JPanel {
      * @param teamEvaluateId
      * @param opponentId
      */
-    public PanMatchSet(int setNum, int matchId, int teamEvaluateId, int opponentId) {
+    public PanMatchSet(int setNum, int matchId, int teamEvaluateId, int opponentId, int evaluationType) {
 
         initComponents();
 //        panNext.setVisible(false);
@@ -85,6 +87,7 @@ public class PanMatchSet extends javax.swing.JPanel {
         this.matchId = matchId;
         this.teamEvaluateId = teamEvaluateId;
         this.opponentId = opponentId;
+        this.evaluationType = evaluationType;
         positionMap = new LinkedHashMap<>();
 
         MatchSet ms = matchDao.getMatchSet(setNum, matchId);
@@ -820,7 +823,6 @@ public class PanMatchSet extends javax.swing.JPanel {
                                     .addGap(0, 0, 0)
                                     .addComponent(su1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel5Layout.createSequentialGroup()
-                                    .addGap(0, 0, 0)
                                     .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(0, 0, 0)
                                     .addComponent(pt11, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -849,17 +851,9 @@ public class PanMatchSet extends javax.swing.JPanel {
                                 .addComponent(ro5, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(su5, javax.swing.GroupLayout.Alignment.TRAILING))
                             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel5Layout.createSequentialGroup()
-                                    .addGap(0, 0, 0)
-                                    .addComponent(su6, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel5Layout.createSequentialGroup()
-                                    .addGap(0, 0, 0)
-                                    .addComponent(ro6))
-                                .addGroup(jPanel5Layout.createSequentialGroup()
-                                    .addGap(0, 0, 0)
-                                    .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, 0)))))
-                    .addGap(0, 0, 0)))
+                                .addComponent(su6, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ro6)
+                                .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -898,9 +892,7 @@ public class PanMatchSet extends javax.swing.JPanel {
                         .addComponent(jPanel29, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(but4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel33, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)))
+                    .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ro1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1171,8 +1163,7 @@ public class PanMatchSet extends javax.swing.JPanel {
                                 .addGap(0, 0, 0)
                                 .addComponent(ScoreA4, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, 0)
-                                .addComponent(ScoreA5, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)))
+                                .addComponent(ScoreA5, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(ScoreA6, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
                             .addComponent(ScoreB6)))
@@ -1206,11 +1197,8 @@ public class PanMatchSet extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField1)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, 0)))
+                    .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tm1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1257,7 +1245,6 @@ public class PanMatchSet extends javax.swing.JPanel {
             }
         });
 
-        lblOp.setBackground(new java.awt.Color(255, 255, 255));
         lblOp.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         lblOp.setText("0");
         lblOp.setDisabledTextColor(new java.awt.Color(0, 0, 0));
@@ -1270,7 +1257,6 @@ public class PanMatchSet extends javax.swing.JPanel {
         jTextField43.setEnabled(false);
         jTextField43.setOpaque(false);
 
-        lblTf.setBackground(new java.awt.Color(255, 255, 255));
         lblTf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         lblTf.setText("0");
         lblTf.setDisabledTextColor(new java.awt.Color(0, 0, 0));
@@ -1295,9 +1281,7 @@ public class PanMatchSet extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTf)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jTextField43)
-                        .addGap(0, 0, 0))))
+                    .addComponent(jTextField43)))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1444,25 +1428,22 @@ public class PanMatchSet extends javax.swing.JPanel {
                         .addGap(0, 0, 0)
                         .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                                .addComponent(pos4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pos4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(pos3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(pos2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(pos5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, 0)
-                                .addComponent(pos3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
-                                .addComponent(pos2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addComponent(pos5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, 0)
-                                        .addComponent(pos6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jTextField5))
-                                .addGap(0, 0, 0)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(pos1, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                                    .addComponent(libero))))
-                        .addGap(0, 0, 0))))
+                                .addComponent(pos6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField5))
+                        .addGap(0, 0, 0)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(pos1, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                            .addComponent(libero)))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1476,10 +1457,11 @@ public class PanMatchSet extends javax.swing.JPanel {
                     .addComponent(pos4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pos3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pos2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pos5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pos1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pos6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pos6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(pos5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pos1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1764,46 +1746,52 @@ public class PanMatchSet extends javax.swing.JPanel {
 
     private void lblStartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStartMouseClicked
         // TODO add your handling code here:
-        panNext.setVisible(true);
-        currentRally++;
-        if (this.matchEvaluationId == 0) {
-            MatchSet ms = new MatchSet();
-            ms.setMatchId(matchId);
-            ms.setEvaluationTeamId(teamEvaluateId);
-            ms.setOpponentTeamId(opponentId);
-            ms.setStart_time(lblTime.getText());
-            ms.setEvaluator(txtEvaluator.getText());
-            ms.setSetNo(setNum);
-            ms.setEnd_time("00:00");
-            ms.setDate(CommonUtil.ConvertDateFromNormalToDB(lblDate.getText()));
+        if (evaluationType == 1) {
+            panNext.setVisible(true);
+            currentRally++;
+            if (this.matchEvaluationId == 0) {
+                MatchSet ms = new MatchSet();
+                ms.setMatchId(matchId);
+                ms.setEvaluationTeamId(teamEvaluateId);
+                ms.setOpponentTeamId(opponentId);
+                ms.setStart_time(lblTime.getText());
+                ms.setEvaluator(txtEvaluator.getText());
+                ms.setSetNo(setNum);
+                ms.setEnd_time("00:00");
+                ms.setDate(CommonUtil.ConvertDateFromNormalToDB(lblDate.getText()));
 
-            for (Map.Entry<Integer, Player> entry : positionMap.entrySet()) {
-                SetRotationOrder sro = new SetRotationOrder();
-                sro.setPosition(entry.getKey());
-                sro.setPlayerId(entry.getValue().getId());
-                ms.getRotationOrder().add(sro);
+                for (Map.Entry<Integer, Player> entry : positionMap.entrySet()) {
+                    SetRotationOrder sro = new SetRotationOrder();
+                    sro.setPosition(entry.getKey());
+                    sro.setPlayerId(entry.getValue().getId());
+                    ms.getRotationOrder().add(sro);
+                }
+
+                for (Map.Entry<Integer, Player> entry : positionMap.entrySet()) {
+                    SetSubstitution sro = new SetSubstitution();
+                    sro.setPosition(entry.getKey());
+                    sro.setRotation_player_id(entry.getValue().getId());
+                    ms.getSetSubstitutions().add(sro);
+                }
+
+                matchEvaluationId = matchDao.saveMatchSet(ms);
             }
-
-            for (Map.Entry<Integer, Player> entry : positionMap.entrySet()) {
-                SetSubstitution sro = new SetSubstitution();
-                sro.setPosition(entry.getKey());
-                sro.setRotation_player_id(entry.getValue().getId());
-                ms.getSetSubstitutions().add(sro);
-            }
-
-            matchEvaluationId = matchDao.saveMatchSet(ms);
+            PanRallyBut pnBut = new PanRallyBut();
+            pnBut.setRally(currentRally, matchEvaluationId, positionMap);
+            panRallyList.add(pnBut);
+            panRallyShow.removeAll();
+            panRallyCurrent = new PanRallyLiveEvaluation(currentRally, matchEvaluationId, positionMap);
+            panRallyShow.add(panRallyCurrent);
+            Controller.panMatchSet.validate();
+            Controller.panMatchSet.repaint();
+            panRallyList.remove(panRallyNew);
+            panNext.setVisible(true);
+            butNext.setText("Save");
+        } else {
+            CreatePanRallyPostEvaluationDialog obj = new CreatePanRallyPostEvaluationDialog();
+            obj.init();
+            obj.show();
         }
-        PanRallyBut pnBut = new PanRallyBut();
-        pnBut.setRally(currentRally, matchEvaluationId, positionMap);
-        panRallyList.add(pnBut);
-        panRallyShow.removeAll();
-        panRallyCurrent = new PanRallyLiveEvaluation(currentRally, matchEvaluationId, positionMap);
-        panRallyShow.add(panRallyCurrent);
-        Controller.panMatchSet.validate();
-        Controller.panMatchSet.repaint();
-        panRallyList.remove(panRallyNew);
-        panNext.setVisible(true);
-        butNext.setText("Save");
 
     }//GEN-LAST:event_lblStartMouseClicked
 

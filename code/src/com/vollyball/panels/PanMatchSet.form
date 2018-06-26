@@ -382,7 +382,6 @@
                                               <Component id="su1" min="-2" pref="45" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="1" attributes="0">
-                                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                                               <Component id="jTextField29" min="-2" pref="99" max="-2" attributes="0"/>
                                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                                               <Component id="pt11" min="-2" pref="45" max="-2" attributes="0"/>
@@ -419,23 +418,12 @@
                                           <Component id="su5" alignment="1" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                              <Component id="su6" min="-2" pref="45" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                              <Component id="ro6" max="32767" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                              <Component id="jPanel33" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                          </Group>
+                                          <Component id="su6" min="-2" pref="45" max="-2" attributes="0"/>
+                                          <Component id="ro6" max="32767" attributes="0"/>
+                                          <Component id="jPanel33" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
@@ -487,10 +475,7 @@
                                   <Component id="but4" alignment="1" max="32767" attributes="0"/>
                                   <Component id="jPanel33" alignment="1" max="32767" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="jLabel25" min="-2" pref="27" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jLabel25" min="-2" pref="27" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jTextField12" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -1298,7 +1283,6 @@
                                           <Component id="ScoreA4" min="-2" pref="55" max="-2" attributes="0"/>
                                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                                           <Component id="ScoreA5" min="-2" pref="55" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -1345,13 +1329,8 @@
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jTextField1" max="32767" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jPanel17" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jPanel18" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jPanel17" min="-2" max="-2" attributes="0"/>
+                              <Component id="jPanel18" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jTextField17" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -1816,10 +1795,7 @@
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="lblTf" max="32767" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <Component id="jTextField43" max="32767" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jTextField43" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -1863,9 +1839,6 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="lblOp">
                   <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                    </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="text" type="java.lang.String" value="0"/>
                     <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -1890,9 +1863,6 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="lblTf">
                   <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                    </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="text" type="java.lang.String" value="0"/>
                     <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -1979,31 +1949,26 @@
                                       <Component id="jPanel12" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="pos4" min="-2" pref="50" max="-2" attributes="0"/>
+                                      <Component id="pos4" min="-2" pref="50" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                                      <Component id="pos3" min="-2" pref="50" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                                      <Component id="pos2" min="-2" pref="50" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Component id="pos5" min="-2" pref="50" max="-2" attributes="0"/>
                                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                              <Component id="pos3" min="-2" pref="50" max="-2" attributes="0"/>
-                                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                              <Component id="pos2" min="-2" pref="50" max="-2" attributes="0"/>
+                                              <Component id="pos6" min="-2" pref="50" max="-2" attributes="0"/>
                                           </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Group type="102" attributes="0">
-                                                      <Component id="pos5" min="-2" pref="50" max="-2" attributes="0"/>
-                                                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                                      <Component id="pos6" min="-2" pref="50" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <Component id="jTextField5" max="32767" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="pos1" pref="50" max="32767" attributes="0"/>
-                                                  <Component id="libero" max="32767" attributes="0"/>
-                                              </Group>
-                                          </Group>
+                                          <Component id="jTextField5" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="pos1" pref="50" max="32767" attributes="0"/>
+                                          <Component id="libero" max="32767" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
                           </Group>
@@ -2023,10 +1988,12 @@
                                   <Component id="pos3" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="pos2" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="pos5" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  <Component id="pos1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="pos6" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="pos5" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                      <Component id="pos1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">

@@ -64,21 +64,23 @@ public class PanNewCompetition extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         txtCompName = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
+        lblHeading = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        butSubmit = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtVenue = new javax.swing.JTextArea();
         panEndDate = new javax.swing.JPanel();
         panStartDate = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox();
-        jComboBox2 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
-        butCancel = new javax.swing.JButton();
+        cmbAgeGroup = new javax.swing.JComboBox();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -91,55 +93,50 @@ public class PanNewCompetition extends javax.swing.JPanel {
 
         txtCompName.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         txtCompName.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtCompName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCompNameKeyReleased(evt);
+            }
+        });
 
-        jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(45, 62, 79));
-        jLabel6.setText("New Competition");
+        jPanel1.setBackground(new java.awt.Color(57, 74, 108));
+
+        lblHeading.setBackground(new java.awt.Color(57, 74, 108));
+        lblHeading.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        lblHeading.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading.setText("New Competition");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addComponent(lblHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel6)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(lblHeading)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(45, 62, 79));
         jLabel1.setText("Name");
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(45, 62, 79));
         jLabel2.setText("Venue");
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(45, 62, 79));
         jLabel3.setText("Start Date");
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(45, 62, 79));
         jLabel4.setText("End Date");
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(45, 62, 79));
         jLabel5.setText("Age group");
-
-        butSubmit.setBackground(new java.awt.Color(45, 62, 79));
-        butSubmit.setText("Submit");
-        butSubmit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butSubmitActionPerformed(evt);
-            }
-        });
 
         txtVenue.setColumns(20);
         txtVenue.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
@@ -172,7 +169,58 @@ public class PanNewCompetition extends javax.swing.JPanel {
             .addGap(0, 28, Short.MAX_VALUE)
         );
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Under", "Open" }));
+        jPanel2.setBackground(new java.awt.Color(57, 74, 108));
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("SAVE");
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+        );
+
+        jPanel4.setBackground(new java.awt.Color(57, 74, 108));
+        jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("CANCEL");
+        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel9MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+        );
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        jComboBox1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select", "Open", "Under" }));
         jComboBox1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBox1ItemStateChanged(evt);
@@ -184,16 +232,32 @@ public class PanNewCompetition extends javax.swing.JPanel {
             }
         });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14", "16", "18", "21" }));
-        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+        cmbAgeGroup.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        cmbAgeGroup.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select", "14", "16", "18", "21" }));
+        cmbAgeGroup.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox2ItemStateChanged(evt);
+                cmbAgeGroupItemStateChanged(evt);
             }
         });
 
-        jButton1.setText("Reset");
-
-        butCancel.setText("Cancel");
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbAgeGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbAgeGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 11, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -201,28 +265,24 @@ public class PanNewCompetition extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(71, 71, 71)
+                .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel5)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1)
                     .addComponent(txtCompName)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addComponent(panEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(butSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(butCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(71, 71, 71))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(35, 35, 35))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,45 +306,15 @@ public class PanNewCompetition extends javax.swing.JPanel {
                 .addComponent(panEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(butSubmit, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(butCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(50, 50, 50))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void butSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butSubmitActionPerformed
-        // TODO add your handling code here:
-        Date selectedStartDate = (Date) datePickerStart.getModel().getValue();
-        String startDate = selectedStartDate + "";
-
-        Date selectedEndDate = (Date) datePickerEnd.getModel().getValue();
-        String endDate = selectedEndDate + "";
-
-        CompetitionBean cb = new CompetitionBean();
-        cb.setName(txtCompName.getText());
-        cb.setVenue(txtVenue.getText());
-        cb.setStartDate(new SimpleDateFormat("yyyy-MM-dd").format(selectedStartDate));
-        cb.setEndDate(new SimpleDateFormat("yyyy-MM-dd").format(selectedEndDate));
-        cb.setAgeGroup(ageGroup);
-        int count = competitionDao.insertCompetition(cb);
-
-        if (count != 0) {
-            JOptionPane.showMessageDialog(this, "Inserted");
-            this.setVisible(false);
-           Controller.panCompetitionList.panCompListValue.setVisible(true);
-            Controller.panCompetitionList.refresh();
-        } else {
-            JOptionPane.showMessageDialog(this, "Failed");
-        }
-
-    }//GEN-LAST:event_butSubmitActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
@@ -298,39 +328,85 @@ public class PanNewCompetition extends javax.swing.JPanel {
 
             if (item.equals("Open")) {
                 ageGroup = "Open";
-            } else {
+                cmbAgeGroup.setVisible(false);
+            } else if (item.equals("Under")) {
                 ageGroup = "";
+                cmbAgeGroup.setVisible(true);
+            } else {
+                ageGroup = "select";
+                cmbAgeGroup.setVisible(false);
             }
             // do something with object
         }
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
-    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+    private void cmbAgeGroupItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbAgeGroupItemStateChanged
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             Object item = evt.getItem();
             ageGroup = "Under " + item;
             // do something with object
         }
-    }//GEN-LAST:event_jComboBox2ItemStateChanged
+    }//GEN-LAST:event_cmbAgeGroupItemStateChanged
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        // TODO add your handling code here:
+
+        // TODO add your handling code here:
+        Date selectedStartDate = (Date) datePickerStart.getModel().getValue();
+        Date selectedEndDate = (Date) datePickerEnd.getModel().getValue();
+        CompetitionBean cb = new CompetitionBean();
+        cb.setName(txtCompName.getText());
+        cb.setVenue(txtVenue.getText());
+        cb.setStartDate(new SimpleDateFormat("yyyy-MM-dd").format(selectedStartDate));
+        cb.setEndDate(new SimpleDateFormat("yyyy-MM-dd").format(selectedEndDate));
+        cb.setAgeGroup(ageGroup);
+        int count = competitionDao.insertCompetition(cb);
+
+        if (count != 0) {
+            JOptionPane.showMessageDialog(this, "Inserted");
+            this.setVisible(false);
+            Controller.panCompetitionList.panCompListValue.setVisible(true);
+            Controller.panCompetitionList.refresh();
+            Controller.panCompetitionList.createCompetitionDialog.close();
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed");
+        }
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+        // TODO add your handling code here:
+        Controller.panCompetitionList.createCompetitionDialog.close();
+    }//GEN-LAST:event_jLabel9MouseClicked
+
+    private void txtCompNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCompNameKeyReleased
+        // TODO add your handling code here:
+
+        lblHeading.setText(txtCompName.getText());
+        if (txtCompName.getText().equals("")) {
+            lblHeading.setText("New Competition");
+        }
+    }//GEN-LAST:event_txtCompNameKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton butCancel;
-    private javax.swing.JButton butSubmit;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox cmbAgeGroup;
     private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblHeading;
     private javax.swing.JPanel panEndDate;
     private javax.swing.JPanel panStartDate;
     private javax.swing.JTextField txtCompName;
