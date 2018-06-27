@@ -86,7 +86,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        txtSkill.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        txtSkill.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         txtSkill.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtSkill.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
         txtSkill.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -95,7 +95,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
             }
         });
 
-        cmbChest.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        cmbChest.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         cmbChest.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "" }));
         cmbChest.setToolTipText("");
         cmbChest.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
@@ -105,7 +105,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
             }
         });
 
-        cmbScore.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        cmbScore.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         cmbScore.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "" }));
         cmbScore.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
         cmbScore.addItemListener(new java.awt.event.ItemListener() {
@@ -176,41 +176,58 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
         String item = String.valueOf(evt.getItem());
         if (!evt.getItem().equals("")) {
             if (!p.isInserted) {
-                switch (item) {
-
-                    case "1":
-                        Controller.panMatchSet.opponentScore++;
-                        p.lblResult.setText(Controller.panMatchSet.homeScore + " - " + Controller.panMatchSet.opponentScore);
-                        SimpleDateFormat formatterTime = new SimpleDateFormat("HH:mm:ss");
-                        Date time = new Date();
-                        p.endTime = formatterTime.format(time);
-                        p.lblRallyEndTime.setText(p.endTime);
-                        break;
-                    case "5":
-                        if (skill.equals(Skill.Service.getType()) || skill.equals(Skill.Attack.getType()) || skill.equals(Skill.Block.getType()) || skill.equals(Skill.OP.getType())) {
-                            Controller.panMatchSet.homeScore++;
-                            p.lblResult.setText(Controller.panMatchSet.homeScore + " - " + Controller.panMatchSet.opponentScore);
-                            SimpleDateFormat formatterTime1 = new SimpleDateFormat("HH:mm:ss");
-                            Date time1 = new Date();
-                            p.endTime = formatterTime1.format(time1);
-                            p.lblRallyEndTime.setText(p.endTime);
-                        } else {
-                            if (!p.isInserted) {
-                                p.refresh();
-                                robot.keyPress(KeyEvent.VK_TAB);
-                            }
-                        }
-                        break;
-                    default:
-                        p.refresh();
-                        robot.keyPress(KeyEvent.VK_TAB);
+                if (p.evaluationType == 2) {
+                    Controller.panMatchSet.panRallyShow.removeAll();
+                    PanRallyPostEvaluation panRallyPostEvaluation = new PanRallyPostEvaluation(item, this);
+                    Controller.panMatchSet.panRallyShow.add(panRallyPostEvaluation);
+                    Controller.panMatchSet.panRallyShow.validate();
+                    Controller.panMatchSet.panRallyShow.repaint();
+                } else {
+                    setRallyRow(item);
                 }
             }
         }
 
     }//GEN-LAST:event_cmbScoreItemStateChanged
 
+    public void setRallyRow(String item) {
+//        Controller.panMatchSet.panRallyShow.removeAll();
+//        Controller.panMatchSet.panRallyShow.add(p);
+//        Controller.panMatchSet.panRallyShow.validate();
+//        Controller.panMatchSet.panRallyShow.repaint();
+        switch (item) {
+
+            case "1":
+                Controller.panMatchSet.opponentScore++;
+                p.lblResult.setText(Controller.panMatchSet.homeScore + " : " + Controller.panMatchSet.opponentScore);
+                SimpleDateFormat formatterTime = new SimpleDateFormat("HH:mm:ss");
+                Date time = new Date();
+                p.endTime = formatterTime.format(time);
+                p.lblRallyEndTime.setText(p.endTime);
+                break;
+            case "5":
+                if (skill.equals(Skill.Service.getType()) || skill.equals(Skill.Attack.getType()) || skill.equals(Skill.Block.getType()) || skill.equals(Skill.OP.getType())) {
+                    Controller.panMatchSet.homeScore++;
+                    p.lblResult.setText(Controller.panMatchSet.homeScore + " : " + Controller.panMatchSet.opponentScore);
+                    SimpleDateFormat formatterTime1 = new SimpleDateFormat("HH:mm:ss");
+                    Date time1 = new Date();
+                    p.endTime = formatterTime1.format(time1);
+                    p.lblRallyEndTime.setText(p.endTime);
+                } else {
+                    if (!p.isInserted) {
+                        p.refresh();
+                        robot.keyPress(KeyEvent.VK_TAB);
+                    }
+                }
+                break;
+            default:
+                p.refresh();
+                robot.keyPress(KeyEvent.VK_TAB);
+        }
+    }
+
     public void setValue(JTextField txt, char key) {
+
         switch (("" + key).toUpperCase()) {
             case "S":
                 txt.setText("");

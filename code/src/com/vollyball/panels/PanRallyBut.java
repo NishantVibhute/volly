@@ -17,6 +17,7 @@ public class PanRallyBut extends javax.swing.JPanel {
 
     int rallyNum;
     int evaluationId;
+    int evaluationType;
     public LinkedHashMap<Integer, Player> positionMap;
 
     /**
@@ -26,11 +27,12 @@ public class PanRallyBut extends javax.swing.JPanel {
         initComponents();
     }
 
-    public void setRally(int i, int evaluationId, LinkedHashMap<Integer, Player> positionMap) {
+    public void setRally(int i, int evaluationId, LinkedHashMap<Integer, Player> positionMap, int evaluationType) {
         butRally.setText("" + i);
         this.rallyNum = i;
         this.evaluationId = evaluationId;
         this.positionMap = positionMap;
+        this.evaluationType = evaluationType;
 
     }
 
@@ -72,7 +74,7 @@ public class PanRallyBut extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void butRallyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butRallyMouseClicked
-        Controller.panMatchSet.panRallyCurrent = new PanRallyLiveEvaluation(rallyNum, evaluationId, positionMap);
+        Controller.panMatchSet.panRallyCurrent = new PanRallyLiveEvaluation(rallyNum, evaluationId, positionMap, evaluationType);
         Controller.panMatchSet.panNext.setVisible(true);
         Controller.panMatchSet.panRallyShow.removeAll();
         Controller.panMatchSet.panRallyShow.add(Controller.panMatchSet.panRallyCurrent);
