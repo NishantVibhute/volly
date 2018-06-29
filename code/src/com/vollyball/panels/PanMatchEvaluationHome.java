@@ -12,6 +12,7 @@ import com.vollyball.dao.TeamDao;
 import com.vollyball.dialog.MatchSetDialog;
 import com.vollyball.dialog.SelectTeamPlayerDialog;
 import java.util.LinkedHashMap;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -442,10 +443,7 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
 
     private void set1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_set1MouseClicked
         // TODO add your handling code here:
-        MatchSetDialog obj = new MatchSetDialog();
-        obj.setSetFields(1, this.matchId, this.evaluatingTeam, this.opponentTeam, evaluationType);
-        obj.init();
-        obj.show();
+        showPanMatchSet(1);
     }//GEN-LAST:event_set1MouseClicked
 
     private void selectHomeTeamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectHomeTeamMouseClicked
@@ -463,35 +461,36 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
 
     private void set2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_set2MouseClicked
         // TODO add your handling code here:
-        MatchSetDialog obj = new MatchSetDialog();
-        obj.setSetFields(2, this.matchId, this.evaluatingTeam, this.opponentTeam, evaluationType);
-        obj.init();
-        obj.show();
+        showPanMatchSet(2);
     }//GEN-LAST:event_set2MouseClicked
 
     private void set3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_set3MouseClicked
         // TODO add your handling code here:
-        MatchSetDialog obj = new MatchSetDialog();
-        obj.setSetFields(3, this.matchId, this.evaluatingTeam, this.opponentTeam, evaluationType);
-        obj.init();
-        obj.show();
+        showPanMatchSet(3);
     }//GEN-LAST:event_set3MouseClicked
 
     private void set4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_set4MouseClicked
         // TODO add your handling code here:
-        MatchSetDialog obj = new MatchSetDialog();
-        obj.setSetFields(4, this.matchId, this.evaluatingTeam, this.opponentTeam, evaluationType);
-        obj.init();
-        obj.show();
+        showPanMatchSet(4);
     }//GEN-LAST:event_set4MouseClicked
 
     private void set5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_set5MouseClicked
         // TODO add your handling code here:
-        MatchSetDialog obj = new MatchSetDialog();
-        obj.setSetFields(5, this.matchId, this.evaluatingTeam, this.opponentTeam, evaluationType);
-        obj.init();
-        obj.show();
+        showPanMatchSet(5);
     }//GEN-LAST:event_set5MouseClicked
+
+    public void showPanMatchSet(int set) {
+
+        if (this.evaluatingTeam == 0) {
+            JOptionPane.showMessageDialog(this, "Please Select Evaluation Team", "Error", 2);
+        } else {
+            MatchSetDialog obj = new MatchSetDialog();
+            obj.setSetFields(set, this.matchId, this.evaluatingTeam, this.opponentTeam, evaluationType);
+            obj.init();
+            obj.show();
+        }
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel10;

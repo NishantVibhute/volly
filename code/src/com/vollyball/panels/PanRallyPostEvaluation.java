@@ -6,11 +6,17 @@
 package com.vollyball.panels;
 
 import com.vollyball.controller.Controller;
+import com.vollyball.dialog.CreateDiagram;
+import com.vollyball.enums.Skill;
 import com.vollyball.enums.SkillsDescCriteria;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
@@ -23,16 +29,19 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
 
     public PanSkillDetailsListValue panSkillDetailsListValue;
     PanRallyEvaluationRow p;
-
+    public List<PanPostSkillDetailsCriteriaRow> panListRow = new ArrayList<>();
+    LinkedHashMap<Integer, String> detailsValues = new LinkedHashMap<Integer, String>();
     String item;
+    int skillId;
 
     /**
      * Creates new form PanRallyPostEvaluation
      */
-    public PanRallyPostEvaluation(String item, PanRallyEvaluationRow p) {
+    public PanRallyPostEvaluation(String item, PanRallyEvaluationRow p, String skill) {
         initComponents();
         this.p = p;
         this.item = item;
+        this.skillId = Skill.getIdByName(skill).getId();
         panSkillDetailsListValue = new PanSkillDetailsListValue();
         Controller.panMatchSet.panButton.setVisible(false);
         try {
@@ -61,9 +70,9 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
             add(new JScrollPane(mainList));
 
             int i = 0;
-            List<SkillsDescCriteria> list = SkillsDescCriteria.getTypeBySkill(1);
+            List<SkillsDescCriteria> list = SkillsDescCriteria.getTypeBySkill(skillId);
             for (SkillsDescCriteria cb : list) {
-                JPanel panel = new PanPostSkillDetailsCriteriaRow(cb.getType());
+                PanPostSkillDetailsCriteriaRow panel = new PanPostSkillDetailsCriteriaRow(cb.getType());
 //                panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
                 GridBagConstraints gbcRow = new GridBagConstraints();
                 gbcRow.gridwidth = GridBagConstraints.REMAINDER;
@@ -71,6 +80,7 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
                 gbcRow.gridheight = 2;
                 gbcRow.fill = GridBagConstraints.HORIZONTAL;
                 mainList.add(panel, gbcRow, i);
+                panListRow.add(panel);
                 i++;
 
             }
@@ -97,6 +107,7 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -161,15 +172,25 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
         jPanel6.setBackground(new java.awt.Color(54, 78, 108));
         jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("DIAGRAM");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -199,9 +220,7 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panSkillDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,12 +254,31 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         // TODO add your handling code here:
 
+        for (int i = 0; i < panListRow.size(); i++) {
+            try {
+                PanPostSkillDetailsCriteriaRow panRallyEvaluationRow = panListRow.get(i);
+                detailsValues.put(panRallyEvaluationRow.skillDescId, panRallyEvaluationRow.value);
+            } catch (Exception ex) {
+                Logger.getLogger(PanRallyLiveEvaluation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        p.setDetailsValues(detailsValues);
         p.setRallyRow(item);
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        // TODO add your handling code here:
+
+        CreateDiagram cd = new CreateDiagram();
+        cd.init();
+        cd.show();
+
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

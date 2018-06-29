@@ -15,6 +15,7 @@ import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +33,8 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
     TeamDao teamDao = new TeamDao();
     int num = 0;
     String skill;
+    boolean isDetailed;
+    LinkedHashMap<Integer, String> detailsValues = new LinkedHashMap<Integer, String>();
 
     /**
      * Creates new form PanRallyEvaluationRow
@@ -177,8 +180,9 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
         if (!evt.getItem().equals("")) {
             if (!p.isInserted) {
                 if (p.evaluationType == 2) {
+                    isDetailed = true;
                     Controller.panMatchSet.panRallyShow.removeAll();
-                    PanRallyPostEvaluation panRallyPostEvaluation = new PanRallyPostEvaluation(item, this);
+                    PanRallyPostEvaluation panRallyPostEvaluation = new PanRallyPostEvaluation(item, this, skill);
                     Controller.panMatchSet.panRallyShow.add(panRallyPostEvaluation);
                     Controller.panMatchSet.panRallyShow.validate();
                     Controller.panMatchSet.panRallyShow.repaint();
@@ -191,10 +195,13 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
     }//GEN-LAST:event_cmbScoreItemStateChanged
 
     public void setRallyRow(String item) {
-//        Controller.panMatchSet.panRallyShow.removeAll();
-//        Controller.panMatchSet.panRallyShow.add(p);
-//        Controller.panMatchSet.panRallyShow.validate();
-//        Controller.panMatchSet.panRallyShow.repaint();
+        if (p.evaluationType == 2) {
+            Controller.panMatchSet.panRallyShow.removeAll();
+            Controller.panMatchSet.panRallyShow.add(p);
+            Controller.panMatchSet.panRallyShow.validate();
+            Controller.panMatchSet.panRallyShow.repaint();
+            Controller.panMatchSet.panButton.setVisible(true);
+        }
         switch (item) {
 
             case "1":
@@ -284,6 +291,14 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
                 break;
         }
 
+    }
+
+    public LinkedHashMap<Integer, String> getDetailsValues() {
+        return detailsValues;
+    }
+
+    public void setDetailsValues(LinkedHashMap<Integer, String> detailsValues) {
+        this.detailsValues = detailsValues;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

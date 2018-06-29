@@ -56,7 +56,7 @@ public class CreateTeamDialog {
         this.dialog.setVisible(true);
     }
 
-    protected void close() {
+    public void close() {
         this.dialog.dispose();
         this.dialog.setVisible(false);
     }

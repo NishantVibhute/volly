@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/old%20data/Personal/Madhuri%20sadgir/volly/code/src/com/vollyball/panels/PanRallyBut.java</file>
-            <file>file:/E:/old%20data/Personal/Madhuri%20sadgir/volly/code/src/com/vollyball/frames/FrmCompetition.java</file>
+            <file>file:/E:/old%20data/Personal/Madhuri%20sadgir/volly/code/src/com/vollyball/panels/PanSelectPlayers.java</file>
             <file>file:/E:/old%20data/Personal/Madhuri%20sadgir/volly/code/src/com/vollyball/panels/PanRallyLiveEvaluation.java</file>
-            <file>file:/E:/old%20data/Personal/Madhuri%20sadgir/volly/code/src/com/vollyball/panels/PanRallyPostEvaluation.java</file>
-            <file>file:/E:/old%20data/Personal/Madhuri%20sadgir/volly/code/src/com/vollyball/panels/PanMatchSet.java</file>
-            <file>file:/E:/old%20data/Personal/Madhuri%20sadgir/volly/code/src/com/vollyball/panels/PanRallyEvaluationRow.java</file>
-            <file>file:/E:/old%20data/Personal/Madhuri%20sadgir/volly/code/src/com/vollyball/dao/MatchDao.java</file>
+            <file>file:/E:/old%20data/Personal/Madhuri%20sadgir/volly/code/src/com/vollyball/panels/PanNewTeam.java</file>
+            <file>file:/E:/old%20data/Personal/Madhuri%20sadgir/volly/code/src/com/vollyball/panels/PanPostSkillDetailsCriteriaRow.java</file>
         </group>
     </open-files>
 </project-private>

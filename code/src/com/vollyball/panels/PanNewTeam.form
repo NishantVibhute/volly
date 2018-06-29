@@ -152,15 +152,10 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="jLabel18" max="32767" attributes="0"/>
-                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jLabel18" pref="90" max="32767" attributes="0"/>
+                              <Component id="jLabel2" max="32767" attributes="0"/>
                           </Group>
+                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           <Component id="txtTeamName" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
@@ -170,8 +165,8 @@
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="jLabel20" min="-2" pref="82" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="txtCoachName1" min="-2" pref="171" max="-2" attributes="0"/>
                               <Component id="txtrainerName" min="-2" pref="171" max="-2" attributes="0"/>
@@ -244,7 +239,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="4f" green="3e" red="2d" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Team Name"/>
+            <Property name="text" type="java.lang.String" value="Team Name*"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtTeamName">
@@ -260,7 +255,6 @@
           </Properties>
           <Events>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTeamNameKeyPressed"/>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTeamNameKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
@@ -271,7 +265,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="4f" green="3e" red="2d" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Coach Name"/>
+            <Property name="text" type="java.lang.String" value="Coach Name*"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtCoachName">
@@ -308,9 +302,6 @@
               </Border>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtAsstCoachNameActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtAnalyzerName">
           <Properties>
@@ -346,9 +337,6 @@
               </Border>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtMedOffNameActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
@@ -392,7 +380,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="4f" green="3e" red="2d" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Short Code"/>
+            <Property name="text" type="java.lang.String" value="Short Code*"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtCoachName1">
@@ -581,7 +569,7 @@
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="txtChest1" min="-2" pref="70" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="cmbPositon1" min="-2" pref="159" max="-2" attributes="0"/>
+                              <Component id="cmbPositon1" min="-2" pref="160" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
@@ -631,19 +619,13 @@
                                                                                                           <Group type="102" attributes="0">
                                                                                                               <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
                                                                                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                                                                                  <Group type="102" attributes="0">
-                                                                                                                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                                                                                                      <Group type="103" groupAlignment="3" attributes="0">
-                                                                                                                          <Component id="txtPlayerName1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                                                                                                          <Component id="txtChest1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                                                                                                          <Component id="cmbPositon1" min="-2" pref="30" max="-2" attributes="0"/>
-                                                                                                                          <Component id="jTextField2" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                                                                                                      </Group>
+                                                                                                                  <Group type="103" groupAlignment="3" attributes="0">
+                                                                                                                      <Component id="txtPlayerName1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                                                                                                      <Component id="txtChest1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                                                                                                      <Component id="cmbPositon1" min="-2" pref="30" max="-2" attributes="0"/>
+                                                                                                                      <Component id="jTextField2" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                                                                                                   </Group>
-                                                                                                                  <Group type="102" alignment="1" attributes="0">
-                                                                                                                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                                                                                                      <Component id="jPanel12" min="-2" max="-2" attributes="0"/>
-                                                                                                                  </Group>
+                                                                                                                  <Component id="jPanel12" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                                                               </Group>
                                                                                                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                                                                                                               <Group type="103" groupAlignment="3" attributes="0">
@@ -746,11 +728,13 @@
                                           <Component id="jPanel24" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="txtPlayerName12" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                          <Component id="cmbPositon12" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                          <Component id="jTextField68" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="txtChest12" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="txtPlayerName12" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                              <Component id="cmbPositon12" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                              <Component id="jTextField68" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                   </Group>
                                   <Component id="jPanel25" min="-2" max="-2" attributes="0"/>
@@ -766,16 +750,15 @@
                           <Component id="jPanel26" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txtPlayerName14" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                              <Component id="cmbPositon14" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                              <Component id="jTextField69" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="txtChest14" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="txtPlayerName14" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="cmbPositon14" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="jTextField69" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jPanel27" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jPanel27" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   </Group>
@@ -820,7 +803,8 @@
                 <Component class="javax.swing.JLabel" name="jLabel8">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="First Name and Last Name"/>
+                    <Property name="text" type="java.lang.String" value="NAME"/>
+                    <Property name="toolTipText" type="java.lang.String" value=""/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                         <LineBorder/>
@@ -831,7 +815,7 @@
                 <Component class="javax.swing.JLabel" name="jLabel10">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Chest No."/>
+                    <Property name="text" type="java.lang.String" value="CHEST No."/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                         <LineBorder/>
@@ -842,7 +826,7 @@
                 <Component class="javax.swing.JLabel" name="jLabel11">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Position"/>
+                    <Property name="text" type="java.lang.String" value="POSITION"/>
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -865,7 +849,7 @@
                 <Component class="javax.swing.JLabel" name="jLabel19">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Captain"/>
+                    <Property name="text" type="java.lang.String" value="CAPTAIN"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                         <LineBorder/>
@@ -895,7 +879,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtChest1ActionPerformed"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtChest1FocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="cmbPositon1">
@@ -965,7 +949,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtChest2ActionPerformed"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtChest2FocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="cmbPositon2">
@@ -1016,7 +1000,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtChest3ActionPerformed"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtChest3FocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="cmbPositon3">
@@ -1067,7 +1051,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtChest4ActionPerformed"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtChest4FocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="cmbPositon4">
@@ -1118,7 +1102,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtChest5ActionPerformed"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtChest5FocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="cmbPositon5">
@@ -1169,7 +1153,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtChest6ActionPerformed"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtChest6FocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="cmbPositon6">
@@ -1220,7 +1204,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtChest7ActionPerformed"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtChest7FocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="cmbPositon7">
@@ -1271,7 +1255,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtChest8ActionPerformed"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtChest8FocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="cmbPositon8">
@@ -1322,7 +1306,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtChest9ActionPerformed"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtChest9FocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="cmbPositon9">
@@ -1373,7 +1357,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtChest10ActionPerformed"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtChest10FocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="cmbPositon10">
@@ -1424,7 +1408,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtChest11ActionPerformed"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtChest11FocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="cmbPositon11">
@@ -1475,7 +1459,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtChest12ActionPerformed"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtChest12FocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="cmbPositon12">
@@ -1552,7 +1536,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtChest13ActionPerformed"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtChest13FocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtChest14">
@@ -1565,7 +1549,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtChest14ActionPerformed"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtChest14FocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="cmbPositon14">
@@ -1623,6 +1607,9 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCheckBox1ItemStateChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1657,6 +1644,9 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox2">
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCheckBox2ItemStateChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1691,6 +1681,9 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox3">
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCheckBox3ItemStateChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1725,6 +1718,9 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox4">
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCheckBox4ItemStateChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1759,6 +1755,9 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox5">
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCheckBox5ItemStateChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1793,6 +1792,9 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox6">
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCheckBox6ItemStateChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1827,6 +1829,9 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox7">
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCheckBox7ItemStateChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1861,6 +1866,9 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox8">
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCheckBox8ItemStateChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1895,6 +1903,9 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox9">
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCheckBox9ItemStateChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1929,6 +1940,9 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox10">
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCheckBox10ItemStateChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1963,6 +1977,9 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox11">
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCheckBox11ItemStateChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1997,6 +2014,9 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox12">
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCheckBox12ItemStateChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -2031,6 +2051,9 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox13">
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCheckBox13ItemStateChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -2065,6 +2088,9 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox14">
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCheckBox14ItemStateChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -2091,10 +2117,9 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
-                  <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="jPanel7" min="-2" pref="656" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -2120,11 +2145,11 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="230" max="-2" attributes="0"/>
                       <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="68" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                       <Component id="jPanel11" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="230" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -2223,6 +2248,9 @@
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="text" type="java.lang.String" value="CANCEL"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel17MouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

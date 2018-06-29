@@ -5,6 +5,8 @@
  */
 package com.vollyball.panels;
 
+import com.sun.jna.Native;
+import com.sun.jna.NativeLibrary;
 import com.vollyball.bean.MatchSet;
 import com.vollyball.bean.Player;
 import com.vollyball.bean.RallyEvaluation;
@@ -22,6 +24,8 @@ import com.vollyball.dialog.SetSubstituteSelectPlayerDialog;
 import com.vollyball.enums.Skill;
 import com.vollyball.util.CommonUtil;
 import java.awt.BorderLayout;
+import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,6 +39,12 @@ import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import uk.co.caprica.vlcj.binding.LibVlc;
+import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
+import uk.co.caprica.vlcj.player.MediaPlayerFactory;
+import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
+import uk.co.caprica.vlcj.runtime.RuntimeUtil;
+import uk.co.caprica.vlcj.runtime.x.LibXUtil;
 
 /**
  *
@@ -80,6 +90,9 @@ public class PanMatchSet extends javax.swing.JPanel {
 
         initComponents();
 
+        if (evaluationType == 2) {
+            initializePlayer();
+        }
         playerList = teamDao.getTeamPlayers(teamEvaluateId);
         panRallyList.setLayout(new FlowLayout(FlowLayout.LEFT));
         this.setNum = setNum;
@@ -220,10 +233,6 @@ public class PanMatchSet extends javax.swing.JPanel {
         return panRallyMap;
     }
 
-    public void mediaPlayer() {
-        setLayout(new BorderLayout());
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -349,11 +358,15 @@ public class PanMatchSet extends javax.swing.JPanel {
         panRallyList = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        txtEvaluator = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         lblDate = new javax.swing.JLabel();
         lblTime = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        txtEvaluator = new javax.swing.JTextField();
         panShowRallyInput = new javax.swing.JPanel();
+        panPlayer = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(1024, 768));
 
@@ -403,15 +416,15 @@ public class PanMatchSet extends javax.swing.JPanel {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblopponentName, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 31, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblScore, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(66, 66, 66)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
                 .addComponent(lblWonBy, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -458,7 +471,7 @@ public class PanMatchSet extends javax.swing.JPanel {
         jTextField29.setEnabled(false);
         jTextField29.setOpaque(false);
 
-        pt11.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        pt11.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         pt11.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt11.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt11.setEnabled(false);
@@ -470,25 +483,25 @@ public class PanMatchSet extends javax.swing.JPanel {
         pt12.setEnabled(false);
         pt12.setOpaque(false);
 
-        pt13.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        pt13.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         pt13.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt13.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt13.setEnabled(false);
         pt13.setOpaque(false);
 
-        pt14.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        pt14.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         pt14.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt14.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt14.setEnabled(false);
         pt14.setOpaque(false);
 
-        pt15.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        pt15.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         pt15.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt15.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt15.setEnabled(false);
         pt15.setOpaque(false);
 
-        pt16.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        pt16.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         pt16.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt16.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt16.setEnabled(false);
@@ -501,37 +514,37 @@ public class PanMatchSet extends javax.swing.JPanel {
         jTextField36.setEnabled(false);
         jTextField36.setOpaque(false);
 
-        pt21.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        pt21.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         pt21.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt21.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt21.setEnabled(false);
         pt21.setOpaque(false);
 
-        pt22.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        pt22.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         pt22.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt22.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt22.setEnabled(false);
         pt22.setOpaque(false);
 
-        pt23.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        pt23.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         pt23.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt23.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt23.setEnabled(false);
         pt23.setOpaque(false);
 
-        pt24.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        pt24.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         pt24.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt24.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt24.setEnabled(false);
         pt24.setOpaque(false);
 
-        pt25.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        pt25.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         pt25.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt25.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt25.setEnabled(false);
         pt25.setOpaque(false);
 
-        pt26.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        pt26.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         pt26.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt26.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt26.setEnabled(false);
@@ -563,73 +576,73 @@ public class PanMatchSet extends javax.swing.JPanel {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        su1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        su1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         su1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         su1.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         su1.setEnabled(false);
         su1.setOpaque(false);
 
-        su2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        su2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         su2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         su2.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         su2.setEnabled(false);
         su2.setOpaque(false);
 
-        su3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        su3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         su3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         su3.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         su3.setEnabled(false);
         su3.setOpaque(false);
 
-        su4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        su4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         su4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         su4.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         su4.setEnabled(false);
         su4.setOpaque(false);
 
-        su5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        su5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         su5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         su5.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         su5.setEnabled(false);
         su5.setOpaque(false);
 
-        su6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        su6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         su6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         su6.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         su6.setEnabled(false);
         su6.setOpaque(false);
 
-        ro1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        ro1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ro1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ro1.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ro1.setEnabled(false);
         ro1.setOpaque(false);
 
-        ro2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        ro2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ro2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ro2.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ro2.setEnabled(false);
         ro2.setOpaque(false);
 
-        ro5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        ro5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ro5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ro5.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ro5.setEnabled(false);
         ro5.setOpaque(false);
 
-        ro6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        ro6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ro6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ro6.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ro6.setEnabled(false);
         ro6.setOpaque(false);
 
-        ro3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        ro3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ro3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ro3.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ro3.setEnabled(false);
         ro3.setOpaque(false);
 
-        ro4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        ro4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ro4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ro4.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ro4.setEnabled(false);
@@ -804,70 +817,67 @@ public class PanMatchSet extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addComponent(pt26, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(su1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(pt11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(pt12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(su2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(pt13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(pt14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(pt15, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(pt16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(su3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(su4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ro4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(but4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ro5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(su5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(su6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ro6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, 0)
-                                        .addComponent(su1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, 0)
-                                        .addComponent(pt11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(pt12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(su2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(pt13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
-                                .addComponent(pt14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
-                                .addComponent(pt15, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
-                                .addComponent(pt16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(su3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(su4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ro4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(but4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(ro5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(su5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(su6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ro6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(ro1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(ro2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, 0)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
-                                .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, 0)
-                                        .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addComponent(ro1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, 0)
-                                        .addComponent(ro2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, 0)
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ro3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                            .addComponent(ro3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -911,14 +921,15 @@ public class PanMatchSet extends javax.swing.JPanel {
                     .addComponent(pt15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pt16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField36, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pt21, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pt22, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pt23, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pt24, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pt25, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pt26, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pt26, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField36, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pt21, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pt22, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pt23, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pt24, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pt25, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0))
         );
 
@@ -1152,8 +1163,7 @@ public class PanMatchSet extends javax.swing.JPanel {
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, 0)
-                                .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(0, 0, 0))
+                                .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel9Layout.createSequentialGroup()
@@ -1181,9 +1191,7 @@ public class PanMatchSet extends javax.swing.JPanel {
                                 .addGap(0, 0, 0)
                                 .addComponent(ScoreA5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel9Layout.createSequentialGroup()
-                                .addComponent(ScoreA6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0))
+                            .addComponent(ScoreA6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ScoreB6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         jPanel9Layout.setVerticalGroup(
@@ -1268,7 +1276,7 @@ public class PanMatchSet extends javax.swing.JPanel {
         jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
 
         lblrotateleft.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblrotateleft.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vollyball/images/rotateleft.png"))); // NOI18N
+        lblrotateleft.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vollyball/images/arrow_rotate_anticlockwise.png"))); // NOI18N
         lblrotateleft.setToolTipText("Rotate Left");
         lblrotateleft.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1277,7 +1285,7 @@ public class PanMatchSet extends javax.swing.JPanel {
         });
 
         lblrotateright.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblrotateright.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vollyball/images/rotateright.png"))); // NOI18N
+        lblrotateright.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vollyball/images/arrow_rotate_clockwise.png"))); // NOI18N
         lblrotateright.setToolTipText("Rotate Right");
         lblrotateright.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1390,6 +1398,7 @@ public class PanMatchSet extends javax.swing.JPanel {
                     .addComponent(libero, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
+        jTextField3.setBackground(new java.awt.Color(0, 0, 0));
         jTextField3.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField3.setText("ROTATION ORDER");
@@ -1402,9 +1411,9 @@ public class PanMatchSet extends javax.swing.JPanel {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField3))
                 .addGap(0, 0, 0))
         );
         jPanel3Layout.setVerticalGroup(
@@ -1518,6 +1527,7 @@ public class PanMatchSet extends javax.swing.JPanel {
         jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         jPanel7.setBackground(new java.awt.Color(57, 74, 108));
+        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         lblRallyHeading.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lblRallyHeading.setForeground(new java.awt.Color(255, 255, 255));
@@ -1528,7 +1538,9 @@ public class PanMatchSet extends javax.swing.JPanel {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblRallyHeading, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(lblRallyHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1567,9 +1579,9 @@ public class PanMatchSet extends javax.swing.JPanel {
         panButtonLayout.setHorizontalGroup(
             panButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panButtonLayout.createSequentialGroup()
-                .addContainerGap(186, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panNext, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(188, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panButtonLayout.setVerticalGroup(
             panButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1583,6 +1595,7 @@ public class PanMatchSet extends javax.swing.JPanel {
         panRallyShow.setLayout(new java.awt.BorderLayout());
 
         panRallyList.setBackground(new java.awt.Color(255, 255, 255));
+        panRallyList.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         panRallyShow.add(panRallyList, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
@@ -1591,7 +1604,7 @@ public class PanMatchSet extends javax.swing.JPanel {
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panRallyShow, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panRallyShow, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1599,8 +1612,8 @@ public class PanMatchSet extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(panRallyShow, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panRallyShow, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addComponent(panButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -1608,17 +1621,39 @@ public class PanMatchSet extends javax.swing.JPanel {
         jPanel19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel8.setText("Name Of Evaluator");
+        jLabel8.setText("Name of Evaluator");
 
-        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel4.setText("Date :");
 
-        lblDate.setBackground(new java.awt.Color(204, 102, 255));
-        lblDate.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        lblDate.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblDate.setBackground(new java.awt.Color(255, 255, 255));
+        lblDate.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
 
-        lblTime.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        lblTime.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblTime.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel5.setText("Time :");
+
+        jPanel11.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        txtEvaluator.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        txtEvaluator.setBorder(null);
+        txtEvaluator.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(txtEvaluator, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(txtEvaluator, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -1627,56 +1662,83 @@ public class PanMatchSet extends javax.swing.JPanel {
             .addGroup(jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtEvaluator, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblDate, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDate, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblTime, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8)
-                        .addComponent(txtEvaluator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(jLabel4))
-                    .addComponent(lblTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel8)))
+                .addGap(5, 5, 5))
         );
 
+        panShowRallyInput.setBackground(new java.awt.Color(255, 255, 255));
         panShowRallyInput.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        panPlayer.setBackground(new java.awt.Color(255, 255, 255));
+        panPlayer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panPlayer.setLayout(new java.awt.BorderLayout());
+
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("LIVE");
+        panPlayer.add(jLabel3, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout panShowRallyInputLayout = new javax.swing.GroupLayout(panShowRallyInput);
         panShowRallyInput.setLayout(panShowRallyInputLayout);
         panShowRallyInputLayout.setHorizontalGroup(
             panShowRallyInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 536, Short.MAX_VALUE)
+            .addGroup(panShowRallyInputLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(panPlayer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(5, 5, 5))
         );
         panShowRallyInputLayout.setVerticalGroup(
             panShowRallyInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(panShowRallyInputLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(panPlayer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(5, 5, 5))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(panShowRallyInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(panShowRallyInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(0, 0, 0)
-                        .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, 0))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1770,49 +1832,53 @@ public class PanMatchSet extends javax.swing.JPanel {
                 newRally();
                 break;
             case "Start":
+                if (txtEvaluator.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "Please Evaluator Name", "Error", 2);
+                } else if (positionMap.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please Set Rotation Order", "Error", 2);
+                } else {
 
-                panNext.setVisible(true);
+                    panNext.setVisible(true);
 //                    currentRally++;
-                if (this.matchEvaluationId == 0) {
-                    MatchSet ms = new MatchSet();
-                    ms.setMatchId(matchId);
-                    ms.setEvaluationTeamId(teamEvaluateId);
-                    ms.setOpponentTeamId(opponentId);
-                    ms.setStart_time(lblTime.getText());
-                    ms.setEvaluator(txtEvaluator.getText());
-                    ms.setSetNo(setNum);
-                    ms.setEnd_time("00:00");
-                    ms.setDate(CommonUtil.ConvertDateFromNormalToDB(lblDate.getText()));
+                    if (this.matchEvaluationId == 0) {
+                        MatchSet ms = new MatchSet();
+                        ms.setMatchId(matchId);
+                        ms.setEvaluationTeamId(teamEvaluateId);
+                        ms.setOpponentTeamId(opponentId);
+                        ms.setStart_time(lblTime.getText());
+                        ms.setEvaluator(txtEvaluator.getText());
+                        ms.setSetNo(setNum);
+                        ms.setEnd_time("00:00");
+                        ms.setDate(CommonUtil.ConvertDateFromNormalToDB(lblDate.getText()));
 
-                    for (Map.Entry<Integer, Player> entry : positionMap.entrySet()) {
-                        SetRotationOrder sro = new SetRotationOrder();
-                        sro.setPosition(entry.getKey());
-                        sro.setPlayerId(entry.getValue().getId());
-                        ms.getRotationOrder().add(sro);
+                        for (Map.Entry<Integer, Player> entry : positionMap.entrySet()) {
+                            SetRotationOrder sro = new SetRotationOrder();
+                            sro.setPosition(entry.getKey());
+                            sro.setPlayerId(entry.getValue().getId());
+                            ms.getRotationOrder().add(sro);
+                        }
+
+                        for (Map.Entry<Integer, Player> entry : positionMap.entrySet()) {
+                            SetSubstitution sro = new SetSubstitution();
+                            sro.setPosition(entry.getKey());
+                            sro.setRotation_player_id(entry.getValue().getId());
+                            ms.getSetSubstitutions().add(sro);
+                        }
+
+                        matchEvaluationId = matchDao.saveMatchSet(ms);
                     }
-
-                    for (Map.Entry<Integer, Player> entry : positionMap.entrySet()) {
-                        SetSubstitution sro = new SetSubstitution();
-                        sro.setPosition(entry.getKey());
-                        sro.setRotation_player_id(entry.getValue().getId());
-                        ms.getSetSubstitutions().add(sro);
-                    }
-
-                    matchEvaluationId = matchDao.saveMatchSet(ms);
-                }
 //                    PanRallyBut pnBut = new PanRallyBut();
 //                    pnBut.setRally(currentRally, matchEvaluationId, positionMap);
 //                    panRallyList.add(pnBut);
-                panRallyShow.removeAll();
-                int rallynum = currentRally + 1;
-                panRallyCurrent = new PanRallyLiveEvaluation(rallynum, matchEvaluationId, positionMap, evaluationType);
-                panRallyShow.add(panRallyCurrent);
-                Controller.panMatchSet.validate();
-                Controller.panMatchSet.repaint();
-
-                panNext.setVisible(true);
-                butNext.setText("Save");
-
+                    panRallyShow.removeAll();
+                    int rallynum = currentRally + 1;
+                    panRallyCurrent = new PanRallyLiveEvaluation(rallynum, matchEvaluationId, positionMap, evaluationType);
+                    panRallyShow.add(panRallyCurrent);
+                    Controller.panMatchSet.validate();
+                    Controller.panMatchSet.repaint();
+                    panNext.setVisible(true);
+                    butNext.setText("Save");
+                }
                 break;
             case "Update":
                 RallyEvaluation rallyUpdate = new RallyEvaluation();
@@ -1883,6 +1949,12 @@ public class PanMatchSet extends javax.swing.JPanel {
                                 rs.setSkillId(Skill.getIdByName(panRallyEvaluationRow.txtSkill.getText()).getId());
 
                                 rs.setScore(Integer.parseInt(String.valueOf(panRallyEvaluationRow.cmbScore.getSelectedItem())));
+
+                                if (panRallyEvaluationRow.isDetailed) {
+                                    rs.setIsDetailed(true);
+                                    rs.setDetailsValues(panRallyEvaluationRow.getDetailsValues());
+                                }
+
                                 rallyInsert.getRallyEvaluationSkillScore().add(rs);
                             }
                         } catch (Exception ex) {
@@ -2175,6 +2247,47 @@ public class PanMatchSet extends javax.swing.JPanel {
 
     }
 
+    public void initializePlayer() {
+        panPlayer.setBackground(Color.BLACK);
+        registerLibrary();
+        final Canvas videoSurface = new Canvas();
+        final List<String> vlcArgs = new ArrayList<String>();
+        configureParameters(vlcArgs);
+        final EmbeddedMediaPlayer mediaPlayer = createPlayer(vlcArgs, videoSurface);
+        panPlayer.add(videoSurface, BorderLayout.CENTER);
+//        mediaPlayer.playMedia("E:\\A Happy Child - CBSE Poem Class -1.mp4");
+        PlayerControlsPanel p1 = new PlayerControlsPanel(mediaPlayer);
+        panPlayer.add(p1, BorderLayout.SOUTH);
+    }
+
+    private void registerLibrary() {
+        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "E:\\VLC\\VLC64");
+        Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
+        LibXUtil.initialise();
+    }
+
+    /**
+     * * Configure VLC parameters
+     */
+    private void configureParameters(final List<String> vlcArgs) {
+        vlcArgs.add("--no-plugins-cache");
+        vlcArgs.add("--no-video-title-show");
+        vlcArgs.add("--no-snapshot-preview"); // Important, if this parameter would not be set on Windows, the app won't work
+        if (RuntimeUtil.isWindows()) {
+            vlcArgs.add("--plugin-path=D:\\vlc-2.2.1\\plugins");
+        }
+    }
+
+    private EmbeddedMediaPlayer createPlayer(final List<String> vlcArgs, final Canvas videoSurface) {
+        EmbeddedMediaPlayerComponent mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
+        EmbeddedMediaPlayer embeddedMediaPlayer = mediaPlayerComponent.getMediaPlayer();
+        MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory(vlcArgs.toArray(new String[vlcArgs.size()]));
+        mediaPlayerFactory.setUserAgent("vlcj test player");
+        embeddedMediaPlayer.setVideoSurface(mediaPlayerFactory.newVideoSurface(videoSurface));
+        embeddedMediaPlayer.setPlaySubItems(true);
+        return embeddedMediaPlayer;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ScoreA1;
     private javax.swing.JTextField ScoreA2;
@@ -2200,12 +2313,15 @@ public class PanMatchSet extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel15;
@@ -2255,9 +2371,10 @@ public class PanMatchSet extends javax.swing.JPanel {
     private javax.swing.JLabel lblrotateleft;
     private javax.swing.JLabel lblrotateright;
     private javax.swing.JTextField libero;
-    public static javax.swing.JPanel panButton;
+    public javax.swing.JPanel panButton;
     public javax.swing.JPanel panNext;
-    private javax.swing.JPanel panRallyList;
+    private javax.swing.JPanel panPlayer;
+    public javax.swing.JPanel panRallyList;
     public javax.swing.JPanel panRallyShow;
     public javax.swing.JPanel panShowRallyInput;
     private javax.swing.JTextField pos1;

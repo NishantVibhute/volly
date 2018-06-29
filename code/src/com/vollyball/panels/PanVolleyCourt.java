@@ -59,7 +59,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         this.y1 = y1;
         this.y2 = y2;
         try {
-            image = ImageIO.read(new File("C:\\Users\\nishant.vibhute.WEBACCESS\\Documents\\NetBeansProjects\\Vollyball\\src\\com\\vollyball\\images\\volleyball court.png"));
+            image = ImageIO.read(new File("src\\com\\vollyball\\images\\volleyball court.png"));
         } catch (IOException ex) {
             Logger.getLogger(PanVolleyCourt.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -5,6 +5,8 @@
  */
 package com.vollyball.bean;
 
+import java.util.LinkedHashMap;
+
 /**
  *
  * @author nishant.vibhute
@@ -18,6 +20,8 @@ public class RallyEvaluationSkillScore {
     int skillId;
     int playerId;
     int rallyId;
+    boolean isDetailed;
+    LinkedHashMap<Integer, String> detailsValues = new LinkedHashMap<Integer, String>();
 
     public int getRallyId() {
         return rallyId;
@@ -73,6 +77,22 @@ public class RallyEvaluationSkillScore {
 
     public void setPlayerId(int playerId) {
         this.playerId = playerId;
+    }
+
+    public LinkedHashMap<Integer, String> getDetailsValues() {
+        return detailsValues;
+    }
+
+    public void setDetailsValues(LinkedHashMap<Integer, String> detailsValues) {
+        this.detailsValues = detailsValues;
+    }
+
+    public boolean isIsDetailed() {
+        return isDetailed;
+    }
+
+    public void setIsDetailed(boolean isDetailed) {
+        this.isDetailed = isDetailed;
     }
 
 }

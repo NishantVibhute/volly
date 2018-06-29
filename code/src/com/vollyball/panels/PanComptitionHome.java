@@ -24,6 +24,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class PanComptitionHome extends javax.swing.JPanel {
 
+    public CreateMatchDialog matchDialog;
+    public CreateTeamDialog teamDialog;
+
     /**
      * Creates new form PanComptitionHome
      */
@@ -90,7 +93,7 @@ public class PanComptitionHome extends javax.swing.JPanel {
         panNewButton.setLayout(panNewButtonLayout);
         panNewButtonLayout.setHorizontalGroup(
             panNewButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblNewButton, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+            .addComponent(lblNewButton, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
         panNewButtonLayout.setVerticalGroup(
             panNewButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,8 +148,8 @@ public class PanComptitionHome extends javax.swing.JPanel {
         panMatchesLayout.setVerticalGroup(
             panMatchesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panMatchesLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblMatch, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
+                .addComponent(lblMatch, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         panTeams.setBackground(new java.awt.Color(57, 74, 108));
@@ -166,14 +169,13 @@ public class PanComptitionHome extends javax.swing.JPanel {
         panTeams.setLayout(panTeamsLayout);
         panTeamsLayout.setHorizontalGroup(
             panTeamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panTeamsLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panTeamsLayout.createSequentialGroup()
                 .addComponent(lblTeam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addContainerGap())
         );
         panTeamsLayout.setVerticalGroup(
             panTeamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblTeam, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+            .addComponent(lblTeam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -192,9 +194,9 @@ public class PanComptitionHome extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panMatches, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panTeams, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panTeams, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panMatches, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, 0)
                 .addComponent(panCompetitionContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -252,13 +254,13 @@ public class PanComptitionHome extends javax.swing.JPanel {
         Object o = evt.getSource();
         String t = ((JLabel) o).getText();
         if (t.equals("New Match")) {
-            CreateMatchDialog obj = new CreateMatchDialog();
-            obj.init();
-            obj.show();
+            matchDialog = new CreateMatchDialog();
+            matchDialog.init();
+            matchDialog.show();
         } else {
-            CreateTeamDialog obj = new CreateTeamDialog();
-            obj.init();
-            obj.show();
+            teamDialog = new CreateTeamDialog();
+            teamDialog.init();
+            teamDialog.show();
         }
     }//GEN-LAST:event_lblNewButtonMouseClicked
 

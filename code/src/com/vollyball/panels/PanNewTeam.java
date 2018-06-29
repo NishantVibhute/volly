@@ -10,10 +10,14 @@ import com.vollyball.bean.Team;
 import com.vollyball.controller.Controller;
 import com.vollyball.dao.TeamDao;
 import com.vollyball.enums.PlayerPosition;
+import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -23,6 +27,7 @@ public class PanNewTeam extends javax.swing.JPanel {
 
     List<Player> playerList;
     List<JComboBox> position = new ArrayList<>();
+    List<JCheckBox> captainCheckBoxList = new ArrayList<>();
 
     /**
      * Creates new form PanNewTeam
@@ -46,8 +51,23 @@ public class PanNewTeam extends javax.swing.JPanel {
         position.add(cmbPositon13);
         position.add(cmbPositon14);
 
-        for (int i = 0; i < position.size(); i++) {
+        captainCheckBoxList.add(jCheckBox1);
+        captainCheckBoxList.add(jCheckBox2);
+        captainCheckBoxList.add(jCheckBox3);
+        captainCheckBoxList.add(jCheckBox4);
+        captainCheckBoxList.add(jCheckBox5);
+        captainCheckBoxList.add(jCheckBox6);
+        captainCheckBoxList.add(jCheckBox7);
+        captainCheckBoxList.add(jCheckBox8);
+        captainCheckBoxList.add(jCheckBox9);
+        captainCheckBoxList.add(jCheckBox10);
+        captainCheckBoxList.add(jCheckBox11);
+        captainCheckBoxList.add(jCheckBox12);
+        captainCheckBoxList.add(jCheckBox13);
+        captainCheckBoxList.add(jCheckBox14);
 
+        for (int i = 0; i < position.size(); i++) {
+            ((JLabel) position.get(i).getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
             for (PlayerPosition pp : PlayerPosition.values()) {
                 position.get(i).addItem(pp.getName());
 
@@ -246,7 +266,7 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(45, 62, 79));
-        jLabel2.setText("Team Name");
+        jLabel2.setText("Team Name*");
 
         txtTeamName.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         txtTeamName.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -254,14 +274,11 @@ public class PanNewTeam extends javax.swing.JPanel {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtTeamNameKeyPressed(evt);
             }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtTeamNameKeyReleased(evt);
-            }
         });
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(45, 62, 79));
-        jLabel3.setText("Coach Name");
+        jLabel3.setText("Coach Name*");
 
         txtCoachName.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         txtCoachName.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -272,11 +289,6 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         txtAsstCoachName.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         txtAsstCoachName.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txtAsstCoachName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAsstCoachNameActionPerformed(evt);
-            }
-        });
 
         txtAnalyzerName.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         txtAnalyzerName.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -287,11 +299,6 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         txtMedOffName.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         txtMedOffName.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txtMedOffName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMedOffNameActionPerformed(evt);
-            }
-        });
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(45, 62, 79));
@@ -306,7 +313,7 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         jLabel20.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(45, 62, 79));
-        jLabel20.setText("Short Code");
+        jLabel20.setText("Short Code*");
 
         txtCoachName1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         txtCoachName1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -320,12 +327,9 @@ public class PanNewTeam extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(31, 31, 31))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(10, 10, 10)))
+                            .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(10, 10, 10)
                         .addComponent(txtTeamName))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7)
@@ -333,8 +337,8 @@ public class PanNewTeam extends javax.swing.JPanel {
                         .addComponent(txtAnalyzerName, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel20)
-                        .addGap(36, 36, 36)
+                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtCoachName1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtrainerName, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -389,15 +393,16 @@ public class PanNewTeam extends javax.swing.JPanel {
         jPanel5.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("First Name and Last Name");
+        jLabel8.setText("NAME");
+        jLabel8.setToolTipText("");
         jLabel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Chest No.");
+        jLabel10.setText("CHEST No.");
         jLabel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Position");
+        jLabel11.setText("POSITION");
         jLabel11.setToolTipText("");
         jLabel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -406,7 +411,7 @@ public class PanNewTeam extends javax.swing.JPanel {
         jLabel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel19.setText("Captain");
+        jLabel19.setText("CAPTAIN");
         jLabel19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -438,9 +443,9 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         txtChest1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtChest1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtChest1ActionPerformed(evt);
+        txtChest1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtChest1FocusLost(evt);
             }
         });
 
@@ -466,9 +471,9 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         txtChest2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtChest2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtChest2ActionPerformed(evt);
+        txtChest2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtChest2FocusLost(evt);
             }
         });
 
@@ -486,9 +491,9 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         txtChest3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtChest3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtChest3ActionPerformed(evt);
+        txtChest3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtChest3FocusLost(evt);
             }
         });
 
@@ -506,9 +511,9 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         txtChest4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtChest4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtChest4ActionPerformed(evt);
+        txtChest4.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtChest4FocusLost(evt);
             }
         });
 
@@ -526,9 +531,9 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         txtChest5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtChest5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtChest5ActionPerformed(evt);
+        txtChest5.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtChest5FocusLost(evt);
             }
         });
 
@@ -546,9 +551,9 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         txtChest6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtChest6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtChest6ActionPerformed(evt);
+        txtChest6.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtChest6FocusLost(evt);
             }
         });
 
@@ -566,9 +571,9 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         txtChest7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtChest7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtChest7ActionPerformed(evt);
+        txtChest7.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtChest7FocusLost(evt);
             }
         });
 
@@ -586,9 +591,9 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         txtChest8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtChest8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtChest8ActionPerformed(evt);
+        txtChest8.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtChest8FocusLost(evt);
             }
         });
 
@@ -606,9 +611,9 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         txtChest9.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtChest9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtChest9ActionPerformed(evt);
+        txtChest9.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtChest9FocusLost(evt);
             }
         });
 
@@ -626,9 +631,9 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         txtChest10.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtChest10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtChest10ActionPerformed(evt);
+        txtChest10.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtChest10FocusLost(evt);
             }
         });
 
@@ -646,9 +651,9 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         txtChest11.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtChest11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtChest11ActionPerformed(evt);
+        txtChest11.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtChest11FocusLost(evt);
             }
         });
 
@@ -666,9 +671,9 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         txtChest12.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtChest12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtChest12ActionPerformed(evt);
+        txtChest12.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtChest12FocusLost(evt);
             }
         });
 
@@ -696,17 +701,17 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         txtChest13.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtChest13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtChest13ActionPerformed(evt);
+        txtChest13.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtChest13FocusLost(evt);
             }
         });
 
         txtChest14.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtChest14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtChest14ActionPerformed(evt);
+        txtChest14.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtChest14FocusLost(evt);
             }
         });
 
@@ -715,6 +720,12 @@ public class PanNewTeam extends javax.swing.JPanel {
         cmbPositon13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox1ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -735,6 +746,12 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jCheckBox2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox2ItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
@@ -753,6 +770,12 @@ public class PanNewTeam extends javax.swing.JPanel {
         );
 
         jPanel14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jCheckBox3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox3ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -773,6 +796,12 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         jPanel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jCheckBox4.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox4ItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
         jPanel15Layout.setHorizontalGroup(
@@ -791,6 +820,12 @@ public class PanNewTeam extends javax.swing.JPanel {
         );
 
         jPanel17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jCheckBox5.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox5ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
@@ -811,6 +846,12 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         jPanel18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jCheckBox6.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox6ItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
@@ -829,6 +870,12 @@ public class PanNewTeam extends javax.swing.JPanel {
         );
 
         jPanel19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jCheckBox7.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox7ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -849,6 +896,12 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         jPanel20.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jCheckBox8.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox8ItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
         jPanel20Layout.setHorizontalGroup(
@@ -867,6 +920,12 @@ public class PanNewTeam extends javax.swing.JPanel {
         );
 
         jPanel21.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jCheckBox9.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox9ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
         jPanel21.setLayout(jPanel21Layout);
@@ -887,6 +946,12 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         jPanel22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jCheckBox10.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox10ItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
         jPanel22Layout.setHorizontalGroup(
@@ -905,6 +970,12 @@ public class PanNewTeam extends javax.swing.JPanel {
         );
 
         jPanel24.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jCheckBox11.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox11ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
         jPanel24.setLayout(jPanel24Layout);
@@ -925,6 +996,12 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         jPanel25.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jCheckBox12.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox12ItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
         jPanel25.setLayout(jPanel25Layout);
         jPanel25Layout.setHorizontalGroup(
@@ -944,6 +1021,12 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         jPanel26.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jCheckBox13.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox13ItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
         jPanel26.setLayout(jPanel26Layout);
         jPanel26Layout.setHorizontalGroup(
@@ -962,6 +1045,12 @@ public class PanNewTeam extends javax.swing.JPanel {
         );
 
         jPanel27.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jCheckBox14.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox14ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
@@ -1098,7 +1187,7 @@ public class PanNewTeam extends javax.swing.JPanel {
                         .addGap(0, 0, 0)
                         .addComponent(txtChest1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(cmbPositon1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cmbPositon1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1143,16 +1232,12 @@ public class PanNewTeam extends javax.swing.JPanel {
                                                                                                     .addGroup(jPanel4Layout.createSequentialGroup()
                                                                                                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                                                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                                                                                                .addGap(0, 0, 0)
-                                                                                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                                                    .addComponent(txtPlayerName1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                    .addComponent(txtChest1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                    .addComponent(cmbPositon1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                                                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                                                                                                .addGap(0, 0, 0)
-                                                                                                                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                                                                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                                                                .addComponent(txtPlayerName1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                .addComponent(txtChest1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                .addComponent(cmbPositon1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                            .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                                                         .addGap(0, 0, 0)
                                                                                                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                                                                             .addComponent(txtPlayerName2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1225,11 +1310,12 @@ public class PanNewTeam extends javax.swing.JPanel {
                                             .addComponent(jTextField65, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, 0)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtPlayerName12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cmbPositon12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField68, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtChest12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtChest12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(txtPlayerName12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cmbPositon12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTextField68, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, 0)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1239,14 +1325,13 @@ public class PanNewTeam extends javax.swing.JPanel {
                             .addComponent(jTextField66, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtPlayerName14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cmbPositon14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField69, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtChest14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtChest14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPlayerName14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbPositon14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField69, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0))
         );
 
@@ -1311,6 +1396,11 @@ public class PanNewTeam extends javax.swing.JPanel {
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel17.setText("CANCEL");
+        jLabel17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel17MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -1328,11 +1418,11 @@ public class PanNewTeam extends javax.swing.JPanel {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(132, 132, 132)
+                .addGap(230, 230, 230)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addGap(21, 21, 21)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56))
+                .addGap(230, 230, 230))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1348,10 +1438,9 @@ public class PanNewTeam extends javax.swing.JPanel {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(90, 90, 90))
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1382,75 +1471,6 @@ public class PanNewTeam extends javax.swing.JPanel {
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtChest1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChest1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtChest1ActionPerformed
-
-    private void txtChest2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChest2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtChest2ActionPerformed
-
-    private void txtChest3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChest3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtChest3ActionPerformed
-
-    private void txtChest4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChest4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtChest4ActionPerformed
-
-    private void txtChest5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChest5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtChest5ActionPerformed
-
-    private void txtChest6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChest6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtChest6ActionPerformed
-
-    private void txtChest7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChest7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtChest7ActionPerformed
-
-    private void txtChest8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChest8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtChest8ActionPerformed
-
-    private void txtChest9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChest9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtChest9ActionPerformed
-
-    private void txtChest10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChest10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtChest10ActionPerformed
-
-    private void txtChest11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChest11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtChest11ActionPerformed
-
-    private void txtChest12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChest12ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtChest12ActionPerformed
-
-    private void txtTeamNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTeamNameKeyPressed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_txtTeamNameKeyPressed
-
-    private void txtTeamNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTeamNameKeyReleased
-        // TODO add your handling code here:
-        lblHeading.setText(txtTeamName.getText());
-        if (txtTeamName.getText().equals("")) {
-            lblHeading.setText("New Team");
-        }
-    }//GEN-LAST:event_txtTeamNameKeyReleased
-
-    private void txtAsstCoachNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAsstCoachNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAsstCoachNameActionPerformed
-
-    private void txtMedOffNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMedOffNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMedOffNameActionPerformed
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
@@ -1488,13 +1508,274 @@ public class PanNewTeam extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jLabel1MouseClicked
 
-    private void txtChest13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChest13ActionPerformed
+    private void txtChest1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest1FocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtChest13ActionPerformed
+        String val = txtChest1.getText();
+        if (val.length() == 1) {
+            txtChest1.setText("0" + val);
+        }
+    }//GEN-LAST:event_txtChest1FocusLost
 
-    private void txtChest14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChest14ActionPerformed
+    private void txtChest2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest2FocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtChest14ActionPerformed
+        String val = txtChest2.getText();
+        if (val.length() == 1) {
+            txtChest2.setText("0" + val);
+        }
+    }//GEN-LAST:event_txtChest2FocusLost
+
+    private void txtChest3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest3FocusLost
+        // TODO add your handling code here:
+        String val = txtChest3.getText();
+        if (val.length() == 1) {
+            txtChest3.setText("0" + val);
+        }
+    }//GEN-LAST:event_txtChest3FocusLost
+
+    private void txtChest4FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest4FocusLost
+        // TODO add your handling code here:
+        String val = txtChest4.getText();
+        if (val.length() == 1) {
+            txtChest4.setText("0" + val);
+        }
+    }//GEN-LAST:event_txtChest4FocusLost
+
+    private void txtChest5FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest5FocusLost
+        // TODO add your handling code here:
+        String val = txtChest5.getText();
+        if (val.length() == 1) {
+            txtChest5.setText("0" + val);
+        }
+    }//GEN-LAST:event_txtChest5FocusLost
+
+    private void txtChest6FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest6FocusLost
+        // TODO add your handling code here:
+        String val = txtChest6.getText();
+        if (val.length() == 1) {
+            txtChest6.setText("0" + val);
+        }
+    }//GEN-LAST:event_txtChest6FocusLost
+
+    private void txtChest7FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest7FocusLost
+        // TODO add your handling code here:
+        String val = txtChest7.getText();
+        if (val.length() == 1) {
+            txtChest7.setText("0" + val);
+        }
+    }//GEN-LAST:event_txtChest7FocusLost
+
+    private void txtChest8FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest8FocusLost
+        // TODO add your handling code here:
+        String val = txtChest8.getText();
+        if (val.length() == 1) {
+            txtChest8.setText("0" + val);
+        }
+    }//GEN-LAST:event_txtChest8FocusLost
+
+    private void txtChest9FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest9FocusLost
+        // TODO add your handling code here:
+        String val = txtChest9.getText();
+        if (val.length() == 1) {
+            txtChest9.setText("0" + val);
+        }
+    }//GEN-LAST:event_txtChest9FocusLost
+
+    private void txtChest10FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest10FocusLost
+        // TODO add your handling code here:
+        String val = txtChest10.getText();
+        if (val.length() == 1) {
+            txtChest10.setText("0" + val);
+        }
+    }//GEN-LAST:event_txtChest10FocusLost
+
+    private void txtChest11FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest11FocusLost
+        // TODO add your handling code here:
+        String val = txtChest11.getText();
+        if (val.length() == 1) {
+            txtChest11.setText("0" + val);
+        }
+    }//GEN-LAST:event_txtChest11FocusLost
+
+    private void txtChest12FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest12FocusLost
+        // TODO add your handling code here:
+        String val = txtChest12.getText();
+        if (val.length() == 1) {
+            txtChest12.setText("0" + val);
+        }
+    }//GEN-LAST:event_txtChest12FocusLost
+
+    private void txtChest13FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest13FocusLost
+        // TODO add your handling code here:
+        String val = txtChest13.getText();
+        if (val.length() == 1) {
+            txtChest13.setText("0" + val);
+        }
+    }//GEN-LAST:event_txtChest13FocusLost
+
+    private void txtChest14FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest14FocusLost
+        // TODO add your handling code here:
+        String val = txtChest14.getText();
+        if (val.length() == 1) {
+            txtChest14.setText("0" + val);
+        }
+    }//GEN-LAST:event_txtChest14FocusLost
+
+    private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            enabledDisabledCheckBox(jCheckBox1, "checked");
+        } else {
+            enabledDisabledCheckBox(jCheckBox1, "unchecked");
+        }
+    }//GEN-LAST:event_jCheckBox1ItemStateChanged
+
+    private void jCheckBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox2ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            enabledDisabledCheckBox(jCheckBox2, "checked");
+        } else {
+            enabledDisabledCheckBox(jCheckBox2, "unchecked");
+        }
+    }//GEN-LAST:event_jCheckBox2ItemStateChanged
+
+    private void jCheckBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox3ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            enabledDisabledCheckBox(jCheckBox3, "checked");
+        } else {
+            enabledDisabledCheckBox(jCheckBox3, "unchecked");
+        }
+    }//GEN-LAST:event_jCheckBox3ItemStateChanged
+
+    private void jCheckBox4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox4ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            enabledDisabledCheckBox(jCheckBox4, "checked");
+        } else {
+            enabledDisabledCheckBox(jCheckBox4, "unchecked");
+        }
+    }//GEN-LAST:event_jCheckBox4ItemStateChanged
+
+    private void jCheckBox5ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox5ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            enabledDisabledCheckBox(jCheckBox5, "checked");
+        } else {
+            enabledDisabledCheckBox(jCheckBox5, "unchecked");
+        }
+    }//GEN-LAST:event_jCheckBox5ItemStateChanged
+
+    private void jCheckBox6ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox6ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            enabledDisabledCheckBox(jCheckBox6, "checked");
+        } else {
+            enabledDisabledCheckBox(jCheckBox6, "unchecked");
+        }
+    }//GEN-LAST:event_jCheckBox6ItemStateChanged
+
+    private void jCheckBox7ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox7ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            enabledDisabledCheckBox(jCheckBox7, "checked");
+        } else {
+            enabledDisabledCheckBox(jCheckBox7, "unchecked");
+        }
+    }//GEN-LAST:event_jCheckBox7ItemStateChanged
+
+    private void jCheckBox8ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox8ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            enabledDisabledCheckBox(jCheckBox8, "checked");
+        } else {
+            enabledDisabledCheckBox(jCheckBox8, "unchecked");
+        }
+    }//GEN-LAST:event_jCheckBox8ItemStateChanged
+
+    private void jCheckBox9ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox9ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            enabledDisabledCheckBox(jCheckBox9, "checked");
+        } else {
+            enabledDisabledCheckBox(jCheckBox9, "unchecked");
+        }
+    }//GEN-LAST:event_jCheckBox9ItemStateChanged
+
+    private void jCheckBox10ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox10ItemStateChanged
+
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            enabledDisabledCheckBox(jCheckBox10, "checked");
+        } else {
+            enabledDisabledCheckBox(jCheckBox10, "unchecked");
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox10ItemStateChanged
+
+    private void jCheckBox11ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox11ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            enabledDisabledCheckBox(jCheckBox11, "checked");
+        } else {
+            enabledDisabledCheckBox(jCheckBox11, "unchecked");
+        }
+    }//GEN-LAST:event_jCheckBox11ItemStateChanged
+
+    private void jCheckBox12ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox12ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            enabledDisabledCheckBox(jCheckBox12, "checked");
+        } else {
+            enabledDisabledCheckBox(jCheckBox12, "unchecked");
+        }
+    }//GEN-LAST:event_jCheckBox12ItemStateChanged
+
+    private void jCheckBox13ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox13ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            enabledDisabledCheckBox(jCheckBox13, "checked");
+        } else {
+            enabledDisabledCheckBox(jCheckBox13, "unchecked");
+        }
+    }//GEN-LAST:event_jCheckBox13ItemStateChanged
+
+    private void jCheckBox14ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox14ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            enabledDisabledCheckBox(jCheckBox14, "checked");
+        } else {
+            enabledDisabledCheckBox(jCheckBox14, "unchecked");
+        }
+    }//GEN-LAST:event_jCheckBox14ItemStateChanged
+
+    private void txtTeamNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTeamNameKeyPressed
+        // TODO add your handling code here:
+        lblHeading.setText(txtTeamName.getText());
+        if (txtTeamName.getText().equals("")) {
+            lblHeading.setText("New Team");
+        }
+    }//GEN-LAST:event_txtTeamNameKeyPressed
+
+    private void jLabel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MouseClicked
+        // TODO add your handling code here:
+        Controller.panComptitionHome.teamDialog.close();
+
+    }//GEN-LAST:event_jLabel17MouseClicked
+
+    public void enabledDisabledCheckBox(JCheckBox checkBox, String type) {
+        if (type.equals("checked")) {
+            for (JCheckBox chk : captainCheckBoxList) {
+                if (chk != checkBox) {
+                    chk.setEnabled(false);
+                }
+            }
+        } else {
+            for (JCheckBox chk : captainCheckBoxList) {
+                if (chk != checkBox) {
+                    chk.setEnabled(true);
+                }
+            }
+        }
+    }
 
     public void addPlayer(String name, String chestNum, int position) {
         Player p = new Player();
@@ -1566,7 +1847,6 @@ public class PanNewTeam extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
-    private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
