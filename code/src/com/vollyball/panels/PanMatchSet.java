@@ -1894,8 +1894,8 @@ public class PanMatchSet extends javax.swing.JPanel {
                             RallyEvaluationSkillScore rs = new RallyEvaluationSkillScore();
                             rs.setSkill(panRallyEvaluationRow.txtSkill.getText());
                             rs.setSkillId(Skill.getIdByName(panRallyEvaluationRow.txtSkill.getText()).getId());
-                            rs.setChestNo(String.valueOf(panRallyEvaluationRow.cmbChest.getSelectedItem()));
-                            rs.setPlayerId(Integer.parseInt(String.valueOf(panRallyEvaluationRow.cmbChest.getSelectedItem())));
+                            rs.setChestNo(String.valueOf(panRallyEvaluationRow.txtChestNum.getText()));
+                            rs.setPlayerId(panRallyEvaluationRow.playerId);
                             rs.setScore(Integer.parseInt(String.valueOf(panRallyEvaluationRow.cmbScore.getSelectedItem())));
                             rallyUpdate.getRallyEvaluationSkillScore().add(rs);
                         }
@@ -1941,8 +1941,8 @@ public class PanMatchSet extends javax.swing.JPanel {
                                     rs.setChestNo("0");
                                     rs.setPlayerId(0);
                                 } else {
-                                    rs.setChestNo(String.valueOf(panRallyEvaluationRow.cmbChest.getSelectedItem()));
-                                    rs.setPlayerId(Integer.parseInt(String.valueOf(panRallyEvaluationRow.cmbChest.getSelectedItem())));
+                                    rs.setChestNo(String.valueOf(panRallyEvaluationRow.txtChestNum.getText()));
+                                    rs.setPlayerId(panRallyEvaluationRow.playerId);
                                 }
                                 rallyInsert.setOp(op);
                                 rallyInsert.setTf(tf);

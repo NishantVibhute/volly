@@ -11,6 +11,7 @@ import com.vollyball.frames.FrmLogin;
 import com.vollyball.frames.FrmRegister;
 import com.vollyball.panels.PanActivate;
 import com.vollyball.panels.PanCompetitionList;
+import com.vollyball.panels.PanCompetitionReportHome;
 import com.vollyball.panels.PanComptitionHome;
 import com.vollyball.panels.PanMatchEvaluationHome;
 import com.vollyball.panels.PanMatchSet;
@@ -39,6 +40,7 @@ public class Controller {
     public static panLoading panLoading;
     public static PanNewCompetition panNewCompetition;
     public static PanComptitionHome panComptitionHome;
+    public static PanCompetitionReportHome panCompetitionReportHome;
     public static PanTeams panTeams;
     public static PanMatches panMatches;
     public static PanMatchEvaluationHome panMatchEvaluationHome;

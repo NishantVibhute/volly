@@ -34,7 +34,10 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
     int num = 0;
     String skill;
     boolean isDetailed;
+    public int playerId = 0;
     LinkedHashMap<Integer, String> detailsValues = new LinkedHashMap<Integer, String>();
+    LinkedHashMap<String, Integer> chestNumPlayerId = new LinkedHashMap<String, Integer>();
+    LinkedHashMap<Integer, String> playerIdChestNum = new LinkedHashMap<Integer, String>();
 
     /**
      * Creates new form PanRallyEvaluationRow
@@ -43,7 +46,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
      */
     public PanRallyEvaluationRow(PanRallyLiveEvaluation p) {
         initComponents();
-        ((JLabel) cmbChest.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
+//        ((JLabel) cmbChest.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
         ((JLabel) cmbScore.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
         this.p = p;
         num = p.rallyRow;
@@ -54,7 +57,9 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
         }
 
         for (Map.Entry<Integer, Player> entry : p.positionMap.entrySet()) {
-            cmbChest.addItem(entry.getValue().getChestNo());
+            Player player = entry.getValue();
+            chestNumPlayerId.put(player.getChestNo(), player.getId());
+            playerIdChestNum.put(player.getId(), player.getChestNo());
         }
         for (Rating dir : Rating.values()) {
             cmbScore.addItem(dir.getId());
@@ -62,10 +67,12 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
 
     }
 
-    public void setValues(String skill, String chestNo, int score) {
+    public void setValues(String skill, Integer PlayerId, int score) {
 
         txtSkill.setText(skill);
-        cmbChest.setSelectedItem(chestNo);
+//        cmbChest.setSelectedItem(chestNo);
+        playerId = PlayerId;
+        txtChestNum.setText(playerIdChestNum.get(PlayerId));
         cmbScore.setSelectedItem(score);
     }
 
@@ -83,9 +90,9 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
     private void initComponents() {
 
         txtSkill = new javax.swing.JTextField();
-        cmbChest = new javax.swing.JComboBox();
         cmbScore = new javax.swing.JComboBox();
         lblAddNew = new javax.swing.JLabel();
+        txtChestNum = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -95,16 +102,6 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
         txtSkill.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtSkillKeyReleased(evt);
-            }
-        });
-
-        cmbChest.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        cmbChest.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "" }));
-        cmbChest.setToolTipText("");
-        cmbChest.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 78, 108)));
-        cmbChest.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cmbChestItemStateChanged(evt);
             }
         });
 
@@ -125,6 +122,18 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
             }
         });
 
+        txtChestNum.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        txtChestNum.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtChestNum.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtChestNum.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtChestNumKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtChestNumKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -132,18 +141,18 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(txtSkill, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(cmbChest, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtChestNum, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(cmbScore, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblAddNew, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(lblAddNew, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtSkill, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-            .addComponent(cmbChest)
+            .addComponent(txtSkill, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(cmbScore)
             .addComponent(lblAddNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(txtChestNum, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -168,11 +177,6 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
 
     }//GEN-LAST:event_txtSkillKeyReleased
 
-    private void cmbChestItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbChestItemStateChanged
-        // TODO add your handling code here:
-        robot.keyPress(KeyEvent.VK_TAB);
-    }//GEN-LAST:event_cmbChestItemStateChanged
-
     private void cmbScoreItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbScoreItemStateChanged
         // TODO add your handling code here:
 
@@ -193,6 +197,24 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_cmbScoreItemStateChanged
+
+    private void txtChestNumKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtChestNumKeyPressed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtChestNumKeyPressed
+
+    private void txtChestNumKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtChestNumKeyReleased
+        // TODO add your handling code here:
+        String item = txtChestNum.getText();
+        if (item.length() > 1) {
+            if (chestNumPlayerId.containsKey(item)) {
+                playerId = chestNumPlayerId.get(item);
+                robot.keyPress(KeyEvent.VK_TAB);
+            } else {
+                txtChestNum.setText("");
+            }
+        }
+    }//GEN-LAST:event_txtChestNumKeyReleased
 
     public void setRallyRow(String item) {
         if (p.evaluationType == 2) {
@@ -287,7 +309,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
             default:
                 txt.setText("");
                 cmbScore.setSelectedIndex(0);
-                cmbChest.setSelectedIndex(0);
+                txtChestNum.setText("");
                 break;
         }
 
@@ -302,9 +324,9 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JComboBox cmbChest;
     public javax.swing.JComboBox cmbScore;
     private javax.swing.JLabel lblAddNew;
+    public javax.swing.JTextField txtChestNum;
     public javax.swing.JTextField txtSkill;
     // End of variables declaration//GEN-END:variables
 }

@@ -169,9 +169,7 @@ public class PanComptitionHome extends javax.swing.JPanel {
         panTeams.setLayout(panTeamsLayout);
         panTeamsLayout.setHorizontalGroup(
             panTeamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panTeamsLayout.createSequentialGroup()
-                .addComponent(lblTeam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(lblTeam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panTeamsLayout.setVerticalGroup(
             panTeamsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

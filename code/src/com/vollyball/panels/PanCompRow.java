@@ -47,6 +47,10 @@ public class PanCompRow extends javax.swing.JPanel {
         lblStartDate = new javax.swing.JLabel();
         lblEndDate = new javax.swing.JLabel();
         lblGroup = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        lblEvaluate = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        lblReport = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(57, 74, 108));
 
@@ -79,6 +83,44 @@ public class PanCompRow extends javax.swing.JPanel {
         lblGroup.setForeground(new java.awt.Color(251, 205, 1));
         lblGroup.setText("jLabel4");
 
+        lblEvaluate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEvaluate.setText("EVALUATE");
+        lblEvaluate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblEvaluateMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblEvaluate, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblEvaluate, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+        );
+
+        lblReport.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblReport.setText("REPORT");
+        lblReport.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblReportMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblReport, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblReport, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -86,36 +128,44 @@ public class PanCompRow extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblCompName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
+                    .addComponent(lblCompName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 454, Short.MAX_VALUE)
                         .addComponent(lblStartDate)
                         .addGap(121, 121, 121)
                         .addComponent(lblEndDate)
-                        .addGap(204, 204, 204))
+                        .addGap(47, 47, 47))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(266, 266, 266)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblGroup)
-                            .addComponent(lblVenue))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(lblVenue))))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblCompName)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblVenue)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStartDate)
-                    .addComponent(lblEndDate))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblCompName)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblVenue)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblStartDate)
+                            .addComponent(lblEndDate)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblGroup)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -138,20 +188,38 @@ public class PanCompRow extends javax.swing.JPanel {
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
         // TODO add your handling code here:
-        Controller.panComptitionHome = new PanComptitionHome(cb);
-        Dimension dim = Controller.frmDashBoard.panContent.getSize();
-        Controller.panCompetitionList.setVisible(false);
-Controller.frmDashBoard.panContent.removeAll();
-//        Controller.panComptitionHome.setBounds(0, 0, 800, 686);
-        Controller.frmDashBoard.panContent.add(Controller.panComptitionHome,BorderLayout.CENTER);
 
     }//GEN-LAST:event_jPanel1MouseClicked
 
+    private void lblEvaluateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEvaluateMouseClicked
+        // TODO add your handling code here:
+        Controller.panComptitionHome = new PanComptitionHome(cb);
+        Dimension dim = Controller.frmDashBoard.panContent.getSize();
+        Controller.panCompetitionList.setVisible(false);
+        Controller.frmDashBoard.panContent.removeAll();
+//        Controller.panComptitionHome.setBounds(0, 0, 800, 686);
+        Controller.frmDashBoard.panContent.add(Controller.panComptitionHome, BorderLayout.CENTER);
+    }//GEN-LAST:event_lblEvaluateMouseClicked
+
+    private void lblReportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblReportMouseClicked
+        // TODO add your handling code here:
+        Controller.panCompetitionReportHome = new PanCompetitionReportHome(cb);
+        Dimension dim = Controller.frmDashBoard.panContent.getSize();
+        Controller.panCompetitionList.setVisible(false);
+        Controller.frmDashBoard.panContent.removeAll();
+//        Controller.panComptitionHome.setBounds(0, 0, 800, 686);
+        Controller.frmDashBoard.panContent.add(Controller.panCompetitionReportHome, BorderLayout.CENTER);
+    }//GEN-LAST:event_lblReportMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblCompName;
     private javax.swing.JLabel lblEndDate;
+    private javax.swing.JLabel lblEvaluate;
     private javax.swing.JLabel lblGroup;
+    private javax.swing.JLabel lblReport;
     private javax.swing.JLabel lblStartDate;
     private javax.swing.JLabel lblVenue;
     // End of variables declaration//GEN-END:variables
