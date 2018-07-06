@@ -12,6 +12,8 @@ import com.vollyball.dao.MatchDao;
 import com.vollyball.dao.TeamDao;
 import com.vollyball.enums.PlayerPosition;
 import com.vollyball.renderer.TableHeaderRenderer;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,28 +37,34 @@ public class PanSelectPlayers extends javax.swing.JPanel {
     DefaultTableModel model, modelSelectedPlayer;
     int selectedTeam, matchId;
     MatchDao matchDao = new MatchDao();
+    int teamId;
 
     /**
      * Creates new form PanSelectPlayers
      */
-    public PanSelectPlayers(int matchId) {
+    public PanSelectPlayers(int matchId, int teamId) {
         initComponents();
 
         this.matchId = matchId;
+        this.teamId = teamId;
 
         MatchBean team = matchDao.getMatchesById(Controller.competitionId, matchId);
         teamsMap = new LinkedHashMap<>();
         playerMap = new LinkedHashMap<>();
         model = (DefaultTableModel) tbAllPlayers.getModel();
         modelSelectedPlayer = (DefaultTableModel) tbSelectedPlayers.getModel();
-        cmbSelectTeam.addItem("Select");
+
         teamsMap.put(team.getTeam1name(), team.getTeam1());
         teamsMap.put(team.getTeam2name(), team.getTeam2());
-        cmbSelectTeam.addItem(team.getTeam1name());
-        cmbSelectTeam.addItem(team.getTeam2name());
 
+        Color heading = new Color(204, 204, 204);
+        Color ivory = new Color(255, 255, 255);
         JTableHeader header = tbAllPlayers.getTableHeader();
         header.setDefaultRenderer(new TableHeaderRenderer(tbAllPlayers));
+        header.setOpaque(false);
+        header.setPreferredSize(new Dimension(100, 35));
+        header.setBackground(heading);
+//        header.setDefaultRenderer(new TableHeaderRenderer(tbAllPlayers));
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tbAllPlayers.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
@@ -64,19 +72,25 @@ public class PanSelectPlayers extends javax.swing.JPanel {
         tbAllPlayers.getColumnModel().getColumn(1).setPreferredWidth(20);
         tbAllPlayers.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 
+        tbAllPlayers.setOpaque(true);
+        tbAllPlayers.setFillsViewportHeight(true);
+        tbAllPlayers.setBackground(ivory);
+
         JTableHeader headerSelectedPlayers = tbSelectedPlayers.getTableHeader();
         headerSelectedPlayers.setDefaultRenderer(new TableHeaderRenderer(tbSelectedPlayers));
+        headerSelectedPlayers.setOpaque(false);
+        headerSelectedPlayers.setPreferredSize(new Dimension(100, 35));
+        headerSelectedPlayers.setBackground(heading);
+//        headerSelectedPlayers.setDefaultRenderer(new TableHeaderRenderer(tbSelectedPlayers));
         DefaultTableCellRenderer centerRendererSelectedPlayers = new DefaultTableCellRenderer();
         centerRendererSelectedPlayers.setHorizontalAlignment(JLabel.CENTER);
         tbSelectedPlayers.getColumnModel().getColumn(0).setCellRenderer(centerRendererSelectedPlayers);
         tbSelectedPlayers.getColumnModel().getColumn(1).setCellRenderer(centerRendererSelectedPlayers);
         tbSelectedPlayers.getColumnModel().getColumn(1).setPreferredWidth(20);
         tbSelectedPlayers.getColumnModel().getColumn(2).setCellRenderer(centerRendererSelectedPlayers);
-
-        if (Controller.panMatchEvaluationHome.getEvaluatingTeam() != 0) {
-
-            cmbSelectTeam.setSelectedItem(Controller.panMatchEvaluationHome.getTeamsMap().get(Controller.panMatchEvaluationHome.getEvaluatingTeam()));
-        }
+        tbSelectedPlayers.setOpaque(true);
+        tbSelectedPlayers.setFillsViewportHeight(true);
+        tbSelectedPlayers.setBackground(ivory);
 
         tbAllPlayers.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -94,7 +108,6 @@ public class PanSelectPlayers extends javax.swing.JPanel {
 
                     }
                     if (selectedName != null) {
-
                         Object[] row = {selectedName, selectedChest, selectedPosition};
                         modelSelectedPlayer.addRow(row);
                         model.removeRow(selectedRow);
@@ -130,6 +143,35 @@ public class PanSelectPlayers extends javax.swing.JPanel {
                 }
             }
         });
+        setValues();
+    }
+
+    public void setValues() {
+        for (int i = model.getRowCount() - 1; i >= 0; i--) {
+            model.removeRow(i);
+
+        }
+
+        for (int i = modelSelectedPlayer.getRowCount() - 1; i >= 0; i--) {
+            modelSelectedPlayer.removeRow(i);
+        }
+
+        List<Player> playerList = td.getTeamPlayers(teamId);
+        List<Integer> selectedPlayers = td.getMatchPlayers(this.matchId, teamId);
+        selectedTeam = teamId;
+        int i = 0;
+        for (Player player : playerList) {
+            playerMap.put(player.getName(), player.getId());
+            if (selectedPlayers.contains(player.getId())) {
+                Object[] row = {player.getName(), player.getChestNo(), PlayerPosition.getNameById(player.getPosition()).getName()};
+                modelSelectedPlayer.addRow(row);
+            } else {
+                Object[] row = {player.getName(), player.getChestNo(), PlayerPosition.getNameById(player.getPosition()).getName()};
+                model.addRow(row);
+            }
+        }
+        int rows = tbSelectedPlayers.getRowCount();
+        lblSelectCount.setText("Selected : " + rows);
     }
 
     /**
@@ -142,8 +184,6 @@ public class PanSelectPlayers extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        cmbSelectTeam = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbSelectedPlayers = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -161,16 +201,6 @@ public class PanSelectPlayers extends javax.swing.JPanel {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(57, 74, 108)));
-
-        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel8.setText("Team :");
-
-        cmbSelectTeam.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        cmbSelectTeam.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cmbSelectTeamItemStateChanged(evt);
-            }
-        });
 
         tbSelectedPlayers.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         tbSelectedPlayers.setModel(new javax.swing.table.DefaultTableModel(
@@ -312,21 +342,13 @@ public class PanSelectPlayers extends javax.swing.JPanel {
                             .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel13)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbSelectTeam, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(20, 20, 20))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbSelectTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(lblSelectCount))
@@ -341,7 +363,7 @@ public class PanSelectPlayers extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
 
         jPanel1.setBackground(new java.awt.Color(58, 74, 108));
@@ -372,7 +394,6 @@ public class PanSelectPlayers extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -387,49 +408,10 @@ public class PanSelectPlayers extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cmbSelectTeamItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbSelectTeamItemStateChanged
-        // TODO add your handling code here:
-        Object item = evt.getItem();
-        String team1 = "" + item;
-
-        for (int i = model.getRowCount() - 1; i >= 0; i--) {
-            model.removeRow(i);
-
-        }
-
-        for (int i = modelSelectedPlayer.getRowCount() - 1; i >= 0; i--) {
-
-            modelSelectedPlayer.removeRow(i);
-
-        }
-
-        if (!team1.equals("Select")) {
-            List<Player> playerList = td.getTeamPlayers(teamsMap.get(team1));
-            List<Integer> selectedPlayers = td.getMatchPlayers(this.matchId, teamsMap.get(team1));
-            selectedTeam = teamsMap.get(team1);
-            int i = 0;
-            for (Player player : playerList) {
-                playerMap.put(player.getName(), player.getId());
-                if (selectedPlayers.contains(player.getId())) {
-                    Object[] row = {player.getName(), player.getChestNo(), PlayerPosition.getNameById(player.getPosition()).getName()};
-                    modelSelectedPlayer.addRow(row);
-                } else {
-                    Object[] row = {player.getName(), player.getChestNo(), PlayerPosition.getNameById(player.getPosition()).getName()};
-                    model.addRow(row);
-                }
-            }
-            int rows = tbSelectedPlayers.getRowCount();
-            lblSelectCount.setText("Selected : " + rows);
-        }
-    }//GEN-LAST:event_cmbSelectTeamItemStateChanged
-
     private void butSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butSaveMouseClicked
         // TODO add your handling code here:
 
-        String teamName = "" + cmbSelectTeam.getSelectedItem();
-        if (teamName.equalsIgnoreCase("Select")) {
-            JOptionPane.showMessageDialog(this, "Please select Team", "Error", 2);
-        } else if (tbSelectedPlayers.getRowCount() < 7) {
+        if (tbSelectedPlayers.getRowCount() < 7) {
             JOptionPane.showMessageDialog(this, "Please select Atleast 7 Number of Players", "Error", 2);
         } else {
             List<Integer> players = new ArrayList<>();
@@ -457,10 +439,8 @@ public class PanSelectPlayers extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel butCancel;
     private javax.swing.JLabel butSave;
-    public javax.swing.JComboBox cmbSelectTeam;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;

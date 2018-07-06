@@ -5,6 +5,9 @@
  */
 package com.vollyball.panels;
 
+import com.vollyball.bean.PixelBean;
+import com.vollyball.bean.Player;
+import com.vollyball.controller.Controller;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -15,6 +18,7 @@ import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -25,6 +29,7 @@ import javax.imageio.ImageIO;
  */
 public class PanVolleyCourt extends javax.swing.JPanel {
 
+    LinkedHashMap<String, PixelBean> positionPixelValue = new LinkedHashMap<>();
     int x1, x2, y1, y2;
     private BufferedImage image;
     double phi;
@@ -35,31 +40,82 @@ public class PanVolleyCourt extends javax.swing.JPanel {
      */
     public PanVolleyCourt() {
         initComponents();
+
+        phi = Math.toRadians(40);
+        barb = 20;
+
+        setValuesOfPosition("H1", 212, 331);
+        setValuesOfPosition("H2", 361, 331);
+        setValuesOfPosition("H3", 361, 242);
+        setValuesOfPosition("H4", 361, 155);
+        setValuesOfPosition("H5", 212, 155);
+        setValuesOfPosition("H6", 212, 242);
+        setValuesOfPosition("SH1", 90, 331);
+        setValuesOfPosition("SH2", 90, 242);
+        setValuesOfPosition("SH3", 90, 155);
+
+        setValuesOfPosition("O1", 611, 155);
+        setValuesOfPosition("O2", 461, 155);
+        setValuesOfPosition("O3", 461, 242);
+        setValuesOfPosition("O4", 461, 331);
+        setValuesOfPosition("O5", 611, 331);
+        setValuesOfPosition("O6", 611, 242);
+
+    }
+
+    public void setValuesOfPosition(String pos, int x, int y) {
+        PixelBean pb = new PixelBean();
+        pb.setX(x);
+        pb.setY(y);
+        positionPixelValue.put(pos, pb);
+    }
+
+    public void repositionServer(String chestNum) {
+        if (panHPos1.getText().equals(chestNum)) {
+            panHPos1.setText("");
+        } else if (panHPos5.getText().equals(chestNum)) {
+            panHPos5.setText("");
+        } else if (panHPos6.getText().equals(chestNum)) {
+            panHPos6.setText("");
+        }
+    }
+
+    public void setValues(String home, String opp, String chestNum) {
+
+        LinkedHashMap<Integer, Player> positionMap = Controller.panMatchSet.positionMap;
         panOPos1.setText("1");
-        jLabel8.setText("2");
+        panOPos2.setText("2");
         panOPos3.setText("3");
         panOPos4.setText("4");
         panOPos5.setText("5");
         panOPos6.setText("6");
 
-        panHPos1.setText("1");
-        panHPos2.setText("2");
-        panHPos3.setText("3");
-        panHPos4.setText("4");
-        panHPos5.setText("5");
-        panHPos6.setText("6");
-        phi = Math.toRadians(40);
-        barb = 20;
+        panHPos1.setText(positionMap.get(1).getChestNo());
+        panHPos2.setText(positionMap.get(2).getChestNo());
+        panHPos3.setText(positionMap.get(3).getChestNo());
+        panHPos4.setText(positionMap.get(4).getChestNo());
+        panHPos5.setText(positionMap.get(5).getChestNo());
+        panHPos6.setText(positionMap.get(6).getChestNo());
 
-    }
+        if (home.equalsIgnoreCase("SH1")) {
+            panSHPos1.setText(chestNum);
+            repositionServer(chestNum);
+        } else if (home.equalsIgnoreCase("SH5")) {
+            panSHPos5.setText(chestNum);
+            repositionServer(chestNum);
+        } else if (home.equalsIgnoreCase("SH6")) {
+            panSHPos6.setText(chestNum);
+            repositionServer(chestNum);
+        }
 
-    public void setValues(int x1, int x2, int y1, int y2) {
-        this.x1 = x1;
-        this.x2 = x2;
-        this.y1 = y1;
-        this.y2 = y2;
+        PixelBean pbHome = positionPixelValue.get(home);
+        PixelBean pbOpp = positionPixelValue.get(opp);
+        this.x1 = pbHome.getX();
+        this.x2 = pbHome.getY();
+        this.y1 = pbOpp.getX();
+        this.y2 = pbOpp.getY();
         try {
-            image = ImageIO.read(new File("src\\com\\vollyball\\images\\volleyball court.png"));
+            image = ImageIO.read(new File("src\\com\\vollyball\\images\\vollycorntgreenNEW.png"));
         } catch (IOException ex) {
             Logger.getLogger(PanVolleyCourt.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -135,7 +191,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         panHPos2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         panel = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
+        panOPos2 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
         panOPos3 = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
@@ -147,13 +203,16 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         panOPos6 = new javax.swing.JLabel();
         jPanel21 = new javax.swing.JPanel();
         panOPos5 = new javax.swing.JLabel();
+        panSHPos5 = new javax.swing.JLabel();
+        panSHPos1 = new javax.swing.JLabel();
+        panSHPos6 = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(61, 66, 150));
+        setBackground(new java.awt.Color(97, 153, 94));
 
-        jPanel1.setBackground(new java.awt.Color(192, 79, 73));
+        jPanel1.setBackground(new java.awt.Color(255, 102, 204));
         jPanel1.setOpaque(false);
 
-        jPanel10.setBackground(new java.awt.Color(192, 79, 73));
+        jPanel10.setBackground(new java.awt.Color(225, 155, 78));
         jPanel10.setOpaque(false);
 
         panHPos5.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
@@ -177,9 +236,10 @@ public class PanVolleyCourt extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jPanel14.setBackground(new java.awt.Color(192, 79, 73));
+        jPanel14.setBackground(new java.awt.Color(225, 155, 78));
         jPanel14.setOpaque(false);
 
+        panHPos6.setBackground(new java.awt.Color(225, 155, 78));
         panHPos6.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         panHPos6.setForeground(new java.awt.Color(255, 255, 255));
         panHPos6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -201,9 +261,10 @@ public class PanVolleyCourt extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jPanel15.setBackground(new java.awt.Color(192, 79, 73));
+        jPanel15.setBackground(new java.awt.Color(225, 155, 78));
         jPanel15.setOpaque(false);
 
+        panHPos1.setBackground(new java.awt.Color(225, 155, 78));
         panHPos1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         panHPos1.setForeground(new java.awt.Color(255, 255, 255));
         panHPos1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -230,31 +291,32 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(51, 51, 51)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(59, 59, 59))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(15, 15, 15)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(192, 79, 73));
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setOpaque(false);
 
-        jPanel7.setBackground(new java.awt.Color(192, 79, 73));
+        jPanel7.setBackground(new java.awt.Color(225, 155, 78));
         jPanel7.setOpaque(false);
 
+        panHPos4.setBackground(new java.awt.Color(225, 155, 78));
         panHPos4.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         panHPos4.setForeground(new java.awt.Color(255, 255, 255));
         panHPos4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -276,9 +338,10 @@ public class PanVolleyCourt extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jPanel11.setBackground(new java.awt.Color(192, 79, 73));
+        jPanel11.setBackground(new java.awt.Color(225, 155, 78));
         jPanel11.setOpaque(false);
 
+        panHPos3.setBackground(new java.awt.Color(225, 155, 78));
         panHPos3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         panHPos3.setForeground(new java.awt.Color(255, 255, 255));
         panHPos3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -300,9 +363,10 @@ public class PanVolleyCourt extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jPanel13.setBackground(new java.awt.Color(192, 79, 73));
+        jPanel13.setBackground(new java.awt.Color(225, 155, 78));
         jPanel13.setOpaque(false);
 
+        panHPos2.setBackground(new java.awt.Color(225, 155, 78));
         panHPos2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         panHPos2.setForeground(new java.awt.Color(255, 255, 255));
         panHPos2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -334,29 +398,30 @@ public class PanVolleyCourt extends javax.swing.JPanel {
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(15, 15, 15)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
-        jPanel4.setBackground(new java.awt.Color(192, 79, 73));
+        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
         jPanel4.setOpaque(false);
 
-        panel.setBackground(new java.awt.Color(192, 79, 73));
+        panel.setBackground(new java.awt.Color(225, 155, 78));
         panel.setOpaque(false);
 
-        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        panOPos2.setBackground(new java.awt.Color(225, 155, 78));
+        panOPos2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panOPos2.setForeground(new java.awt.Color(255, 255, 255));
+        panOPos2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -364,20 +429,21 @@ public class PanVolleyCourt extends javax.swing.JPanel {
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                .addComponent(panOPos2, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                .addComponent(panOPos2, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel17.setBackground(new java.awt.Color(192, 79, 73));
+        jPanel17.setBackground(new java.awt.Color(225, 155, 78));
         jPanel17.setOpaque(false);
 
+        panOPos3.setBackground(new java.awt.Color(225, 155, 78));
         panOPos3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         panOPos3.setForeground(new java.awt.Color(255, 255, 255));
         panOPos3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -399,9 +465,10 @@ public class PanVolleyCourt extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jPanel18.setBackground(new java.awt.Color(192, 79, 73));
+        jPanel18.setBackground(new java.awt.Color(225, 155, 78));
         jPanel18.setOpaque(false);
 
+        panOPos4.setBackground(new java.awt.Color(225, 155, 78));
         panOPos4.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         panOPos4.setForeground(new java.awt.Color(255, 255, 255));
         panOPos4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -428,7 +495,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
+                .addGap(20, 20, 20)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -438,21 +505,22 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(15, 15, 15)
                 .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(15, 15, 15))
         );
 
-        jPanel5.setBackground(new java.awt.Color(192, 79, 73));
+        jPanel5.setBackground(new java.awt.Color(255, 51, 153));
         jPanel5.setOpaque(false);
 
-        jPanel19.setBackground(new java.awt.Color(192, 79, 73));
+        jPanel19.setBackground(new java.awt.Color(225, 155, 78));
         jPanel19.setOpaque(false);
 
+        panOPos1.setBackground(new java.awt.Color(225, 155, 78));
         panOPos1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         panOPos1.setForeground(new java.awt.Color(255, 255, 255));
         panOPos1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -463,7 +531,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panOPos1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panOPos1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel19Layout.setVerticalGroup(
@@ -474,9 +542,10 @@ public class PanVolleyCourt extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jPanel20.setBackground(new java.awt.Color(192, 79, 73));
+        jPanel20.setBackground(new java.awt.Color(225, 155, 78));
         jPanel20.setOpaque(false);
 
+        panOPos6.setBackground(new java.awt.Color(225, 155, 78));
         panOPos6.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         panOPos6.setForeground(new java.awt.Color(255, 255, 255));
         panOPos6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -487,8 +556,8 @@ public class PanVolleyCourt extends javax.swing.JPanel {
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel20Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panOPos6, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addComponent(panOPos6, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -498,9 +567,10 @@ public class PanVolleyCourt extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jPanel21.setBackground(new java.awt.Color(192, 79, 73));
+        jPanel21.setBackground(new java.awt.Color(225, 155, 78));
         jPanel21.setOpaque(false);
 
+        panOPos5.setBackground(new java.awt.Color(225, 155, 78));
         panOPos5.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         panOPos5.setForeground(new java.awt.Color(255, 255, 255));
         panOPos5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -511,8 +581,8 @@ public class PanVolleyCourt extends javax.swing.JPanel {
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel21Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panOPos5, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(panOPos5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel21Layout.setVerticalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -527,60 +597,80 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(59, 59, 59)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(51, 51, 51))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(15, 15, 15)
                 .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
+
+        panSHPos5.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panSHPos5.setForeground(new java.awt.Color(255, 255, 255));
+        panSHPos5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        panSHPos1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panSHPos1.setForeground(new java.awt.Color(255, 255, 255));
+        panSHPos1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        panSHPos6.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panSHPos6.setForeground(new java.awt.Color(255, 255, 255));
+        panSHPos6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(46, 46, 46)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panSHPos5, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                    .addComponent(panSHPos1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panSHPos6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
+                .addGap(10, 10, 10)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addGap(114, 114, 114))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(105, 105, 105)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(30, 30, 30))))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(128, 128, 128)
+                        .addComponent(panSHPos5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43)
+                        .addComponent(panSHPos6, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(panSHPos1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -603,10 +693,14 @@ public class PanVolleyCourt extends javax.swing.JPanel {
     private javax.swing.JLabel panHPos5;
     private javax.swing.JLabel panHPos6;
     private javax.swing.JLabel panOPos1;
+    private javax.swing.JLabel panOPos2;
     private javax.swing.JLabel panOPos3;
     private javax.swing.JLabel panOPos4;
     private javax.swing.JLabel panOPos5;
     private javax.swing.JLabel panOPos6;
+    private javax.swing.JLabel panSHPos1;
+    private javax.swing.JLabel panSHPos5;
+    private javax.swing.JLabel panSHPos6;
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
 }

@@ -333,6 +333,7 @@ public class PlayerControlsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 skip(SKIP_TIME_MS);
+//                mediaPlayer.setRate((float) 0.5);
             }
         });
 

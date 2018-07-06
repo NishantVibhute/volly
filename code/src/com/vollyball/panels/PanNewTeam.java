@@ -8,16 +8,23 @@ package com.vollyball.panels;
 import com.vollyball.bean.Player;
 import com.vollyball.bean.Team;
 import com.vollyball.controller.Controller;
+import com.vollyball.dao.CompetitionDao;
 import com.vollyball.dao.TeamDao;
 import com.vollyball.enums.PlayerPosition;
-import java.awt.event.ItemEvent;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 /**
  *
@@ -28,51 +35,29 @@ public class PanNewTeam extends javax.swing.JPanel {
     List<Player> playerList;
     List<JComboBox> position = new ArrayList<>();
     List<JCheckBox> captainCheckBoxList = new ArrayList<>();
+    public PanTeamRowList panTeamRowList;
 
     /**
      * Creates new form PanNewTeam
      */
     public PanNewTeam() {
         initComponents();
-        position.add(cmbPositon1);
-        position.add(cmbPositon2);
-        position.add(cmbPositon3);
-        position.add(cmbPositon4);
-        position.add(cmbPositon5);
-        position.add(cmbPositon6);
-        position.add(cmbPositon7);
-        position.add(cmbPositon8);
-        position.add(cmbPositon9);
-        position.add(cmbPositon10);
-        position.add(cmbPositon11);
-        position.add(cmbPositon12);
-        position.add(cmbPositon11);
-        position.add(cmbPositon12);
-        position.add(cmbPositon13);
-        position.add(cmbPositon14);
 
-        captainCheckBoxList.add(jCheckBox1);
-        captainCheckBoxList.add(jCheckBox2);
-        captainCheckBoxList.add(jCheckBox3);
-        captainCheckBoxList.add(jCheckBox4);
-        captainCheckBoxList.add(jCheckBox5);
-        captainCheckBoxList.add(jCheckBox6);
-        captainCheckBoxList.add(jCheckBox7);
-        captainCheckBoxList.add(jCheckBox8);
-        captainCheckBoxList.add(jCheckBox9);
-        captainCheckBoxList.add(jCheckBox10);
-        captainCheckBoxList.add(jCheckBox11);
-        captainCheckBoxList.add(jCheckBox12);
-        captainCheckBoxList.add(jCheckBox13);
-        captainCheckBoxList.add(jCheckBox14);
+        panTeamRowList = new PanTeamRowList();
+        Dimension dim = panRowShow.getSize();
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+        }
+
+//        panTeamRowList.setBounds(-1, -1, 900, 420);
+        panRowShow.add(panTeamRowList, BorderLayout.CENTER);
 
         for (int i = 0; i < position.size(); i++) {
             ((JLabel) position.get(i).getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
             for (PlayerPosition pp : PlayerPosition.values()) {
                 position.get(i).addItem(pp.getName());
-
             }
-
         }
     }
 
@@ -90,6 +75,7 @@ public class PanNewTeam extends javax.swing.JPanel {
         jLabel14 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
+        jFileChooser1 = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
         lblHeading = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -115,90 +101,7 @@ public class PanNewTeam extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        txtPlayerName1 = new javax.swing.JTextField();
-        txtChest1 = new javax.swing.JTextField();
-        cmbPositon1 = new javax.swing.JComboBox();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        txtPlayerName2 = new javax.swing.JTextField();
-        txtChest2 = new javax.swing.JTextField();
-        cmbPositon2 = new javax.swing.JComboBox();
-        jTextField29 = new javax.swing.JTextField();
-        txtPlayerName3 = new javax.swing.JTextField();
-        txtChest3 = new javax.swing.JTextField();
-        cmbPositon3 = new javax.swing.JComboBox();
-        jTextField32 = new javax.swing.JTextField();
-        txtPlayerName4 = new javax.swing.JTextField();
-        txtChest4 = new javax.swing.JTextField();
-        cmbPositon4 = new javax.swing.JComboBox();
-        jTextField35 = new javax.swing.JTextField();
-        txtPlayerName5 = new javax.swing.JTextField();
-        txtChest5 = new javax.swing.JTextField();
-        cmbPositon5 = new javax.swing.JComboBox();
-        jTextField38 = new javax.swing.JTextField();
-        txtPlayerName6 = new javax.swing.JTextField();
-        txtChest6 = new javax.swing.JTextField();
-        cmbPositon6 = new javax.swing.JComboBox();
-        jTextField41 = new javax.swing.JTextField();
-        txtPlayerName7 = new javax.swing.JTextField();
-        txtChest7 = new javax.swing.JTextField();
-        cmbPositon7 = new javax.swing.JComboBox();
-        jTextField44 = new javax.swing.JTextField();
-        txtPlayerName8 = new javax.swing.JTextField();
-        txtChest8 = new javax.swing.JTextField();
-        cmbPositon8 = new javax.swing.JComboBox();
-        jTextField59 = new javax.swing.JTextField();
-        txtPlayerName9 = new javax.swing.JTextField();
-        txtChest9 = new javax.swing.JTextField();
-        cmbPositon9 = new javax.swing.JComboBox();
-        jTextField62 = new javax.swing.JTextField();
-        txtPlayerName10 = new javax.swing.JTextField();
-        txtChest10 = new javax.swing.JTextField();
-        cmbPositon10 = new javax.swing.JComboBox();
-        jTextField65 = new javax.swing.JTextField();
-        txtPlayerName11 = new javax.swing.JTextField();
-        txtChest11 = new javax.swing.JTextField();
-        cmbPositon11 = new javax.swing.JComboBox();
-        jTextField68 = new javax.swing.JTextField();
-        txtPlayerName12 = new javax.swing.JTextField();
-        txtChest12 = new javax.swing.JTextField();
-        cmbPositon12 = new javax.swing.JComboBox();
-        jTextField66 = new javax.swing.JTextField();
-        jTextField69 = new javax.swing.JTextField();
-        txtPlayerName14 = new javax.swing.JTextField();
-        txtPlayerName13 = new javax.swing.JTextField();
-        txtChest13 = new javax.swing.JTextField();
-        txtChest14 = new javax.swing.JTextField();
-        cmbPositon14 = new javax.swing.JComboBox();
-        cmbPositon13 = new javax.swing.JComboBox();
-        jPanel12 = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jPanel13 = new javax.swing.JPanel();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jPanel14 = new javax.swing.JPanel();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jPanel15 = new javax.swing.JPanel();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jPanel17 = new javax.swing.JPanel();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jPanel18 = new javax.swing.JPanel();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jPanel19 = new javax.swing.JPanel();
-        jCheckBox7 = new javax.swing.JCheckBox();
-        jPanel20 = new javax.swing.JPanel();
-        jCheckBox8 = new javax.swing.JCheckBox();
-        jPanel21 = new javax.swing.JPanel();
-        jCheckBox9 = new javax.swing.JCheckBox();
-        jPanel22 = new javax.swing.JPanel();
-        jCheckBox10 = new javax.swing.JCheckBox();
-        jPanel24 = new javax.swing.JPanel();
-        jCheckBox11 = new javax.swing.JCheckBox();
-        jPanel25 = new javax.swing.JPanel();
-        jCheckBox12 = new javax.swing.JCheckBox();
-        jPanel26 = new javax.swing.JPanel();
-        jCheckBox13 = new javax.swing.JCheckBox();
-        jPanel27 = new javax.swing.JPanel();
-        jCheckBox14 = new javax.swing.JCheckBox();
+        panRowShow = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -392,24 +295,29 @@ public class PanNewTeam extends javax.swing.JPanel {
 
         jPanel5.setBackground(new java.awt.Color(204, 204, 204));
 
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("NAME");
         jLabel8.setToolTipText("");
         jLabel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("CHEST No.");
         jLabel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("POSITION");
         jLabel11.setToolTipText("");
         jLabel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("SR No.");
         jLabel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jLabel19.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setText("CAPTAIN");
         jLabel19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -419,7 +327,7 @@ public class PanNewTeam extends javax.swing.JPanel {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -427,7 +335,7 @@ public class PanNewTeam extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -438,901 +346,23 @@ public class PanNewTeam extends javax.swing.JPanel {
             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        txtPlayerName1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPlayerName1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtChest1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtChest1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest1.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtChest1FocusLost(evt);
-            }
-        });
-
-        cmbPositon1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("1");
-        jTextField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField2.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextField2.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField2.setEnabled(false);
-        jTextField2.setFocusable(false);
-
-        jTextField10.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField10.setText("2");
-        jTextField10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField10.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField10.setEnabled(false);
-        jTextField10.setFocusable(false);
-
-        txtPlayerName2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPlayerName2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtChest2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtChest2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest2.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtChest2FocusLost(evt);
-            }
-        });
-
-        cmbPositon2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField29.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField29.setText("3");
-        jTextField29.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField29.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField29.setEnabled(false);
-        jTextField29.setFocusable(false);
-
-        txtPlayerName3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPlayerName3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtChest3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtChest3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest3.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtChest3FocusLost(evt);
-            }
-        });
-
-        cmbPositon3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField32.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField32.setText("4");
-        jTextField32.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField32.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField32.setEnabled(false);
-        jTextField32.setFocusable(false);
-
-        txtPlayerName4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPlayerName4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtChest4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtChest4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest4.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtChest4FocusLost(evt);
-            }
-        });
-
-        cmbPositon4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField35.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField35.setText("5");
-        jTextField35.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField35.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField35.setEnabled(false);
-        jTextField35.setFocusable(false);
-
-        txtPlayerName5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPlayerName5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtChest5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtChest5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest5.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtChest5FocusLost(evt);
-            }
-        });
-
-        cmbPositon5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField38.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField38.setText("6");
-        jTextField38.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField38.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField38.setEnabled(false);
-        jTextField38.setFocusable(false);
-
-        txtPlayerName6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPlayerName6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtChest6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtChest6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest6.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtChest6FocusLost(evt);
-            }
-        });
-
-        cmbPositon6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField41.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField41.setText("7");
-        jTextField41.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField41.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField41.setEnabled(false);
-        jTextField41.setFocusable(false);
-
-        txtPlayerName7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPlayerName7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtChest7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtChest7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest7.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtChest7FocusLost(evt);
-            }
-        });
-
-        cmbPositon7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField44.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField44.setText("8");
-        jTextField44.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField44.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField44.setEnabled(false);
-        jTextField44.setFocusable(false);
-
-        txtPlayerName8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPlayerName8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtChest8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtChest8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest8.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtChest8FocusLost(evt);
-            }
-        });
-
-        cmbPositon8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField59.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField59.setText("9");
-        jTextField59.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField59.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField59.setEnabled(false);
-        jTextField59.setFocusable(false);
-
-        txtPlayerName9.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPlayerName9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtChest9.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtChest9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest9.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtChest9FocusLost(evt);
-            }
-        });
-
-        cmbPositon9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField62.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField62.setText("10");
-        jTextField62.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField62.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField62.setEnabled(false);
-        jTextField62.setFocusable(false);
-
-        txtPlayerName10.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPlayerName10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtChest10.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtChest10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest10.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtChest10FocusLost(evt);
-            }
-        });
-
-        cmbPositon10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField65.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField65.setText("11");
-        jTextField65.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField65.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField65.setEnabled(false);
-        jTextField65.setFocusable(false);
-
-        txtPlayerName11.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPlayerName11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtChest11.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtChest11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest11.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtChest11FocusLost(evt);
-            }
-        });
-
-        cmbPositon11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField68.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField68.setText("12");
-        jTextField68.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField68.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField68.setEnabled(false);
-        jTextField68.setFocusable(false);
-
-        txtPlayerName12.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPlayerName12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtChest12.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtChest12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest12.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtChest12FocusLost(evt);
-            }
-        });
-
-        cmbPositon12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTextField66.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField66.setText("13");
-        jTextField66.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField66.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField66.setEnabled(false);
-        jTextField66.setFocusable(false);
-
-        jTextField69.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField69.setText("14");
-        jTextField69.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField69.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField69.setEnabled(false);
-        jTextField69.setFocusable(false);
-
-        txtPlayerName14.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPlayerName14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtPlayerName13.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPlayerName13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtChest13.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtChest13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest13.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtChest13FocusLost(evt);
-            }
-        });
-
-        txtChest14.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtChest14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtChest14.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtChest14FocusLost(evt);
-            }
-        });
-
-        cmbPositon14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        cmbPositon13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCheckBox1ItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(jCheckBox1)
-                .addGap(44, 44, 44))
-        );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jCheckBox2.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCheckBox2ItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
-        jPanel13.setLayout(jPanel13Layout);
-        jPanel13Layout.setHorizontalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(jCheckBox2)
-                .addGap(44, 44, 44))
-        );
-        jPanel13Layout.setVerticalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jCheckBox3.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCheckBox3ItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(jCheckBox3)
-                .addGap(44, 44, 44))
-        );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jCheckBox4.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCheckBox4ItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
-        jPanel15.setLayout(jPanel15Layout);
-        jPanel15Layout.setHorizontalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(jCheckBox4)
-                .addGap(44, 44, 44))
-        );
-        jPanel15Layout.setVerticalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel15Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jCheckBox5.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCheckBox5ItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
-        jPanel17.setLayout(jPanel17Layout);
-        jPanel17Layout.setHorizontalGroup(
-            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel17Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(jCheckBox5)
-                .addGap(44, 44, 44))
-        );
-        jPanel17Layout.setVerticalGroup(
-            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel17Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jCheckBox6.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCheckBox6ItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
-        jPanel18.setLayout(jPanel18Layout);
-        jPanel18Layout.setHorizontalGroup(
-            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(jCheckBox6)
-                .addGap(44, 44, 44))
-        );
-        jPanel18Layout.setVerticalGroup(
-            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jCheckBox7.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCheckBox7ItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
-        jPanel19.setLayout(jPanel19Layout);
-        jPanel19Layout.setHorizontalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(jCheckBox7)
-                .addGap(44, 44, 44))
-        );
-        jPanel19Layout.setVerticalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel19Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel20.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jCheckBox8.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCheckBox8ItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
-        jPanel20.setLayout(jPanel20Layout);
-        jPanel20Layout.setHorizontalGroup(
-            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel20Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(jCheckBox8)
-                .addGap(44, 44, 44))
-        );
-        jPanel20Layout.setVerticalGroup(
-            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel20Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel21.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jCheckBox9.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCheckBox9ItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
-        jPanel21.setLayout(jPanel21Layout);
-        jPanel21Layout.setHorizontalGroup(
-            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(jCheckBox9)
-                .addGap(44, 44, 44))
-        );
-        jPanel21Layout.setVerticalGroup(
-            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel21Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox9, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jCheckBox10.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCheckBox10ItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
-        jPanel22.setLayout(jPanel22Layout);
-        jPanel22Layout.setHorizontalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel22Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(jCheckBox10)
-                .addGap(44, 44, 44))
-        );
-        jPanel22Layout.setVerticalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel22Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox10, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel24.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jCheckBox11.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCheckBox11ItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
-        jPanel24.setLayout(jPanel24Layout);
-        jPanel24Layout.setHorizontalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(jCheckBox11)
-                .addGap(44, 44, 44))
-        );
-        jPanel24Layout.setVerticalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel24Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox11, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel25.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jCheckBox12.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCheckBox12ItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
-        jPanel25.setLayout(jPanel25Layout);
-        jPanel25Layout.setHorizontalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(jCheckBox12)
-                .addGap(44, 44, 44))
-        );
-        jPanel25Layout.setVerticalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel25Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox12, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel26.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jCheckBox13.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCheckBox13ItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
-        jPanel26.setLayout(jPanel26Layout);
-        jPanel26Layout.setHorizontalGroup(
-            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel26Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(jCheckBox13)
-                .addGap(44, 44, 44))
-        );
-        jPanel26Layout.setVerticalGroup(
-            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel26Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox13, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel27.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jCheckBox14.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCheckBox14ItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
-        jPanel27.setLayout(jPanel27Layout);
-        jPanel27Layout.setHorizontalGroup(
-            jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel27Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(jCheckBox14)
-                .addGap(44, 44, 44))
-        );
-        jPanel27Layout.setVerticalGroup(
-            jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel27Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox14, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        panRowShow.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panRowShow.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField69, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtPlayerName14, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtChest14, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(cmbPositon14, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField66, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtPlayerName13, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtChest13, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(cmbPositon13, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField68, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtPlayerName12, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtChest12, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(cmbPositon12, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField65, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtPlayerName11, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtChest11, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(cmbPositon11, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField62, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtPlayerName10, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtChest10, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(cmbPositon10, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField59, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtPlayerName9, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtChest9, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(cmbPositon9, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField44, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtPlayerName8, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtChest8, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(cmbPositon8, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField41, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtPlayerName7, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtChest7, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(cmbPositon7, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField38, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtPlayerName6, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtChest6, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(cmbPositon6, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField35, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtPlayerName5, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtChest5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(cmbPositon5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField32, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtPlayerName4, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtChest4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(cmbPositon4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtPlayerName3, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtChest3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(cmbPositon3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtPlayerName2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtChest2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(cmbPositon2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtPlayerName1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtChest1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(cmbPositon1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addComponent(panRowShow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                                                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                                                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                                                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                                                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                                                                                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                                                .addComponent(txtPlayerName1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                .addComponent(txtChest1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                .addComponent(cmbPositon1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                                                            .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                                                        .addGap(0, 0, 0)
-                                                                                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                                            .addComponent(txtPlayerName2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                            .addComponent(txtChest2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                            .addComponent(cmbPositon2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                                                                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                                                .addGap(0, 0, 0)
-                                                                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                                    .addComponent(txtPlayerName3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                    .addComponent(txtChest3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                    .addComponent(cmbPositon3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                    .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                                                            .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                                        .addGap(0, 0, 0)
-                                                                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                            .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                                .addComponent(txtPlayerName4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                .addComponent(txtChest4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                .addComponent(cmbPositon4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                .addComponent(jTextField32, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                                                        .addGap(0, 0, 0)
-                                                                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                            .addComponent(txtPlayerName5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                            .addComponent(txtChest5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                            .addComponent(cmbPositon5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                            .addComponent(jTextField35, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                                                    .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                                .addGap(0, 0, 0)
-                                                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                    .addComponent(txtPlayerName6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                    .addComponent(txtChest6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                    .addComponent(cmbPositon6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                    .addComponent(jTextField38, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                                            .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                        .addGap(0, 0, 0)
-                                                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                            .addComponent(txtPlayerName7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                            .addComponent(txtChest7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                            .addComponent(cmbPositon7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                            .addComponent(jTextField41, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                                    .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                .addGap(0, 0, 0)
-                                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                    .addComponent(txtPlayerName8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                    .addComponent(txtChest8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                    .addComponent(cmbPositon8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                    .addComponent(jTextField44, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                            .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGap(0, 0, 0)
-                                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                            .addComponent(txtPlayerName9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addComponent(txtChest9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addComponent(cmbPositon9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addComponent(jTextField59, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                    .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(0, 0, 0)
-                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(txtPlayerName10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(txtChest10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(cmbPositon10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jTextField62, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, 0)
-                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(txtPlayerName11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtChest11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(cmbPositon11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField65, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, 0)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtChest12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(txtPlayerName12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(cmbPositon12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField68, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, 0)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPlayerName13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtChest13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbPositon13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField66, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtChest14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPlayerName14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbPositon14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField69, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(panRowShow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jLabel13.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -1370,7 +400,8 @@ public class PanNewTeam extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("SUBMIT");
+        jLabel1.setText("SAVE");
+        jLabel1.setToolTipText("");
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel1MouseClicked(evt);
@@ -1387,6 +418,8 @@ public class PanNewTeam extends javax.swing.JPanel {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        jLabel1.getAccessibleContext().setAccessibleName("SAVE");
 
         jPanel11.setBackground(new java.awt.Color(57, 74, 108));
         jPanel11.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1485,18 +518,18 @@ public class PanNewTeam extends javax.swing.JPanel {
         team.setCompId(Controller.competitionId);
 
         playerList = new ArrayList<>();
-        addPlayer(txtPlayerName1.getText(), txtChest1.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon1.getSelectedItem())).getId());
-        addPlayer(txtPlayerName2.getText(), txtChest2.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon2.getSelectedItem())).getId());
-        addPlayer(txtPlayerName3.getText(), txtChest3.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon3.getSelectedItem())).getId());
-        addPlayer(txtPlayerName4.getText(), txtChest4.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon4.getSelectedItem())).getId());
-        addPlayer(txtPlayerName5.getText(), txtChest5.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon5.getSelectedItem())).getId());
-        addPlayer(txtPlayerName6.getText(), txtChest6.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon6.getSelectedItem())).getId());
-        addPlayer(txtPlayerName7.getText(), txtChest7.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon7.getSelectedItem())).getId());
-        addPlayer(txtPlayerName8.getText(), txtChest8.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon8.getSelectedItem())).getId());
-        addPlayer(txtPlayerName9.getText(), txtChest9.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon9.getSelectedItem())).getId());
-        addPlayer(txtPlayerName10.getText(), txtChest10.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon10.getSelectedItem())).getId());
-        addPlayer(txtPlayerName11.getText(), txtChest11.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon11.getSelectedItem())).getId());
-        addPlayer(txtPlayerName12.getText(), txtChest12.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon12.getSelectedItem())).getId());
+//        addPlayer(txtPlayerName1.getText(), txtChest1.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon1.getSelectedItem())).getId());
+//        addPlayer(txtPlayerName2.getText(), txtChest2.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon2.getSelectedItem())).getId());
+//        addPlayer(txtPlayerName3.getText(), txtChest3.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon3.getSelectedItem())).getId());
+//        addPlayer(txtPlayerName4.getText(), txtChest4.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon4.getSelectedItem())).getId());
+//        addPlayer(txtPlayerName5.getText(), txtChest5.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon5.getSelectedItem())).getId());
+//        addPlayer(txtPlayerName6.getText(), txtChest6.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon6.getSelectedItem())).getId());
+//        addPlayer(txtPlayerName7.getText(), txtChest7.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon7.getSelectedItem())).getId());
+//        addPlayer(txtPlayerName8.getText(), txtChest8.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon8.getSelectedItem())).getId());
+//        addPlayer(txtPlayerName9.getText(), txtChest9.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon9.getSelectedItem())).getId());
+//        addPlayer(txtPlayerName10.getText(), txtChest10.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon10.getSelectedItem())).getId());
+//        addPlayer(txtPlayerName11.getText(), txtChest11.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon11.getSelectedItem())).getId());
+//        addPlayer(txtPlayerName12.getText(), txtChest12.getText(), PlayerPosition.getIdByName(String.valueOf(cmbPositon12.getSelectedItem())).getId());
         team.setPlayerList(playerList);
         int id = teamDao.insertTeam(team);
 
@@ -1508,251 +541,9 @@ public class PanNewTeam extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jLabel1MouseClicked
 
-    private void txtChest1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest1FocusLost
-        // TODO add your handling code here:
-        String val = txtChest1.getText();
-        if (val.length() == 1) {
-            txtChest1.setText("0" + val);
-        }
-    }//GEN-LAST:event_txtChest1FocusLost
-
-    private void txtChest2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest2FocusLost
-        // TODO add your handling code here:
-        String val = txtChest2.getText();
-        if (val.length() == 1) {
-            txtChest2.setText("0" + val);
-        }
-    }//GEN-LAST:event_txtChest2FocusLost
-
-    private void txtChest3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest3FocusLost
-        // TODO add your handling code here:
-        String val = txtChest3.getText();
-        if (val.length() == 1) {
-            txtChest3.setText("0" + val);
-        }
-    }//GEN-LAST:event_txtChest3FocusLost
-
-    private void txtChest4FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest4FocusLost
-        // TODO add your handling code here:
-        String val = txtChest4.getText();
-        if (val.length() == 1) {
-            txtChest4.setText("0" + val);
-        }
-    }//GEN-LAST:event_txtChest4FocusLost
-
-    private void txtChest5FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest5FocusLost
-        // TODO add your handling code here:
-        String val = txtChest5.getText();
-        if (val.length() == 1) {
-            txtChest5.setText("0" + val);
-        }
-    }//GEN-LAST:event_txtChest5FocusLost
-
-    private void txtChest6FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest6FocusLost
-        // TODO add your handling code here:
-        String val = txtChest6.getText();
-        if (val.length() == 1) {
-            txtChest6.setText("0" + val);
-        }
-    }//GEN-LAST:event_txtChest6FocusLost
-
-    private void txtChest7FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest7FocusLost
-        // TODO add your handling code here:
-        String val = txtChest7.getText();
-        if (val.length() == 1) {
-            txtChest7.setText("0" + val);
-        }
-    }//GEN-LAST:event_txtChest7FocusLost
-
-    private void txtChest8FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest8FocusLost
-        // TODO add your handling code here:
-        String val = txtChest8.getText();
-        if (val.length() == 1) {
-            txtChest8.setText("0" + val);
-        }
-    }//GEN-LAST:event_txtChest8FocusLost
-
-    private void txtChest9FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest9FocusLost
-        // TODO add your handling code here:
-        String val = txtChest9.getText();
-        if (val.length() == 1) {
-            txtChest9.setText("0" + val);
-        }
-    }//GEN-LAST:event_txtChest9FocusLost
-
-    private void txtChest10FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest10FocusLost
-        // TODO add your handling code here:
-        String val = txtChest10.getText();
-        if (val.length() == 1) {
-            txtChest10.setText("0" + val);
-        }
-    }//GEN-LAST:event_txtChest10FocusLost
-
-    private void txtChest11FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest11FocusLost
-        // TODO add your handling code here:
-        String val = txtChest11.getText();
-        if (val.length() == 1) {
-            txtChest11.setText("0" + val);
-        }
-    }//GEN-LAST:event_txtChest11FocusLost
-
-    private void txtChest12FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest12FocusLost
-        // TODO add your handling code here:
-        String val = txtChest12.getText();
-        if (val.length() == 1) {
-            txtChest12.setText("0" + val);
-        }
-    }//GEN-LAST:event_txtChest12FocusLost
-
-    private void txtChest13FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest13FocusLost
-        // TODO add your handling code here:
-        String val = txtChest13.getText();
-        if (val.length() == 1) {
-            txtChest13.setText("0" + val);
-        }
-    }//GEN-LAST:event_txtChest13FocusLost
-
-    private void txtChest14FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtChest14FocusLost
-        // TODO add your handling code here:
-        String val = txtChest14.getText();
-        if (val.length() == 1) {
-            txtChest14.setText("0" + val);
-        }
-    }//GEN-LAST:event_txtChest14FocusLost
-
-    private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
-        // TODO add your handling code here:
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            enabledDisabledCheckBox(jCheckBox1, "checked");
-        } else {
-            enabledDisabledCheckBox(jCheckBox1, "unchecked");
-        }
-    }//GEN-LAST:event_jCheckBox1ItemStateChanged
-
-    private void jCheckBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox2ItemStateChanged
-        // TODO add your handling code here:
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            enabledDisabledCheckBox(jCheckBox2, "checked");
-        } else {
-            enabledDisabledCheckBox(jCheckBox2, "unchecked");
-        }
-    }//GEN-LAST:event_jCheckBox2ItemStateChanged
-
-    private void jCheckBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox3ItemStateChanged
-        // TODO add your handling code here:
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            enabledDisabledCheckBox(jCheckBox3, "checked");
-        } else {
-            enabledDisabledCheckBox(jCheckBox3, "unchecked");
-        }
-    }//GEN-LAST:event_jCheckBox3ItemStateChanged
-
-    private void jCheckBox4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox4ItemStateChanged
-        // TODO add your handling code here:
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            enabledDisabledCheckBox(jCheckBox4, "checked");
-        } else {
-            enabledDisabledCheckBox(jCheckBox4, "unchecked");
-        }
-    }//GEN-LAST:event_jCheckBox4ItemStateChanged
-
-    private void jCheckBox5ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox5ItemStateChanged
-        // TODO add your handling code here:
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            enabledDisabledCheckBox(jCheckBox5, "checked");
-        } else {
-            enabledDisabledCheckBox(jCheckBox5, "unchecked");
-        }
-    }//GEN-LAST:event_jCheckBox5ItemStateChanged
-
-    private void jCheckBox6ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox6ItemStateChanged
-        // TODO add your handling code here:
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            enabledDisabledCheckBox(jCheckBox6, "checked");
-        } else {
-            enabledDisabledCheckBox(jCheckBox6, "unchecked");
-        }
-    }//GEN-LAST:event_jCheckBox6ItemStateChanged
-
-    private void jCheckBox7ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox7ItemStateChanged
-        // TODO add your handling code here:
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            enabledDisabledCheckBox(jCheckBox7, "checked");
-        } else {
-            enabledDisabledCheckBox(jCheckBox7, "unchecked");
-        }
-    }//GEN-LAST:event_jCheckBox7ItemStateChanged
-
-    private void jCheckBox8ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox8ItemStateChanged
-        // TODO add your handling code here:
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            enabledDisabledCheckBox(jCheckBox8, "checked");
-        } else {
-            enabledDisabledCheckBox(jCheckBox8, "unchecked");
-        }
-    }//GEN-LAST:event_jCheckBox8ItemStateChanged
-
-    private void jCheckBox9ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox9ItemStateChanged
-        // TODO add your handling code here:
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            enabledDisabledCheckBox(jCheckBox9, "checked");
-        } else {
-            enabledDisabledCheckBox(jCheckBox9, "unchecked");
-        }
-    }//GEN-LAST:event_jCheckBox9ItemStateChanged
-
-    private void jCheckBox10ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox10ItemStateChanged
-
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            enabledDisabledCheckBox(jCheckBox10, "checked");
-        } else {
-            enabledDisabledCheckBox(jCheckBox10, "unchecked");
-        }
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox10ItemStateChanged
-
-    private void jCheckBox11ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox11ItemStateChanged
-        // TODO add your handling code here:
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            enabledDisabledCheckBox(jCheckBox11, "checked");
-        } else {
-            enabledDisabledCheckBox(jCheckBox11, "unchecked");
-        }
-    }//GEN-LAST:event_jCheckBox11ItemStateChanged
-
-    private void jCheckBox12ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox12ItemStateChanged
-        // TODO add your handling code here:
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            enabledDisabledCheckBox(jCheckBox12, "checked");
-        } else {
-            enabledDisabledCheckBox(jCheckBox12, "unchecked");
-        }
-    }//GEN-LAST:event_jCheckBox12ItemStateChanged
-
-    private void jCheckBox13ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox13ItemStateChanged
-        // TODO add your handling code here:
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            enabledDisabledCheckBox(jCheckBox13, "checked");
-        } else {
-            enabledDisabledCheckBox(jCheckBox13, "unchecked");
-        }
-    }//GEN-LAST:event_jCheckBox13ItemStateChanged
-
-    private void jCheckBox14ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox14ItemStateChanged
-        // TODO add your handling code here:
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
-            enabledDisabledCheckBox(jCheckBox14, "checked");
-        } else {
-            enabledDisabledCheckBox(jCheckBox14, "unchecked");
-        }
-    }//GEN-LAST:event_jCheckBox14ItemStateChanged
-
     private void txtTeamNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTeamNameKeyPressed
         // TODO add your handling code here:
-        lblHeading.setText(txtTeamName.getText());
-        if (txtTeamName.getText().equals("")) {
-            lblHeading.setText("New Team");
-        }
+
     }//GEN-LAST:event_txtTeamNameKeyPressed
 
     private void jLabel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MouseClicked
@@ -1785,35 +576,35 @@ public class PanNewTeam extends javax.swing.JPanel {
         playerList.add(p);
     }
 
+    public class PanTeamRowList extends JPanel {
+
+        CompetitionDao competitionDao = new CompetitionDao();
+        private JPanel mainList;
+
+        public PanTeamRowList() {
+            setLayout(new BorderLayout());
+            mainList = new JPanel(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridwidth = GridBagConstraints.REMAINDER;
+            gbc.weightx = 1;
+            gbc.weighty = 1;
+            mainList.add(new JPanel(), gbc);
+            add(new JScrollPane(mainList));
+
+            for (int i = 0; i < 14; i++) {
+                PanNewTeamRow panel = new PanNewTeamRow(i + 1);
+                GridBagConstraints gbcRow = new GridBagConstraints();
+                gbcRow.gridwidth = GridBagConstraints.REMAINDER;
+                gbcRow.weightx = 1;
+                gbcRow.gridheight = 2;
+                gbcRow.fill = GridBagConstraints.HORIZONTAL;
+                mainList.add(panel, gbcRow, i);
+            }
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox cmbPositon1;
-    private javax.swing.JComboBox cmbPositon10;
-    private javax.swing.JComboBox cmbPositon11;
-    private javax.swing.JComboBox cmbPositon12;
-    private javax.swing.JComboBox cmbPositon13;
-    private javax.swing.JComboBox cmbPositon14;
-    private javax.swing.JComboBox cmbPositon2;
-    private javax.swing.JComboBox cmbPositon3;
-    private javax.swing.JComboBox cmbPositon4;
-    private javax.swing.JComboBox cmbPositon5;
-    private javax.swing.JComboBox cmbPositon6;
-    private javax.swing.JComboBox cmbPositon7;
-    private javax.swing.JComboBox cmbPositon8;
-    private javax.swing.JComboBox cmbPositon9;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox10;
-    private javax.swing.JCheckBox jCheckBox11;
-    private javax.swing.JCheckBox jCheckBox12;
-    private javax.swing.JCheckBox jCheckBox13;
-    private javax.swing.JCheckBox jCheckBox14;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
-    private javax.swing.JCheckBox jCheckBox8;
-    private javax.swing.JCheckBox jCheckBox9;
+    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1835,76 +626,21 @@ public class PanNewTeam extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
-    private javax.swing.JPanel jPanel22;
-    private javax.swing.JPanel jPanel24;
-    private javax.swing.JPanel jPanel25;
-    private javax.swing.JPanel jPanel26;
-    private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField29;
-    private javax.swing.JTextField jTextField32;
-    private javax.swing.JTextField jTextField35;
-    private javax.swing.JTextField jTextField38;
-    private javax.swing.JTextField jTextField41;
-    private javax.swing.JTextField jTextField44;
-    private javax.swing.JTextField jTextField59;
-    private javax.swing.JTextField jTextField62;
-    private javax.swing.JTextField jTextField65;
-    private javax.swing.JTextField jTextField66;
-    private javax.swing.JTextField jTextField68;
-    private javax.swing.JTextField jTextField69;
     private javax.swing.JLabel lblHeading;
+    private javax.swing.JPanel panRowShow;
     private javax.swing.JTextField txtAnalyzerName;
     private javax.swing.JTextField txtAsstCoachName;
-    private javax.swing.JTextField txtChest1;
-    private javax.swing.JTextField txtChest10;
-    private javax.swing.JTextField txtChest11;
-    private javax.swing.JTextField txtChest12;
-    private javax.swing.JTextField txtChest13;
-    private javax.swing.JTextField txtChest14;
-    private javax.swing.JTextField txtChest2;
-    private javax.swing.JTextField txtChest3;
-    private javax.swing.JTextField txtChest4;
-    private javax.swing.JTextField txtChest5;
-    private javax.swing.JTextField txtChest6;
-    private javax.swing.JTextField txtChest7;
-    private javax.swing.JTextField txtChest8;
-    private javax.swing.JTextField txtChest9;
     private javax.swing.JTextField txtCoachName;
     private javax.swing.JTextField txtCoachName1;
     private javax.swing.JTextField txtMedOffName;
-    private javax.swing.JTextField txtPlayerName1;
-    private javax.swing.JTextField txtPlayerName10;
-    private javax.swing.JTextField txtPlayerName11;
-    private javax.swing.JTextField txtPlayerName12;
-    private javax.swing.JTextField txtPlayerName13;
-    private javax.swing.JTextField txtPlayerName14;
-    private javax.swing.JTextField txtPlayerName2;
-    private javax.swing.JTextField txtPlayerName3;
-    private javax.swing.JTextField txtPlayerName4;
-    private javax.swing.JTextField txtPlayerName5;
-    private javax.swing.JTextField txtPlayerName6;
-    private javax.swing.JTextField txtPlayerName7;
-    private javax.swing.JTextField txtPlayerName8;
-    private javax.swing.JTextField txtPlayerName9;
     private javax.swing.JTextField txtTeamName;
     private javax.swing.JTextField txtrainerName;
     // End of variables declaration//GEN-END:variables

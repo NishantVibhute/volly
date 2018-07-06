@@ -31,16 +31,17 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
     PanRallyEvaluationRow p;
     public List<PanPostSkillDetailsCriteriaRow> panListRow = new ArrayList<>();
     LinkedHashMap<Integer, String> detailsValues = new LinkedHashMap<Integer, String>();
-    String item;
+    String item, chestNum;
     int skillId;
 
     /**
      * Creates new form PanRallyPostEvaluation
      */
-    public PanRallyPostEvaluation(String item, PanRallyEvaluationRow p, String skill) {
+    public PanRallyPostEvaluation(String item, PanRallyEvaluationRow p, String skill, String chestNum) {
         initComponents();
         this.p = p;
         this.item = item;
+        this.chestNum = chestNum;
         this.skillId = Skill.getIdByName(skill).getId();
         panSkillDetailsListValue = new PanSkillDetailsListValue();
         Controller.panMatchSet.panButton.setVisible(false);
@@ -269,7 +270,24 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
 
+        LinkedHashMap<Integer, String> Dig = new LinkedHashMap<Integer, String>();
+        String home = null, opp = null;
+        for (int i = 0; i < panListRow.size(); i++) {
+            try {
+                PanPostSkillDetailsCriteriaRow panRallyEvaluationRow = panListRow.get(i);
+                Dig.put(panRallyEvaluationRow.skillDescId, panRallyEvaluationRow.value);
+            } catch (Exception ex) {
+                Logger.getLogger(PanRallyLiveEvaluation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        if (skillId == Skill.Service.getId()) {
+            home = "SH" + Dig.get(SkillsDescCriteria.ServiceD.getId());
+            opp = "O" + Dig.get(SkillsDescCriteria.ServiceE.getId());
+        }
+
         CreateDiagram cd = new CreateDiagram();
+        cd.setValues(home, opp, chestNum);
         cd.init();
         cd.show();
 

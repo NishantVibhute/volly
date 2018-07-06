@@ -186,7 +186,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
                 if (p.evaluationType == 2) {
                     isDetailed = true;
                     Controller.panMatchSet.panRallyShow.removeAll();
-                    PanRallyPostEvaluation panRallyPostEvaluation = new PanRallyPostEvaluation(item, this, skill);
+                    PanRallyPostEvaluation panRallyPostEvaluation = new PanRallyPostEvaluation(item, this, skill, txtChestNum.getText());
                     Controller.panMatchSet.panRallyShow.add(panRallyPostEvaluation);
                     Controller.panMatchSet.panRallyShow.validate();
                     Controller.panMatchSet.panRallyShow.repaint();

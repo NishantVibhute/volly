@@ -6,7 +6,7 @@
 package com.vollyball.panels;
 
 import com.vollyball.bean.MatchBean;
-import com.vollyball.dialog.CreateMatchEvaluationDialog;
+import com.vollyball.dialog.CreateSelectTeamDialog;
 import com.vollyball.enums.EvaluationType;
 
 /**
@@ -54,14 +54,14 @@ public class PanMatchRow extends javax.swing.JPanel {
         lblMatch1team1 = new javax.swing.JLabel();
         lblMatch1team2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        set1live = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        set1post = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         panMatch2 = new javax.swing.JPanel();
         lblMatch2team1 = new javax.swing.JLabel();
         lblMatch2team2 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        set2live = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -86,13 +86,13 @@ public class PanMatchRow extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(153, 255, 51));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("LIVE");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        set1live.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        set1live.setForeground(new java.awt.Color(153, 255, 51));
+        set1live.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        set1live.setText("LIVE");
+        set1live.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                set1liveMouseClicked(evt);
             }
         });
 
@@ -101,24 +101,24 @@ public class PanMatchRow extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                .addComponent(set1live, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+            .addComponent(set1live, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         jPanel3.setBackground(new java.awt.Color(57, 74, 108));
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("POST");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        set1post.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        set1post.setForeground(new java.awt.Color(255, 51, 51));
+        set1post.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        set1post.setText("POST");
+        set1post.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                set1postMouseClicked(evt);
             }
         });
 
@@ -126,11 +126,11 @@ public class PanMatchRow extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+            .addComponent(set1post, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(set1post, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -176,27 +176,27 @@ public class PanMatchRow extends javax.swing.JPanel {
 
         lblMatch2team2.setText("jLabel1");
 
-        jPanel2.setBackground(new java.awt.Color(153, 255, 153));
-        jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        set2live.setBackground(new java.awt.Color(153, 255, 153));
+        set2live.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel2MouseClicked(evt);
+                set2liveMouseClicked(evt);
             }
         });
 
         jLabel2.setText("LIVE");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout set2liveLayout = new javax.swing.GroupLayout(set2live);
+        set2live.setLayout(set2liveLayout);
+        set2liveLayout.setHorizontalGroup(
+            set2liveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(set2liveLayout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(jLabel2)
                 .addContainerGap(35, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        set2liveLayout.setVerticalGroup(
+            set2liveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(set2liveLayout.createSequentialGroup()
                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -213,7 +213,7 @@ public class PanMatchRow extends javax.swing.JPanel {
                 .addGap(63, 63, 63))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panMatch2Layout.createSequentialGroup()
                 .addContainerGap(313, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(set2live, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(115, 115, 115))
         );
         panMatch2Layout.setVerticalGroup(
@@ -224,7 +224,7 @@ public class PanMatchRow extends javax.swing.JPanel {
                     .addComponent(lblMatch2team1)
                     .addComponent(lblMatch2team2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(set2live, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -255,37 +255,34 @@ public class PanMatchRow extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jPanel1MouseClicked
 
-    private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
+    private void set2liveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_set2liveMouseClicked
         // TODO add your handling code here:
-        CreateMatchEvaluationDialog obj = new CreateMatchEvaluationDialog();
-        obj.setMatchId(matchId2, EvaluationType.LIVE.getId());
+        CreateSelectTeamDialog obj = new CreateSelectTeamDialog();
+        obj.setValues(matchId2, EvaluationType.LIVE.getId());
         obj.init();
         obj.show();
-    }//GEN-LAST:event_jPanel2MouseClicked
+    }//GEN-LAST:event_set2liveMouseClicked
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void set1liveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_set1liveMouseClicked
         // TODO add your handling code here:
-        CreateMatchEvaluationDialog obj = new CreateMatchEvaluationDialog();
-        obj.setMatchId(matchId1, EvaluationType.LIVE.getId());
+        CreateSelectTeamDialog obj = new CreateSelectTeamDialog();
+        obj.setValues(matchId1, EvaluationType.LIVE.getId());
         obj.init();
         obj.show();
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_set1liveMouseClicked
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    private void set1postMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_set1postMouseClicked
         // TODO add your handling code here:
-        CreateMatchEvaluationDialog obj = new CreateMatchEvaluationDialog();
-        obj.setMatchId(matchId1, EvaluationType.POST.getId());
+        CreateSelectTeamDialog obj = new CreateSelectTeamDialog();
+        obj.setValues(matchId1, EvaluationType.POST.getId());
         obj.init();
         obj.show();
-    }//GEN-LAST:event_jLabel3MouseClicked
+    }//GEN-LAST:event_set1postMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblMatch1team1;
     private javax.swing.JLabel lblMatch1team2;
@@ -293,5 +290,8 @@ public class PanMatchRow extends javax.swing.JPanel {
     private javax.swing.JLabel lblMatch2team2;
     private javax.swing.JPanel panMatch1;
     private javax.swing.JPanel panMatch2;
+    private javax.swing.JLabel set1live;
+    private javax.swing.JLabel set1post;
+    private javax.swing.JPanel set2live;
     // End of variables declaration//GEN-END:variables
 }

@@ -23,6 +23,7 @@ public class SelectTeamPlayerDialog {
     private JFrame parentFrame;
     private JDialog dialog;
     int matchId;
+    int teamId;
 
     public void init() {
         try {
@@ -43,12 +44,13 @@ public class SelectTeamPlayerDialog {
         }
     }
 
-    public void setMatchId(int id) {
+    public void setMatchId(int id, int teamId) {
         this.matchId = id;
+        this.teamId = teamId;
     }
 
     protected Container createPane() {
-        PanSelectPlayers panTeam = new PanSelectPlayers(this.matchId);
+        PanSelectPlayers panTeam = new PanSelectPlayers(this.matchId, this.teamId);
 
         return panTeam;
 

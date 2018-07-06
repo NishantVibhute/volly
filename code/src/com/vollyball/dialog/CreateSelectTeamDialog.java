@@ -5,8 +5,16 @@
  */
 package com.vollyball.dialog;
 
-import com.vollyball.controller.Controller;
-import com.vollyball.panels.PanMatchEvaluationHome;
+/**
+ *
+ * @author nishant.vibhute
+ */
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+import com.vollyball.panels.PanSelectTeam;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -19,14 +27,13 @@ import javax.swing.JFrame;
  *
  * @author nishant.vibhute
  */
-public class CreateMatchEvaluationDialog {
+public class CreateSelectTeamDialog {
 
     private JFrame parentFrame;
     private JDialog dialog;
-    int teamId;
-    int type;
-    String homeTeam, oppteam;
+
     int matchId;
+    int evaluationType;
 
     public void init() {
         try {
@@ -37,6 +44,7 @@ public class CreateMatchEvaluationDialog {
             this.dialog.setResizable(false);
             this.dialog.getContentPane().add(createPane());
             this.dialog.pack();
+//            this.dialog.setSize(418, 505);//
 
             Dimension Size = Toolkit.getDefaultToolkit().getScreenSize();
             this.dialog.setLocation(new Double((Size.getWidth() / 2) - (dialog.getWidth() / 2)).intValue(), new Double((Size.getHeight() / 2) - (dialog.getHeight() / 2)).intValue());
@@ -47,19 +55,15 @@ public class CreateMatchEvaluationDialog {
         }
     }
 
-    public void setMatchId(int id, int type, String homeTeam, String oppteam, int matchId) {
-        this.teamId = id;
-        this.type = type;
-        this.homeTeam = homeTeam;
-        this.oppteam = oppteam;
+    public void setValues(int matchId, int evaluationType) {
         this.matchId = matchId;
+        this.evaluationType = evaluationType;
     }
 
     protected Container createPane() {
-        Controller.panMatchEvaluationHome = new PanMatchEvaluationHome(this.teamId, type, homeTeam, oppteam, matchId);
+        PanSelectTeam panSelectTeam = new PanSelectTeam(matchId, evaluationType);
 
-        return Controller.panMatchEvaluationHome;
-
+        return panSelectTeam;
     }
 
     public void show() {

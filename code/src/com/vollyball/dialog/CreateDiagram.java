@@ -22,7 +22,7 @@ public class CreateDiagram {
 
     private JFrame parentFrame;
     private JDialog dialog;
-    int x1, x2, y1, y2;
+    String home, opp, chestNum;
 
     public void init() {
         try {
@@ -44,16 +44,15 @@ public class CreateDiagram {
         }
     }
 
-    public void setValues(int x1, int x2, int y1, int y2) {
-        this.x1 = x1;
-        this.x2 = x2;
-        this.y1 = y1;
-        this.y2 = y2;
+    public void setValues(String home, String opp, String chestNum) {
+        this.home = home;
+        this.opp = opp;
+        this.chestNum = chestNum;
     }
 
     protected Container createPane() {
         PanVolleyCourt panMatch = new PanVolleyCourt();
-        panMatch.setValues(98, 77, 471, 161);
+        panMatch.setValues(home, opp, chestNum);
         return panMatch;
     }
 

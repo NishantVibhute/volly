@@ -46,6 +46,32 @@ public class MatchDao {
             ps.setInt(8, mb.getCompId());
             count = ps.executeUpdate();
 
+            if (count != 0) {
+
+                PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.latest.match.id"));
+                ResultSet rs = ps1.executeQuery();
+
+                while (rs.next()) {
+                    id = rs.getInt(1);
+                }
+
+                if (id != 0) {
+                    PreparedStatement ps2 = this.con.prepareStatement(CommonUtil.getResourceProperty("insert.matchsetevaluationteam"));
+                    ps2.setInt(1, id);
+                    ps2.setInt(2, mb.getTeam1());
+                    ps2.setInt(3, mb.getTeam2());
+                    count = ps2.executeUpdate();
+
+                    PreparedStatement ps3 = this.con.prepareStatement(CommonUtil.getResourceProperty("insert.matchsetevaluationteam"));
+                    ps2.setInt(1, id);
+                    ps2.setInt(2, mb.getTeam2());
+                    ps2.setInt(3, mb.getTeam1());
+                    count = ps3.executeUpdate();
+
+                }
+
+            }
+
             db.closeConnection(con);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -114,7 +140,7 @@ public class MatchDao {
             this.con = db.getConnection();
             PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("delete.matchPlayers"));
             ps1.setInt(1, matchId);
-//            ps1.setInt(2, teamid);
+            ps1.setInt(2, teamid);
             ps1.executeUpdate();
 
             for (int id : players) {

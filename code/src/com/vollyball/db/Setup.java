@@ -28,6 +28,7 @@ public class Setup extends Thread {
 
     DbUtil db = new DbUtil();
 
+    @Override
     public void run() {
         String resp = setupDb();
         if (resp.equalsIgnoreCase("success")) {
@@ -39,10 +40,11 @@ public class Setup extends Thread {
             createMatchesTable(80);
             createMSkillsTable(80);
             createMRatingTable(80);
+            createMatchEvaluationTable(80);
             createMSkillDescCriteriaTable(80);
             createMSkillDetailsTable(80);
             createMSkillDescCriteriaPointTable(80);
-            createMatchEvaluationTable(80);
+            createMatchEvaluationSetTable(80);
             createRallyTable(80);
             createRallyDetailsTable(80);
             createRallyDetailsCriteriaTable(80);
@@ -94,6 +96,10 @@ public class Setup extends Thread {
         executeQuery(CommonUtil.getResourceProperty("create.matches"), SetupEnum.Matches, status);
     }
 
+    public void createMatchEvaluationTable(int status) {
+        executeQuery(CommonUtil.getResourceProperty("create.matchevaluationteam"), SetupEnum.MatchEvaluationSet, status);
+    }
+
     public void createMSkillsTable(int status) {
         executeQuery(CommonUtil.getResourceProperty("create.mskills"), SetupEnum.MSkills, status);
     }
@@ -114,8 +120,8 @@ public class Setup extends Thread {
         executeQuery(CommonUtil.getResourceProperty("create.mskilldesccriteriapoint"), SetupEnum.MSkillDescCriteriaPoint, status);
     }
 
-    public void createMatchEvaluationTable(int status) {
-        executeQuery(CommonUtil.getResourceProperty("create.matchevaluation"), SetupEnum.MatchEvaluation, status);
+    public void createMatchEvaluationSetTable(int status) {
+        executeQuery(CommonUtil.getResourceProperty("create.matchevaluationset"), SetupEnum.MatchEvaluationSet, status);
     }
 
     public void createRallyTable(int status) {
