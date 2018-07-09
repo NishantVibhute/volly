@@ -76,7 +76,7 @@ public class PanMatchSet extends javax.swing.JPanel {
     String currentScore;
     String startTime, endTime;
     int op = 0, tf = 0;
-    int evaluationType;
+    int evaluationType, matchEvaluationTeamId;
 
     /**
      * Creates new form PanMatchSet
@@ -86,7 +86,7 @@ public class PanMatchSet extends javax.swing.JPanel {
      * @param teamEvaluateId
      * @param opponentId
      */
-    public PanMatchSet(int setNum, int matchId, int teamEvaluateId, int opponentId, int evaluationType) {
+    public PanMatchSet(int setNum, int matchId, int teamEvaluateId, int opponentId, int evaluationType, int matchEvaluationTeamId) {
 
         initComponents();
 
@@ -100,12 +100,12 @@ public class PanMatchSet extends javax.swing.JPanel {
         this.teamEvaluateId = teamEvaluateId;
         this.opponentId = opponentId;
         this.evaluationType = evaluationType;
+        this.matchEvaluationTeamId = matchEvaluationTeamId;
         positionMap = new LinkedHashMap<>();
 
-        MatchSet ms = matchDao.getMatchSet(setNum, matchId);
+        MatchSet ms = matchDao.getMatchSet(setNum, matchEvaluationTeamId);
 
         if (ms.getId() != 0) {
-
             this.matchEvaluationId = ms.getId();
             lblDate.setText(CommonUtil.ConvertDateFromDbToNormal(ms.getDate()));
             lblTime.setText(ms.getStart_time());
@@ -139,7 +139,6 @@ public class PanMatchSet extends javax.swing.JPanel {
             }
 
             for (SetSubstitution s : ms.getSetSubstitutions()) {
-
                 String cNo = s.getSubstitutePlayerId() == 0 ? "" : playerMap.get(s.getSubstitutePlayerId()).getChestNo();
                 String p1 = s.getPoint1();
                 String p2 = s.getPoint2();
@@ -175,7 +174,6 @@ public class PanMatchSet extends javax.swing.JPanel {
                         pt26.setText(p2);
                         break;
                 }
-
             }
 
             pos1.setText(positionMap.get(1).getChestNo());
@@ -1679,20 +1677,16 @@ public class PanMatchSet extends javax.swing.JPanel {
             .addGroup(jPanel19Layout.createSequentialGroup()
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel8))
+                    .addGroup(jPanel19Layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel5))
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4))
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel8)))
+                            .addComponent(lblDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(5, 5, 5))
         );
 
@@ -1842,7 +1836,7 @@ public class PanMatchSet extends javax.swing.JPanel {
 //                    currentRally++;
                     if (this.matchEvaluationId == 0) {
                         MatchSet ms = new MatchSet();
-                        ms.setMatchId(matchId);
+                        ms.setMatchEvaluationTeamId(matchEvaluationTeamId);
                         ms.setEvaluationTeamId(teamEvaluateId);
                         ms.setOpponentTeamId(opponentId);
                         ms.setStart_time(lblTime.getText());
@@ -2003,7 +1997,7 @@ public class PanMatchSet extends javax.swing.JPanel {
                                 showRallyList();
                             }
                         } else {
-
+                            setScore();
                             showRallyList();
                         }
                     } else {
@@ -2217,7 +2211,7 @@ public class PanMatchSet extends javax.swing.JPanel {
     }
 
     public void newRally() {
-        setScore();
+//        setScore();
         int rallynum = currentRally + 1;
         panRallyShow.removeAll();
         validate();

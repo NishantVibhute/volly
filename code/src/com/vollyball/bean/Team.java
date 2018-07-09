@@ -17,6 +17,7 @@ public class Team {
 
     int id;
     String name;
+    String shortCode;
     String coach;
     String asstCoach;
     String trainer;
@@ -95,6 +96,14 @@ public class Team {
 
     public void setCompId(int compId) {
         this.compId = compId;
+    }
+
+    public String getShortCode() {
+        return shortCode;
+    }
+
+    public void setShortCode(String shortCode) {
+        this.shortCode = shortCode;
     }
 
 }

@@ -181,8 +181,10 @@ public class PanSelectTeam extends javax.swing.JPanel {
 
     private void lblTeam1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTeam1MouseClicked
         // TODO add your handling code here:
+        int matchEvaluationTeamId = matchDao.getMatchEvaluationTeamId(matchId, team1id);
+
         CreateMatchEvaluationDialog obj = new CreateMatchEvaluationDialog();
-        obj.setMatchId(team1id, evaluationType, homeTeam, oppteam, matchId);
+        obj.setMatchId(team1id, team2id, evaluationType, homeTeam, oppteam, matchId, matchEvaluationTeamId);
         obj.init();
         obj.show();
 
@@ -190,8 +192,9 @@ public class PanSelectTeam extends javax.swing.JPanel {
 
     private void lblTeam2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTeam2MouseClicked
         // TODO add your handling code here:
+        int matchEvaluationTeamId = matchDao.getMatchEvaluationTeamId(matchId, team2id);
         CreateMatchEvaluationDialog obj = new CreateMatchEvaluationDialog();
-        obj.setMatchId(team2id, evaluationType, homeTeam, oppteam, matchId);
+        obj.setMatchId(team2id, team1id, evaluationType, homeTeam, oppteam, matchId, matchEvaluationTeamId);
         obj.init();
         obj.show();
 

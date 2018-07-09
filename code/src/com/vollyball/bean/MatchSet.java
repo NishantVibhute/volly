@@ -15,7 +15,7 @@ import java.util.List;
 public class MatchSet {
 
     int id;
-    int matchId;
+    int matchEvaluationTeamId;
     int evaluationTeamId;
     int opponentTeamId;
     int setNo;
@@ -41,12 +41,12 @@ public class MatchSet {
         this.id = id;
     }
 
-    public int getMatchId() {
-        return matchId;
+    public int getMatchEvaluationTeamId() {
+        return matchEvaluationTeamId;
     }
 
-    public void setMatchId(int matchId) {
-        this.matchId = matchId;
+    public void setMatchEvaluationTeamId(int matchEvaluationTeamId) {
+        this.matchEvaluationTeamId = matchEvaluationTeamId;
     }
 
     public int getEvaluationTeamId() {

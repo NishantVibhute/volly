@@ -50,13 +50,16 @@ public class PanRotationOrder extends javax.swing.JPanel {
                 if (!Controller.panMatchSet.positionMap.isEmpty()) {
                     for (int i = 1; i <= 7; i++) {
                         if (Controller.panMatchSet.positionMap.get(i).getChestNo().equals(player.getChestNo())) {
-                            modelSelectedPlayer.removeRow(j);
-                            j--;
+                            for (int k = 0; k < tbPlayers.getRowCount(); k++) {
+                                if (player.getChestNo().equals((String) tbPlayers.getValueAt(k, 1))) {
+                                    modelSelectedPlayer.removeRow(k);
+                                }
+                            }
                         }
                     }
                 }
             }
-            j++;
+
         }
 
         if (!Controller.panMatchSet.positionMap.isEmpty()) {

@@ -14,6 +14,7 @@ public class Player {
     int id;
     String name;
     String chestNo;
+    boolean captain;
     int teamId;
     int position;
 
@@ -47,6 +48,22 @@ public class Player {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public boolean isCaptain() {
+        return captain;
+    }
+
+    public void setCaptain(boolean captain) {
+        this.captain = captain;
+    }
+
+    public int getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(int teamId) {
+        this.teamId = teamId;
     }
 
 }

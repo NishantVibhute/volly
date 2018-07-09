@@ -29,7 +29,7 @@ public class SelectTeamPlayerDialog {
         try {
 //            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
-            this.dialog = new JDialog(this.parentFrame, "Select Team", true);
+            this.dialog = new JDialog(this.parentFrame, "Select Players", true);
 
             this.dialog.setResizable(false);
             this.dialog.getContentPane().add(createPane());

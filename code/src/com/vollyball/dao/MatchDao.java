@@ -63,9 +63,9 @@ public class MatchDao {
                     count = ps2.executeUpdate();
 
                     PreparedStatement ps3 = this.con.prepareStatement(CommonUtil.getResourceProperty("insert.matchsetevaluationteam"));
-                    ps2.setInt(1, id);
-                    ps2.setInt(2, mb.getTeam2());
-                    ps2.setInt(3, mb.getTeam1());
+                    ps3.setInt(1, id);
+                    ps3.setInt(2, mb.getTeam2());
+                    ps3.setInt(3, mb.getTeam1());
                     count = ps3.executeUpdate();
 
                 }
@@ -181,15 +181,14 @@ public class MatchDao {
         try {
             this.con = db.getConnection();
             PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("insert.matchset"));
-            ps.setInt(1, ms.getMatchId());
-            ps.setInt(2, ms.getEvaluationTeamId());
-            ps.setInt(3, ms.getOpponentTeamId());
-            ps.setInt(4, ms.getSetNo());
-            ps.setInt(5, ms.getWon_by());
-            ps.setString(6, ms.getStart_time());
-            ps.setString(7, ms.getEnd_time());
-            ps.setString(8, ms.getEvaluator());
-            ps.setString(9, ms.getDate());
+            ps.setInt(1, ms.getMatchEvaluationTeamId());
+
+            ps.setInt(2, ms.getSetNo());
+            ps.setInt(3, ms.getWon_by());
+            ps.setString(4, ms.getStart_time());
+            ps.setString(5, ms.getEnd_time());
+            ps.setString(6, ms.getEvaluator());
+            ps.setString(7, ms.getDate());
             id = ps.executeUpdate();
 
             if (id != 0) {
@@ -250,7 +249,7 @@ public class MatchDao {
 
             while (rs.next()) {
                 ms.setId(rs.getInt(1));
-                ms.setMatchId(rs.getInt(2));
+                ms.setMatchEvaluationTeamId(rs.getInt(2));
                 ms.setEvaluationTeamId(rs.getInt(3));
                 ms.setOpponentTeamId(rs.getInt(4));
                 ms.setSetNo(rs.getInt(5));
@@ -401,6 +400,8 @@ public class MatchDao {
         int id = 0;
         try {
 
+            int rallyId = getLatestRally(st.getMatchEvalId());
+
             this.con = db.getConnection();
             PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("insert.matchset.timeout"));
 
@@ -409,6 +410,7 @@ public class MatchDao {
             ps1.setInt(3, st.getScoreA());
             ps1.setInt(4, st.getScoreB());
             ps1.setInt(5, st.getMatchEvalId());
+            ps1.setInt(6, rallyId);
             id = ps1.executeUpdate();
 
             this.db.closeConnection(con);
@@ -417,6 +419,47 @@ public class MatchDao {
             Logger.getLogger(MatchDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return id;
+    }
+
+    public int getMatchEvaluationTeamId(int matchId, int evaluationTeamId) {
+        int id = 0;
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.matchEvaluationTeamid"));
+            ps1.setInt(1, evaluationTeamId);
+            ps1.setInt(2, matchId);
+            ResultSet rs1 = ps1.executeQuery();
+
+            while (rs1.next()) {
+                id = rs1.getInt(1);
+            }
+
+            this.db.closeConnection(con);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MatchDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+
+    public int getLatestRally(int matchevaluationId) {
+        int id = 0;
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.latestrally"));
+            ps.setInt(1, matchevaluationId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return id;
+
     }
 
 }

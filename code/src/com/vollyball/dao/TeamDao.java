@@ -8,6 +8,7 @@ package com.vollyball.dao;
 import com.vollyball.bean.Player;
 import com.vollyball.bean.Team;
 import com.vollyball.db.DbUtil;
+import com.vollyball.enums.TrueFalse;
 import com.vollyball.util.CommonUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -40,6 +41,7 @@ public class TeamDao {
             ps.setString(5, team.getMedicalOffice());
             ps.setString(6, team.getAnalyzer());
             ps.setInt(7, team.getCompId());
+            ps.setString(8, team.getShortCode());
             count = ps.executeUpdate();
 
             if (count != 0) {
@@ -58,6 +60,7 @@ public class TeamDao {
                             ps2.setString(2, p.getChestNo());
                             ps2.setInt(3, id);
                             ps2.setInt(4, p.getPosition());
+                            ps2.setInt(5, p.isCaptain() == true ? TrueFalse.TRUE.getId() : TrueFalse.FALSE.getId());
                             ps2.executeUpdate();
                         }
                     }

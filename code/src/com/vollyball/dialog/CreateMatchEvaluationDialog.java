@@ -23,10 +23,10 @@ public class CreateMatchEvaluationDialog {
 
     private JFrame parentFrame;
     private JDialog dialog;
-    int teamId;
+    int teamId, oppId;
     int type;
     String homeTeam, oppteam;
-    int matchId;
+    int matchId, matchEvaluationTeamId;
 
     public void init() {
         try {
@@ -47,16 +47,18 @@ public class CreateMatchEvaluationDialog {
         }
     }
 
-    public void setMatchId(int id, int type, String homeTeam, String oppteam, int matchId) {
+    public void setMatchId(int id, int oppId, int type, String homeTeam, String oppteam, int matchId, int matchEvaluationTeamId) {
         this.teamId = id;
+        this.oppId = oppId;
         this.type = type;
         this.homeTeam = homeTeam;
         this.oppteam = oppteam;
         this.matchId = matchId;
+        this.matchEvaluationTeamId = matchEvaluationTeamId;
     }
 
     protected Container createPane() {
-        Controller.panMatchEvaluationHome = new PanMatchEvaluationHome(this.teamId, type, homeTeam, oppteam, matchId);
+        Controller.panMatchEvaluationHome = new PanMatchEvaluationHome(this.teamId, oppId, type, homeTeam, oppteam, matchId, matchEvaluationTeamId);
 
         return Controller.panMatchEvaluationHome;
 

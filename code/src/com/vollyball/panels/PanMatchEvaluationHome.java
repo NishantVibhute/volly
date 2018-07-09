@@ -25,25 +25,28 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
     LinkedHashMap<Integer, String> teamsMap;
     TeamDao td = new TeamDao();
     DefaultTableModel model, modelSelectedPlayer;
-    int selectedTeam, teamId, evaluationType;
+    int selectedTeam, teamId, evaluationType, oppId;
     MatchDao matchDao = new MatchDao();
     int evaluatingTeam = 0, opponentTeam = 0;
     SelectTeamPlayerDialog selectTeamPlayerDialog;
     String homeTeam, oppteam;
-    int matchId;
+    int matchId, matchEvaluationTeamId;
+    List<Integer> selectedPlayers;
 
     /**
      * Creates new form MatchEvaluationHome
      *
      * @param matchId
      */
-    public PanMatchEvaluationHome(int teamId, int evaluationType, String homeTeam, String oppteam, int matchId) {
+    public PanMatchEvaluationHome(int teamId, int oppId, int evaluationType, String homeTeam, String oppteam, int matchId, int matchEvaluationTeamId) {
         initComponents();
         this.teamId = teamId;
+        this.oppId = oppId;
         this.evaluationType = evaluationType;
         this.homeTeam = homeTeam;
         this.oppteam = oppteam;
         this.matchId = matchId;
+        this.matchEvaluationTeamId = matchEvaluationTeamId;
         setTeamName();
 
     }
@@ -57,7 +60,7 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
         selectOpponentTeam.setText(oppteam);
         hometeamname.setText(homeTeam);
 
-        List<Integer> selectedPlayers = td.getMatchPlayers(this.matchId, teamId);
+        selectedPlayers = td.getMatchPlayers(this.matchId, teamId);
         if (selectedPlayers.size() != 0) {
             selectHomeTeam.setText(selectedPlayers.size() + " Selected");
 
@@ -516,11 +519,11 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
 
     public void showPanMatchSet(int set) {
 
-        if (this.evaluatingTeam == 0) {
-            JOptionPane.showMessageDialog(this, "Please Select Evaluation Team", "Error", 2);
+        if (selectedPlayers.size() == 0) {
+            JOptionPane.showMessageDialog(this, "Please Select Players", "Error", 2);
         } else {
             MatchSetDialog obj = new MatchSetDialog();
-            obj.setSetFields(set, this.matchId, this.evaluatingTeam, this.opponentTeam, evaluationType);
+            obj.setSetFields(set, this.matchId, this.teamId, this.oppId, evaluationType, matchEvaluationTeamId);
             obj.init();
             obj.show();
         }

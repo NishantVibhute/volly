@@ -244,7 +244,6 @@ public class PanComptitionHome extends javax.swing.JPanel {
             Object[] row = {i, team.getName(), team};
             model.addRow(row);
         }
-
     }//GEN-LAST:event_lblTeamMouseClicked
 
     private void lblNewButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewButtonMouseClicked
