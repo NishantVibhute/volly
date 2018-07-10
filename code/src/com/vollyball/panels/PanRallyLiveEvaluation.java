@@ -19,6 +19,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Robot;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -46,6 +47,7 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
     public boolean isInserted = false;
     public String startTime, endTime;
     int evaluationType;
+//    List<PanRallyEvaluationRow> panList = new ArrayList<>();
 
     /**
      * Creates new form PanRally
@@ -82,7 +84,7 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
             panCompListValue.addBlankRow();
             Controller.panMatchSet.butNext.setText("Save");
         }
-        panCompListValue.setBounds(0, 0, 340, 300);
+        panCompListValue.setBounds(0, 0, 353, 294);
         panDynamic.add(panCompListValue);
 
     }
@@ -91,8 +93,12 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
         panCompListValue.add();
     }
 
-    public void addToPosition(int m) {
-        panCompListValue.addToPosition(m);
+    public void addToPosition() {
+        panCompListValue.addToPosition();
+    }
+
+    public void removePosition() {
+        panCompListValue.removeRow();
     }
 
     public class PanCompListValue extends JPanel {
@@ -128,6 +134,7 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
             gbcRow.gridheight = 2;
             gbcRow.fill = GridBagConstraints.HORIZONTAL;
             panel.hideButton();
+            panel.hideMinusButton();
             mainList.add(panel, gbcRow, 0);
             validate();
             repaint();
@@ -152,20 +159,53 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
             panListRow.add(panel);
         }
 
-        public void addToPosition(int m) {
+        public void removeRow() {
+            int atRow = 0;
+            int i = 0;
+            for (PanRallyEvaluationRow p : panListRow) {
+                if (p.isAddClicked) {
+
+                    p.isAddClicked = false;
+                    panListRow.remove(i);
+                    break;
+
+                }
+                i++;
+            }
+            mainList.remove(i);
+            validate();
+            repaint();
+        }
+
+        public void addToPosition() {
+
+            int atRow = 0;
             PanRallyEvaluationRow panel = new PanRallyEvaluationRow(PanRallyLiveEvaluation.this);
             GridBagConstraints gbcRow = new GridBagConstraints();
             gbcRow.gridwidth = GridBagConstraints.REMAINDER;
             gbcRow.weightx = 1;
             gbcRow.gridheight = 2;
             gbcRow.fill = GridBagConstraints.HORIZONTAL;
-            mainList.add(panel, gbcRow, m);
+
+            int i = 0;
+            for (PanRallyEvaluationRow p : panListRow) {
+                if (p.isAddClicked) {
+                    atRow = i + 1;
+                    p.isAddClicked = false;
+                    panListRow.add(atRow, panel);
+                    break;
+
+                }
+                i++;
+            }
+
+            mainList.add(panel, gbcRow, atRow);
             validate();
             repaint();
             JScrollBar vertical = s.getVerticalScrollBar();
             vertical.setValue(vertical.getMaximum());
             k++;
-            panListRow.add(panel);
+
         }
 
         public void addRallyList() {
@@ -178,13 +218,14 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
             for (RallyEvaluationSkillScore ress : re.getRallyEvaluationSkillScore()) {
                 rallyRow++;
                 PanRallyEvaluationRow panel = new PanRallyEvaluationRow(PanRallyLiveEvaluation.this);
-                panel.setValues(Skill.getNameById(ress.getSkillId()).getType(), ress.getPlayerId(), ress.getScore());
+                panel.setValues(Skill.getNameById(ress.getSkillId()).getType(), ress.getPlayerId(), ress.getScore(), ress.getId());
                 GridBagConstraints gbcRow = new GridBagConstraints();
                 gbcRow.gridwidth = GridBagConstraints.REMAINDER;
                 gbcRow.weightx = 1;
                 gbcRow.gridheight = 2;
                 gbcRow.fill = GridBagConstraints.HORIZONTAL;
                 mainList.add(panel, gbcRow, i);
+//                panList.add(panel);
                 i++;
                 validate();
                 repaint();
@@ -233,6 +274,8 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
+        setBackground(new java.awt.Color(255, 255, 255));
+
         jPanel1.setBackground(new java.awt.Color(54, 78, 108));
 
         lblBack.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
@@ -276,22 +319,20 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblRallyEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel5)
-                        .addComponent(lblRallyStartTime))
+                    .addComponent(lblRallyStartTime)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(lblBack, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(lblRallyEndTime))))
-                .addGap(5, 5, 5))
+                        .addComponent(lblRallyEndTime)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -393,11 +434,11 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addGap(15, 15, 15)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47))
+                .addContainerGap(60, Short.MAX_VALUE))
             .addComponent(panDynamic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
@@ -415,7 +456,7 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -439,13 +480,15 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBackMouseClicked
         // TODO add your handling code here:
+        Controller.panMatchSet.setBackNextInVisible();
         Controller.panMatchSet.showRallyList();
     }//GEN-LAST:event_lblBackMouseClicked
 

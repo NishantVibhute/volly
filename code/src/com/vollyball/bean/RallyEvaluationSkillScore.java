@@ -22,6 +22,7 @@ public class RallyEvaluationSkillScore {
     int rallyId;
     boolean isDetailed;
     LinkedHashMap<Integer, String> detailsValues = new LinkedHashMap<Integer, String>();
+    int orderNum;
 
     public int getRallyId() {
         return rallyId;
@@ -93,6 +94,14 @@ public class RallyEvaluationSkillScore {
 
     public void setIsDetailed(boolean isDetailed) {
         this.isDetailed = isDetailed;
+    }
+
+    public int getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(int orderNum) {
+        this.orderNum = orderNum;
     }
 
 }

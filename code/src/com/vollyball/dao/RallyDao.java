@@ -65,6 +65,7 @@ public class RallyDao {
                     ps1.setInt(2, ress.getPlayerId());
                     ps1.setInt(3, ress.getScore());
                     ps1.setInt(4, rid);
+                    ps1.setInt(5, ress.getOrderNum());
                     ps1.executeUpdate();
                 }
 
@@ -79,34 +80,58 @@ public class RallyDao {
 
     }
 
-    public int updateRally(RallyEvaluation re) {
+    public int updateRally(RallyEvaluation re, List<Integer> updated) {
+
+        List<Integer> original = new ArrayList<>();
 
         int id = 0;
         int rid = re.getId();
         try {
             this.con = db.getConnection();
             PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("update.rally"));
-
             ps.setInt(1, re.getHomeScore());
             ps.setInt(2, re.getOpponentScore());
             ps.setInt(3, re.getId());
-
             id = ps.executeUpdate();
 
             if (id != 0) {
-                PreparedStatement ps3 = this.con.prepareStatement(CommonUtil.getResourceProperty("delete.rallydetails"));
+                PreparedStatement ps3 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.rallydetails"));
                 ps3.setInt(1, rid);
-                ps3.executeUpdate();
-
-                for (RallyEvaluationSkillScore ress : re.getRallyEvaluationSkillScore()) {
-                    PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("insert.rallydetails"));
-                    ps1.setInt(1, ress.getSkillId());
-                    ps1.setInt(2, ress.getPlayerId());
-                    ps1.setInt(3, ress.getScore());
-                    ps1.setInt(4, rid);
-                    ps1.executeUpdate();
+                ResultSet rs1 = ps3.executeQuery();
+                while (rs1.next()) {
+                    original.add(rs1.getInt(1));
                 }
 
+                ArrayList<Integer> remove = new ArrayList<Integer>(original);
+                remove.removeAll(updated);
+
+                for (RallyEvaluationSkillScore ress : re.getRallyEvaluationSkillScore()) {
+
+                    if (ress.getId() == 0) {
+                        PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("insert.rallydetails"));
+                        ps1.setInt(1, ress.getSkillId());
+                        ps1.setInt(2, ress.getPlayerId());
+                        ps1.setInt(3, ress.getScore());
+                        ps1.setInt(4, rid);
+                        ps1.setInt(5, ress.getOrderNum());
+                        ps1.executeUpdate();
+                    } else {
+                        PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("update.rallydetails"));
+                        ps1.setInt(1, ress.getSkillId());
+                        ps1.setInt(2, ress.getPlayerId());
+                        ps1.setInt(3, ress.getScore());
+                        ps1.setInt(4, ress.getOrderNum());
+                        ps1.setInt(5, ress.getId());
+                        ps1.setInt(6, rid);
+                        ps1.executeUpdate();
+                    }
+                }
+
+                for (int i : remove) {
+                    PreparedStatement ps4 = this.con.prepareStatement(CommonUtil.getResourceProperty("delete.rallydetails"));
+                    ps4.setInt(1, i);
+                    ps4.executeUpdate();
+                }
             }
 
             db.closeConnection(con);

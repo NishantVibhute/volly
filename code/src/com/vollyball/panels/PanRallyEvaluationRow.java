@@ -31,13 +31,14 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
     Robot robot;
     PanRallyLiveEvaluation p;
     TeamDao teamDao = new TeamDao();
-    int num = 0;
+    int num = 0, id = 0;
     String skill;
     boolean isDetailed;
     public int playerId = 0;
     LinkedHashMap<Integer, String> detailsValues = new LinkedHashMap<Integer, String>();
     LinkedHashMap<String, Integer> chestNumPlayerId = new LinkedHashMap<String, Integer>();
     LinkedHashMap<Integer, String> playerIdChestNum = new LinkedHashMap<Integer, String>();
+    public boolean isAddClicked = false, isSubClicked = false;
 
     /**
      * Creates new form PanRallyEvaluationRow
@@ -67,17 +68,23 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
 
     }
 
-    public void setValues(String skill, Integer PlayerId, int score) {
+    public void setValues(String skill, Integer PlayerId, int score, int id) {
 
         txtSkill.setText(skill);
 //        cmbChest.setSelectedItem(chestNo);
         playerId = PlayerId;
         txtChestNum.setText(playerIdChestNum.get(PlayerId));
         cmbScore.setSelectedItem(score);
+        this.id = id;
+
     }
 
     public void hideButton() {
         lblAddNew.setIcon(null);
+    }
+
+    public void hideMinusButton() {
+        lblSub.setIcon(null);
     }
 
     /**
@@ -93,6 +100,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
         cmbScore = new javax.swing.JComboBox();
         lblAddNew = new javax.swing.JLabel();
         txtChestNum = new javax.swing.JTextField();
+        lblSub = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -134,6 +142,14 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
             }
         });
 
+        lblSub.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSub.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vollyball/images/icons8-minus-20.png"))); // NOI18N
+        lblSub.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSubMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,8 +160,11 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
                 .addComponent(txtChestNum, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(cmbScore, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(lblAddNew, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(lblAddNew, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                .addComponent(lblSub, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,12 +172,14 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
             .addComponent(cmbScore)
             .addComponent(lblAddNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(txtChestNum, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(lblSub, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblAddNewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddNewMouseClicked
         // TODO add your handling code here:
-        p.refresh();
+        isAddClicked = true;
+        p.addToPosition();
 
     }//GEN-LAST:event_lblAddNewMouseClicked
 
@@ -215,6 +236,13 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_txtChestNumKeyReleased
+
+    private void lblSubMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSubMouseClicked
+        // TODO add your handling code here:
+        isAddClicked = true;
+        p.removePosition();
+
+    }//GEN-LAST:event_lblSubMouseClicked
 
     public void setRallyRow(String item) {
         if (p.evaluationType == 2) {
@@ -326,6 +354,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox cmbScore;
     private javax.swing.JLabel lblAddNew;
+    private javax.swing.JLabel lblSub;
     public javax.swing.JTextField txtChestNum;
     public javax.swing.JTextField txtSkill;
     // End of variables declaration//GEN-END:variables

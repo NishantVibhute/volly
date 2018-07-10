@@ -58,6 +58,7 @@ public class PanMatchSet extends javax.swing.JPanel {
     int teamEvaluateId;
     int opponentId;
     int matchEvaluationId = 0;
+    public int rallyNumNext = 0, totalRallies = 0;
     public SetRotationDialog setRotationDialog;
     public LinkedHashMap<Integer, RallyEvaluation> rallyMap = new LinkedHashMap<Integer, RallyEvaluation>();
     public LinkedHashMap<Integer, PanRallyLiveEvaluation> panRallyMap = new LinkedHashMap<Integer, PanRallyLiveEvaluation>();
@@ -89,7 +90,7 @@ public class PanMatchSet extends javax.swing.JPanel {
     public PanMatchSet(int setNum, int matchId, int teamEvaluateId, int opponentId, int evaluationType, int matchEvaluationTeamId) {
 
         initComponents();
-
+        setBackNextInVisible();
         if (evaluationType == 2) {
             initializePlayer();
         }
@@ -193,6 +194,7 @@ public class PanMatchSet extends javax.swing.JPanel {
 
             List<RallyEvaluation> rallies = rallyDao.getRalliesList(matchEvaluationId);
 
+            totalRallies = rallies.size();
             for (RallyEvaluation rally : rallies) {
                 PanRallyBut pnBut = new PanRallyBut();
                 pnBut.setRally(rally.getRallyNum(), matchEvaluationId, positionMap, evaluationType);
@@ -216,6 +218,16 @@ public class PanMatchSet extends javax.swing.JPanel {
 //        panRallyNew = new PanRallyNew();
 //        panRallyList.add(panRallyNew);
         setScore();
+    }
+
+    public void setBackNextInVisible() {
+        lblBack.setVisible(false);
+        lblNext.setVisible(false);
+    }
+
+    public void setBackNextVisible() {
+        lblBack.setVisible(true);
+        lblNext.setVisible(true);
     }
 
     public void setScore() {
@@ -349,6 +361,8 @@ public class PanMatchSet extends javax.swing.JPanel {
         jPanel13 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         lblRallyHeading = new javax.swing.JLabel();
+        lblNext = new javax.swing.JLabel();
+        lblBack = new javax.swing.JLabel();
         panButton = new javax.swing.JPanel();
         panNext = new javax.swing.JPanel();
         butNext = new javax.swing.JLabel();
@@ -1532,17 +1546,40 @@ public class PanMatchSet extends javax.swing.JPanel {
         lblRallyHeading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblRallyHeading.setText("RALLY");
 
+        lblNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vollyball/images/arrownext.png"))); // NOI18N
+        lblNext.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblNextMouseClicked(evt);
+            }
+        });
+
+        lblBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vollyball/images/arrowback.png"))); // NOI18N
+        lblBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblBackMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(lblRallyHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(lblBack)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblRallyHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblNext))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblRallyHeading, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+            .addComponent(lblRallyHeading, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+            .addComponent(lblNext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(lblBack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         panButton.setBackground(new java.awt.Color(255, 255, 255));
@@ -1610,7 +1647,7 @@ public class PanMatchSet extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(panRallyShow, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+                .addComponent(panRallyShow, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(panButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -1875,6 +1912,7 @@ public class PanMatchSet extends javax.swing.JPanel {
                 }
                 break;
             case "Update":
+                List<Integer> updated = new ArrayList<>();
                 RallyEvaluation rallyUpdate = new RallyEvaluation();
                 rallyUpdate.setId(panRallyCurrent.id);
                 rallyUpdate.setRallyNum(panRallyCurrent.rallyNum);
@@ -1886,11 +1924,14 @@ public class PanMatchSet extends javax.swing.JPanel {
                         PanRallyEvaluationRow panRallyEvaluationRow = panRallyCurrent.panListRow.get(i);
                         if (!panRallyEvaluationRow.txtSkill.getText().isEmpty()) {
                             RallyEvaluationSkillScore rs = new RallyEvaluationSkillScore();
+                            updated.add(panRallyEvaluationRow.id);
+                            rs.setId(panRallyEvaluationRow.id);
                             rs.setSkill(panRallyEvaluationRow.txtSkill.getText());
                             rs.setSkillId(Skill.getIdByName(panRallyEvaluationRow.txtSkill.getText()).getId());
                             rs.setChestNo(String.valueOf(panRallyEvaluationRow.txtChestNum.getText()));
                             rs.setPlayerId(panRallyEvaluationRow.playerId);
                             rs.setScore(Integer.parseInt(String.valueOf(panRallyEvaluationRow.cmbScore.getSelectedItem())));
+                            rs.setOrderNum(i + 1);
                             rallyUpdate.getRallyEvaluationSkillScore().add(rs);
                         }
                     } catch (Exception ex) {
@@ -1898,7 +1939,7 @@ public class PanMatchSet extends javax.swing.JPanel {
                     }
 
                 }
-                int id = rallyDao.updateRally(rallyUpdate);
+                int id = rallyDao.updateRally(rallyUpdate, updated);
                 if (id != 0) {
                     JOptionPane.showMessageDialog(panRallyCurrent, "Updated Successfully");
                     showRallyList();
@@ -1941,7 +1982,7 @@ public class PanMatchSet extends javax.swing.JPanel {
                                 rallyInsert.setOp(op);
                                 rallyInsert.setTf(tf);
                                 rs.setSkillId(Skill.getIdByName(panRallyEvaluationRow.txtSkill.getText()).getId());
-
+                                rs.setOrderNum(i + 1);
                                 rs.setScore(Integer.parseInt(String.valueOf(panRallyEvaluationRow.cmbScore.getSelectedItem())));
 
                                 if (panRallyEvaluationRow.isDetailed) {
@@ -1958,6 +1999,7 @@ public class PanMatchSet extends javax.swing.JPanel {
                     }
                     int idInserted = rallyDao.insertRally(rallyInsert);
                     if (idInserted != 0) {
+                        totalRallies++;
                         currentRally++;
                         PanRallyBut pnBut = new PanRallyBut();
                         pnBut.setRally(currentRally, matchEvaluationId, positionMap, evaluationType);
@@ -2128,6 +2170,48 @@ public class PanMatchSet extends javax.swing.JPanel {
     private void tm6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tm6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tm6ActionPerformed
+
+    private void lblNextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNextMouseClicked
+        // TODO add your handling code here:
+        rallyNumNext++;
+        Controller.panMatchSet.panRallyCurrent = new PanRallyLiveEvaluation(rallyNumNext, matchEvaluationId, positionMap, evaluationType);
+        Controller.panMatchSet.panNext.setVisible(true);
+        Controller.panMatchSet.panRallyShow.removeAll();
+        Controller.panMatchSet.panRallyShow.add(Controller.panMatchSet.panRallyCurrent);
+        Controller.panMatchSet.setBackNextVisible();
+
+        if (rallyNumNext == totalRallies) {
+            lblNext.setVisible(false);
+            lblBack.setVisible(true);
+        } else if (rallyNumNext == 1) {
+            lblNext.setVisible(true);
+            lblBack.setVisible(false);
+        }
+
+        Controller.panMatchSet.validate();
+        Controller.panMatchSet.repaint();
+
+    }//GEN-LAST:event_lblNextMouseClicked
+
+    private void lblBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBackMouseClicked
+        // TODO add your handling code here:
+        rallyNumNext--;
+        Controller.panMatchSet.panRallyCurrent = new PanRallyLiveEvaluation(rallyNumNext, matchEvaluationId, positionMap, evaluationType);
+        Controller.panMatchSet.panNext.setVisible(true);
+        Controller.panMatchSet.panRallyShow.removeAll();
+        Controller.panMatchSet.panRallyShow.add(Controller.panMatchSet.panRallyCurrent);
+        Controller.panMatchSet.setBackNextVisible();
+        if (rallyNumNext == totalRallies) {
+            lblNext.setVisible(false);
+            lblBack.setVisible(true);
+        } else if (rallyNumNext == 1) {
+            lblNext.setVisible(true);
+            lblBack.setVisible(false);
+        }
+
+        Controller.panMatchSet.validate();
+        Controller.panMatchSet.repaint();
+    }//GEN-LAST:event_lblBackMouseClicked
 
     public void setTimeout(String teamName) {
         int pos = matchDao.getTimeOutCount(matchEvaluationId);
@@ -2350,7 +2434,9 @@ public class PanMatchSet extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField51;
     private javax.swing.JTextField jTextField58;
+    private javax.swing.JLabel lblBack;
     private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblNext;
     private javax.swing.JTextField lblOp;
     public static javax.swing.JLabel lblRallyHeading;
     private javax.swing.JLabel lblScore;

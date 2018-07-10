@@ -27,8 +27,11 @@
               <Component id="txtChestNum" min="-2" pref="80" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               <Component id="cmbScore" min="-2" pref="80" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+              <Component id="lblAddNew" min="-2" pref="27" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="lblAddNew" pref="45" max="32767" attributes="0"/>
+              <Component id="lblSub" min="-2" pref="27" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -38,6 +41,7 @@
           <Component id="cmbScore" alignment="0" max="32767" attributes="0"/>
           <Component id="lblAddNew" alignment="0" max="32767" attributes="0"/>
           <Component id="txtChestNum" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
+          <Component id="lblSub" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -118,6 +122,17 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblSub">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/com/vollyball/images/icons8-minus-20.png"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblSubMouseClicked"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
