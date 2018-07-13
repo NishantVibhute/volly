@@ -12,6 +12,7 @@ import com.vollyball.enums.Rating;
 import com.vollyball.enums.Skill;
 import java.awt.AWTException;
 import java.awt.Robot;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,7 +39,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
     LinkedHashMap<Integer, String> detailsValues = new LinkedHashMap<Integer, String>();
     LinkedHashMap<String, Integer> chestNumPlayerId = new LinkedHashMap<String, Integer>();
     LinkedHashMap<Integer, String> playerIdChestNum = new LinkedHashMap<Integer, String>();
-    public boolean isAddClicked = false, isSubClicked = false;
+    public boolean isAddClicked = false, isSubClicked = false, isrowadded = false;
 
     /**
      * Creates new form PanRallyEvaluationRow
@@ -57,7 +58,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
             Logger.getLogger(PanRallyLiveEvaluation.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        for (Map.Entry<Integer, Player> entry : p.positionMap.entrySet()) {
+        for (Map.Entry<Integer, Player> entry : Controller.panMatchSet.rallyPositionMap.entrySet()) {
             Player player = entry.getValue();
             chestNumPlayerId.put(player.getChestNo(), player.getId());
             playerIdChestNum.put(player.getId(), player.getChestNo());
@@ -200,19 +201,23 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
 
     private void cmbScoreItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbScoreItemStateChanged
         // TODO add your handling code here:
-
-        String item = String.valueOf(evt.getItem());
-        if (!evt.getItem().equals("")) {
-            if (!p.isInserted) {
-                if (p.evaluationType == 2) {
-                    isDetailed = true;
-                    Controller.panMatchSet.panRallyShow.removeAll();
-                    PanRallyPostEvaluation panRallyPostEvaluation = new PanRallyPostEvaluation(item, this, skill, txtChestNum.getText());
-                    Controller.panMatchSet.panRallyShow.add(panRallyPostEvaluation);
-                    Controller.panMatchSet.panRallyShow.validate();
-                    Controller.panMatchSet.panRallyShow.repaint();
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            String item = String.valueOf(evt.getItem());
+            if (!evt.getItem().equals("")) {
+                if (!p.isInserted) {
+                    if (p.evaluationType == 2) {
+                        isDetailed = true;
+                        Controller.panMatchSet.panRallyShow.removeAll();
+                        PanRallyPostEvaluation panRallyPostEvaluation = new PanRallyPostEvaluation(item, this, skill, txtChestNum.getText());
+                        Controller.panMatchSet.panRallyShow.add(panRallyPostEvaluation);
+                        Controller.panMatchSet.panRallyShow.validate();
+                        Controller.panMatchSet.panRallyShow.repaint();
+                    } else {
+                        setRallyRow(item);
+                    }
                 } else {
-                    setRallyRow(item);
+//                setRallyRow(item);
+
                 }
             }
         }
@@ -228,7 +233,19 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
         // TODO add your handling code here:
         String item = txtChestNum.getText();
         if (item.length() > 1) {
-            if (chestNumPlayerId.containsKey(item)) {
+
+            boolean isContain = false;
+            for (Map.Entry<Integer, Player> entry : Controller.panMatchSet.rallyPositionMap.entrySet()) {
+                if (entry.getKey() != 7) {
+                    Player p = entry.getValue();
+                    if (p.getChestNo().equals(item)) {
+                        isContain = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isContain) {
                 playerId = chestNumPlayerId.get(item);
                 robot.keyPress(KeyEvent.VK_TAB);
             } else {
@@ -255,7 +272,20 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
         switch (item) {
 
             case "1":
-                Controller.panMatchSet.opponentScore++;
+                if (p.scoreAddedOf.equalsIgnoreCase("none")) {
+                    Controller.panMatchSet.opponentScore++;
+                    p.scoreAddedOf = "opponent";
+                } else {
+                    if (p.scoreAddedOf.equalsIgnoreCase("home")) {
+                        Controller.panMatchSet.homeScore--;
+                        Controller.panMatchSet.opponentScore++;
+                        p.scoreAddedOf = "opponent";
+                        p.lblResult.setText(Controller.panMatchSet.homeScore + " : " + Controller.panMatchSet.opponentScore);
+                    } else {
+
+                        p.lblResult.setText(Controller.panMatchSet.homeScore + " : " + Controller.panMatchSet.opponentScore);
+                    }
+                }
                 p.lblResult.setText(Controller.panMatchSet.homeScore + " : " + Controller.panMatchSet.opponentScore);
                 SimpleDateFormat formatterTime = new SimpleDateFormat("HH:mm:ss");
                 Date time = new Date();
@@ -264,7 +294,21 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
                 break;
             case "5":
                 if (skill.equals(Skill.Service.getType()) || skill.equals(Skill.Attack.getType()) || skill.equals(Skill.Block.getType()) || skill.equals(Skill.OP.getType())) {
-                    Controller.panMatchSet.homeScore++;
+                    if (p.scoreAddedOf.equalsIgnoreCase("none")) {
+                        Controller.panMatchSet.homeScore++;
+                        p.scoreAddedOf = "home";
+                    } else {
+                        if (p.scoreAddedOf.equalsIgnoreCase("home")) {
+
+                            p.lblResult.setText(Controller.panMatchSet.homeScore + " : " + Controller.panMatchSet.opponentScore);
+                        } else {
+                            Controller.panMatchSet.opponentScore--;
+                            Controller.panMatchSet.homeScore++;
+                            p.scoreAddedOf = "home";
+                            p.lblResult.setText(Controller.panMatchSet.homeScore + " : " + Controller.panMatchSet.opponentScore);
+                        }
+                    }
+
                     p.lblResult.setText(Controller.panMatchSet.homeScore + " : " + Controller.panMatchSet.opponentScore);
                     SimpleDateFormat formatterTime1 = new SimpleDateFormat("HH:mm:ss");
                     Date time1 = new Date();
@@ -272,14 +316,30 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
                     p.lblRallyEndTime.setText(p.endTime);
                 } else {
                     if (!p.isInserted) {
-                        p.refresh();
-                        robot.keyPress(KeyEvent.VK_TAB);
+                        if (!isrowadded) {
+                            isrowadded = true;
+                            p.refresh();
+                            robot.keyPress(KeyEvent.VK_TAB);
+                        }
                     }
                 }
                 break;
             default:
-                p.refresh();
-                robot.keyPress(KeyEvent.VK_TAB);
+                if (!p.scoreAddedOf.equalsIgnoreCase("none")) {
+                    if (p.scoreAddedOf.equalsIgnoreCase("home")) {
+                        Controller.panMatchSet.homeScore--;
+                        p.lblResult.setText(Controller.panMatchSet.homeScore + " : " + Controller.panMatchSet.opponentScore);
+                    } else {
+                        Controller.panMatchSet.opponentScore--;
+                        p.lblResult.setText(Controller.panMatchSet.homeScore + " : " + Controller.panMatchSet.opponentScore);
+                    }
+                    p.scoreAddedOf = "none";
+                }
+                if (!isrowadded) {
+                    isrowadded = true;
+                    p.refresh();
+                    robot.keyPress(KeyEvent.VK_TAB);
+                }
         }
     }
 

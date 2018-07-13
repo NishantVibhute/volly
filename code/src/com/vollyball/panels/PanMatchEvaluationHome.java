@@ -32,6 +32,7 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
     String homeTeam, oppteam;
     int matchId, matchEvaluationTeamId;
     List<Integer> selectedPlayers;
+    MatchSetDialog obj;
 
     /**
      * Creates new form MatchEvaluationHome
@@ -52,7 +53,7 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
     }
 
     public void setTeamName() {
-        MatchBean team = matchDao.getMatchesById(Controller.competitionId, teamId);
+        MatchBean team = matchDao.getMatchesById(Controller.competitionId, matchId);
         teamsMap = new LinkedHashMap<>();
         teamsMap.put(team.getTeam1(), team.getTeam1name());
         teamsMap.put(team.getTeam2(), team.getTeam2name());
@@ -522,7 +523,7 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
         if (selectedPlayers.size() == 0) {
             JOptionPane.showMessageDialog(this, "Please Select Players", "Error", 2);
         } else {
-            MatchSetDialog obj = new MatchSetDialog();
+            obj = new MatchSetDialog();
             obj.setSetFields(set, this.matchId, this.teamId, this.oppId, evaluationType, matchEvaluationTeamId);
             obj.init();
             obj.show();

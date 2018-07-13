@@ -34,6 +34,13 @@ public class PanSubstituteSelectPlayer extends javax.swing.JPanel {
 
     /**
      * Creates new form PanSubstitueSelectPlayer
+     *
+     * @param playerList
+     * @param position
+     * @param roPlayerId
+     * @param matchEvaluationId
+     * @param score
+     * @param s
      */
     public PanSubstituteSelectPlayer(List<Player> playerList, int position, int roPlayerId, int matchEvaluationId, String score, SetSubstituteSelectPlayerDialog s) {
         initComponents();
@@ -48,12 +55,15 @@ public class PanSubstituteSelectPlayer extends javax.swing.JPanel {
 
         for (Player player : playerList) {
             boolean exist = false;
-            for (Map.Entry<Integer, Player> entry : Controller.panMatchSet.positionMap.entrySet()) {
+            for (Map.Entry<Integer, Player> entry : Controller.panMatchSet.initialPositionMap.entrySet()) {
                 chestMap.put(player.getChestNo(), player);
 
-                Player pl = entry.getValue();
-                if (player.getId() == pl.getId()) {
-                    exist = true;
+                if (entry.getKey() != 7) {
+                    Player pl = entry.getValue();
+                    Player plrally = Controller.panMatchSet.rallyPositionMap.get(entry.getKey());
+                    if (player.getId() == pl.getId() || player.getId() == plrally.getId()) {
+                        exist = true;
+                    }
                 }
             }
             if (!exist) {
@@ -331,26 +341,32 @@ public class PanSubstituteSelectPlayer extends javax.swing.JPanel {
                 case 1:
                     Controller.panMatchSet.su1.setText(cNo);
                     Controller.panMatchSet.pt11.setText(score);
+                    Controller.panMatchSet.rallyPositionMap.put(position, chestMap.get(cNo));
                     break;
                 case 2:
                     Controller.panMatchSet.su2.setText(cNo);
                     Controller.panMatchSet.pt12.setText(score);
+                    Controller.panMatchSet.rallyPositionMap.put(position, chestMap.get(cNo));
                     break;
                 case 3:
                     Controller.panMatchSet.su3.setText(cNo);
                     Controller.panMatchSet.pt13.setText(score);
+                    Controller.panMatchSet.rallyPositionMap.put(position, chestMap.get(cNo));
                     break;
                 case 4:
                     Controller.panMatchSet.su4.setText(cNo);
                     Controller.panMatchSet.pt14.setText(score);
+                    Controller.panMatchSet.rallyPositionMap.put(position, chestMap.get(cNo));
                     break;
                 case 5:
                     Controller.panMatchSet.su5.setText(cNo);
                     Controller.panMatchSet.pt15.setText(score);
+                    Controller.panMatchSet.rallyPositionMap.put(position, chestMap.get(cNo));
                     break;
                 case 6:
                     Controller.panMatchSet.su6.setText(cNo);
                     Controller.panMatchSet.pt16.setText(score);
+                    Controller.panMatchSet.rallyPositionMap.put(position, chestMap.get(cNo));
                     break;
 
             }

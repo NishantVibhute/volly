@@ -47,9 +47,9 @@ public class PanRotationOrder extends javax.swing.JPanel {
             if (selectedPlayers.contains(player.getId())) {
                 Object[] row = {player.getName(), player.getChestNo(), PlayerPosition.getNameById(player.getPosition()).getName()};
                 modelSelectedPlayer.addRow(row);
-                if (!Controller.panMatchSet.positionMap.isEmpty()) {
+                if (!Controller.panMatchSet.initialPositionMap.isEmpty()) {
                     for (int i = 1; i <= 7; i++) {
-                        if (Controller.panMatchSet.positionMap.get(i).getChestNo().equals(player.getChestNo())) {
+                        if (Controller.panMatchSet.initialPositionMap.get(i).getChestNo().equals(player.getChestNo())) {
                             for (int k = 0; k < tbPlayers.getRowCount(); k++) {
                                 if (player.getChestNo().equals((String) tbPlayers.getValueAt(k, 1))) {
                                     modelSelectedPlayer.removeRow(k);
@@ -62,15 +62,15 @@ public class PanRotationOrder extends javax.swing.JPanel {
 
         }
 
-        if (!Controller.panMatchSet.positionMap.isEmpty()) {
+        if (!Controller.panMatchSet.initialPositionMap.isEmpty()) {
 
-            pos1.setText(Controller.panMatchSet.positionMap.get(1).getChestNo());
-            pos2.setText(Controller.panMatchSet.positionMap.get(2).getChestNo());
-            pos3.setText(Controller.panMatchSet.positionMap.get(3).getChestNo());
-            pos4.setText(Controller.panMatchSet.positionMap.get(4).getChestNo());
-            pos5.setText(Controller.panMatchSet.positionMap.get(5).getChestNo());
-            pos6.setText(Controller.panMatchSet.positionMap.get(6).getChestNo());
-            libero.setText(Controller.panMatchSet.positionMap.get(7).getChestNo());
+            pos1.setText(Controller.panMatchSet.initialPositionMap.get(1).getChestNo());
+            pos2.setText(Controller.panMatchSet.initialPositionMap.get(2).getChestNo());
+            pos3.setText(Controller.panMatchSet.initialPositionMap.get(3).getChestNo());
+            pos4.setText(Controller.panMatchSet.initialPositionMap.get(4).getChestNo());
+            pos5.setText(Controller.panMatchSet.initialPositionMap.get(5).getChestNo());
+            pos6.setText(Controller.panMatchSet.initialPositionMap.get(6).getChestNo());
+            libero.setText(Controller.panMatchSet.initialPositionMap.get(7).getChestNo());
         }
 
         tbPlayers.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -561,13 +561,14 @@ public class PanRotationOrder extends javax.swing.JPanel {
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
 
-        Controller.panMatchSet.positionMap.put(1, playerMap.get(pos1.getText()));
-        Controller.panMatchSet.positionMap.put(2, playerMap.get(pos2.getText()));
-        Controller.panMatchSet.positionMap.put(3, playerMap.get(pos3.getText()));
-        Controller.panMatchSet.positionMap.put(4, playerMap.get(pos4.getText()));
-        Controller.panMatchSet.positionMap.put(5, playerMap.get(pos5.getText()));
-        Controller.panMatchSet.positionMap.put(6, playerMap.get(pos6.getText()));
-        Controller.panMatchSet.positionMap.put(7, playerMap.get(libero.getText()));
+        Controller.panMatchSet.initialPositionMap.put(1, playerMap.get(pos1.getText()));
+        Controller.panMatchSet.initialPositionMap.put(2, playerMap.get(pos2.getText()));
+        Controller.panMatchSet.initialPositionMap.put(3, playerMap.get(pos3.getText()));
+        Controller.panMatchSet.initialPositionMap.put(4, playerMap.get(pos4.getText()));
+        Controller.panMatchSet.initialPositionMap.put(5, playerMap.get(pos5.getText()));
+        Controller.panMatchSet.initialPositionMap.put(6, playerMap.get(pos6.getText()));
+        Controller.panMatchSet.initialPositionMap.put(7, playerMap.get(libero.getText()));
+        Controller.panMatchSet.rallyPositionMap.putAll(Controller.panMatchSet.initialPositionMap);
         Controller.panMatchSet.setRotationDialog.close();
         Controller.panMatchSet.setRotations();
 

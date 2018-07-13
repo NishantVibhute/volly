@@ -11,6 +11,7 @@ package com.vollyball.bean;
  */
 public class SetTimeout {
 
+    int id;
     int position;
     String team;
 
@@ -56,6 +57,14 @@ public class SetTimeout {
 
     public void setMatchEvalId(int matchEvalId) {
         this.matchEvalId = matchEvalId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }

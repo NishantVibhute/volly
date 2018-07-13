@@ -82,7 +82,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
 
     public void setValues(String home, String opp, String chestNum) {
 
-        LinkedHashMap<Integer, Player> positionMap = Controller.panMatchSet.positionMap;
+        LinkedHashMap<Integer, Player> positionMap = Controller.panMatchSet.rallyPositionMap;
         panOPos1.setText("1");
         panOPos2.setText("2");
         panOPos3.setText("3");

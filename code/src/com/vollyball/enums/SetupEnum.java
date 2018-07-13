@@ -32,11 +32,12 @@ public enum SetupEnum {
     SUBSTITUTION(19, "Substituition"),
     PLUSMINUS(20, "Plus Minus"),
     TIMEOUT(21, "Time out"),
-    InsertRating(22, "Ratings Inserted"),
-    InsertSkills(23, "Skills Inserted"),
-    InsertSkillDetails(24, "Skill details Inserted"),
-    InsertUser(25, "User Inserted"),
-    MatchPlayers(26, "Match Player");
+    RALLYROTATIONORDER(22, "Rally Rotation Order"),
+    InsertRating(23, "Ratings Inserted"),
+    InsertSkills(24, "Skills Inserted"),
+    InsertSkillDetails(25, "Skill details Inserted"),
+    InsertUser(26, "User Inserted"),
+    MatchPlayers(27, "Match Player");
 
     int step;
     String value;
