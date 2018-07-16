@@ -5,12 +5,23 @@
  */
 package com.vollyball.panels;
 
+import com.vollyball.bean.CompetitionBean;
+import com.vollyball.bean.Player;
+import com.vollyball.bean.PlayerScores;
+import com.vollyball.dao.ReportDao;
+import com.vollyball.dao.TeamDao;
 import com.vollyball.renderer.ColumnGroup;
 import com.vollyball.renderer.GroupableTableHeader;
 import com.vollyball.renderer.TableHeaderRenderer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -28,61 +39,80 @@ public class PanBestScorer extends javax.swing.JPanel {
 
     DefaultTableModel model;
     JTable tbReport;
+    TeamDao td = new TeamDao();
+    DefaultTableModel dm;
+    Map<String, Player> playerNameMap = new HashMap<String, Player>();
+
+    ReportDao reportDao = new ReportDao();
+    List<Player> playerList;
+    CompetitionBean cb;
 
     /**
      * Creates new form PanBestScorer
      */
-    public PanBestScorer() {
+    public PanBestScorer(CompetitionBean cb, List<Player> playerList) {
         initComponents();
         createTable();
+        this.playerList = playerList;
+        this.cb = cb;
+        cmbPlayer.addItem("All");
+        playerNameMap.put("All", null);
+        for (Player p : playerList) {
+            cmbPlayer.addItem(p.getName() + " - " + p.getChestNo());
+            playerNameMap.put(p.getName() + " - " + p.getChestNo(), p);
+
+        }
+        setRow(null);
+
+    }
+
+    public void setRow(Player player) {
+        List<PlayerScores> playerScoresList = new ArrayList<>();
+
+        for (int i = dm.getRowCount() - 1; i >= 0; i--) {
+            dm.removeRow(i);
+        }
+
+        if (player == null) {
+            for (Player p : playerList) {
+                PlayerScores playerScore = reportDao.getPlayerScores(cb.getId(), p);
+                playerScoresList.add(playerScore);
+            }
+
+            Collections.sort(playerScoresList, new Comparator<PlayerScores>() {
+                @Override
+                public int compare(PlayerScores c1, PlayerScores c2) {
+
+                    return Double.compare(c2.getAttemptRate(), c1.getAttemptRate());
+                }
+            });
+
+            int i = 0;
+            for (PlayerScores p : playerScoresList) {
+                Object[] row = {i + 1, p.getPlayerName(), p.getTeamName(), p.getMatchesPlayed(), p.getServiceRatePerc(), p.getAttackRatePerc(), p.getBlockRatePerc(), p.getSetRatePerc(), p.getReceptionRatePerc(), p.getDefenceRatePerc(), p.getAttemptRatePerc()};
+                dm.addRow(row);
+                i++;
+            }
+        } else {
+
+            PlayerScores playerScore = reportDao.getPlayerScores(cb.getId(), player);
+            playerScoresList.add(playerScore);
+
+            int i = 0;
+            for (PlayerScores p : playerScoresList) {
+                Object[] row = {i + 1, p.getPlayerName(), p.getTeamName(), p.getMatchesPlayed(), p.getServiceRatePerc(), p.getAttackRatePerc(), p.getBlockRatePerc(), p.getSetRatePerc(), p.getReceptionRatePerc(), p.getDefenceRatePerc(), p.getAttemptRatePerc()};
+                dm.addRow(row);
+                i++;
+            }
+
+        }
     }
 
     public void createTable() {
-        DefaultTableModel dm = new DefaultTableModel();
-        dm.setDataVector(new Object[][]{
-            {"119", "foo", "bar", "ja", "ko", "zh", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"},
-            {"911", "bar", "foo", "en", "fr", "pt", "bar", "ja", "ko", "zh"}
+        dm = new DefaultTableModel();
 
-        },
-                new Object[]{"SNo.", "Player Name", "<html>Matches<br> Played</html>", "Service", "Attack", "Block", "Set", "Reception", "Defend", "Total"});
+        dm.setDataVector(new Object[][]{},
+                new Object[]{"SNo.", "Player Name", "<html>Team<br> Name</html>", "<html>Matches<br> Played</html>", "Service", "Attack", "Block", "Set", "Reception", "Defend", "Total"});
 
         tbReport = new JTable(dm) {
             protected JTableHeader createDefaultTableHeader() {
@@ -93,13 +123,13 @@ public class PanBestScorer extends javax.swing.JPanel {
         tbReport.setFont(new java.awt.Font("Times New Roman", 0, 14));
         TableColumnModel cm = tbReport.getColumnModel();
         ColumnGroup g_name = new ColumnGroup("SuccessRate");
-        g_name.add(cm.getColumn(3));
         g_name.add(cm.getColumn(4));
         g_name.add(cm.getColumn(5));
         g_name.add(cm.getColumn(6));
         g_name.add(cm.getColumn(7));
         g_name.add(cm.getColumn(8));
         g_name.add(cm.getColumn(9));
+        g_name.add(cm.getColumn(10));
 
         GroupableTableHeader header = (GroupableTableHeader) tbReport.getTableHeader();
         header.addColumnGroup(g_name);
@@ -117,6 +147,7 @@ public class PanBestScorer extends javax.swing.JPanel {
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tbReport.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(0).setWidth(10);
+
         tbReport.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
@@ -126,18 +157,18 @@ public class PanBestScorer extends javax.swing.JPanel {
         tbReport.getColumnModel().getColumn(7).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(8).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(9).setCellRenderer(centerRenderer);
+        tbReport.getColumnModel().getColumn(10).setCellRenderer(centerRenderer);
 
         Color ivory = new Color(255, 255, 255);
         tbReport.setOpaque(true);
         tbReport.setFillsViewportHeight(true);
         tbReport.setBackground(ivory);
 
-        tbReport.setOpaque(false);
         tbReport.setRowHeight(30);
         resizeColumns();
         panReport.add(scroll, BorderLayout.CENTER);
     }
-    float[] columnWidthPercentage = {5.0f, 23.0f, 9.0f, 9.0f, 9.0f, 9.0f, 9.0f, 9.0f, 9.0f, 9.0f};
+    float[] columnWidthPercentage = {5.0f, 23.0f, 9.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f};
 
     private void resizeColumns() {
         int tW = tbReport.getPreferredSize().width;
@@ -163,9 +194,9 @@ public class PanBestScorer extends javax.swing.JPanel {
         panSkillReports = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         lblReportHeading = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblSearch = new javax.swing.JLabel();
+        cmbPlayer = new javax.swing.JComboBox();
         panReport = new javax.swing.JPanel();
 
         panSkillReports.setBackground(new java.awt.Color(255, 255, 255));
@@ -177,26 +208,31 @@ public class PanBestScorer extends javax.swing.JPanel {
         lblReportHeading.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblReportHeading.setText("BEST SCORER");
 
-        jTextField1.setText("jTextField1");
-
         jPanel1.setBackground(new java.awt.Color(57, 74, 108));
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("SEARCH");
+        lblSearch.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblSearch.setForeground(new java.awt.Color(255, 255, 255));
+        lblSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSearch.setText("SEARCH");
+        lblSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSearchMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addComponent(lblSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+            .addComponent(lblSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
+
+        cmbPlayer.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -205,8 +241,8 @@ public class PanBestScorer extends javax.swing.JPanel {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblReportHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 403, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 437, Short.MAX_VALUE)
+                .addComponent(cmbPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
@@ -217,8 +253,8 @@ public class PanBestScorer extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1)
-                    .addComponent(lblReportHeading, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblReportHeading, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmbPlayer))
                 .addContainerGap())
         );
 
@@ -261,12 +297,17 @@ public class PanBestScorer extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void lblSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSearchMouseClicked
+        // TODO add your handling code here:
+        setRow(playerNameMap.get(cmbPlayer.getSelectedItem()));
+    }//GEN-LAST:event_lblSearchMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox cmbPlayer;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JTextField jTextField1;
     public javax.swing.JLabel lblReportHeading;
+    private javax.swing.JLabel lblSearch;
     private javax.swing.JPanel panReport;
     private javax.swing.JPanel panSkillReports;
     // End of variables declaration//GEN-END:variables

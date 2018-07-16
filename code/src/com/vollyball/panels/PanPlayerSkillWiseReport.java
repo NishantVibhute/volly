@@ -6,8 +6,10 @@
 package com.vollyball.panels;
 
 import com.vollyball.bean.CompetitionBean;
+import com.vollyball.bean.Player;
 import com.vollyball.bean.PlayerReportBean;
 import com.vollyball.dao.ReportDao;
+import com.vollyball.dao.TeamDao;
 import com.vollyball.enums.Skill;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 public class PanPlayerSkillWiseReport extends javax.swing.JPanel {
 
     ReportDao reportDao = new ReportDao();
+    TeamDao td = new TeamDao();
     DefaultTableModel model;
     CompetitionBean cb;
 
@@ -32,7 +35,7 @@ public class PanPlayerSkillWiseReport extends javax.swing.JPanel {
     String skillName;
     int skillId;
     PanTableSkillWiseReport panTableSkillWiseReport = new PanTableSkillWiseReport();
-    PanBestScorer panBestScorer = new PanBestScorer();
+    PanBestScorer panBestScorer;
 
     /**
      * Creates new form PanPlayerSkillWiseReport
@@ -48,6 +51,9 @@ public class PanPlayerSkillWiseReport extends javax.swing.JPanel {
         panMenuList.add(panSetter);
         panMenuList.add(panReceiver);
         panMenuList.add(panDefender);
+
+        List<Player> playerList = td.getAlPlayers(cb.getId());
+        panBestScorer = new PanBestScorer(cb, playerList);
 
         panSkillReports.add(panBestScorer, BorderLayout.CENTER);
         changeColor(panScorer);

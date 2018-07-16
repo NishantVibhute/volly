@@ -146,4 +146,30 @@ public class TeamDao {
         return playerList;
     }
 
+    public List<Player> getAlPlayers(int compId) {
+        List<Player> playerList = new ArrayList<>();
+
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.all.players"));
+            ps.setInt(1, compId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Player p = new Player();
+                p.setId(rs.getInt(1));
+                p.setName(rs.getString(2));
+                p.setChestNo(rs.getString(3));
+                p.setTeamName(rs.getString(5));
+                playerList.add(p);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return playerList;
+
+    }
+
 }
