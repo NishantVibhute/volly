@@ -6,6 +6,7 @@
 package com.vollyball.panels;
 
 import com.vollyball.bean.MatchBean;
+import com.vollyball.bean.Player;
 import com.vollyball.controller.Controller;
 import com.vollyball.dao.MatchDao;
 import com.vollyball.dao.TeamDao;
@@ -13,7 +14,6 @@ import com.vollyball.dialog.MatchSetDialog;
 import com.vollyball.dialog.SelectTeamPlayerDialog;
 import java.util.LinkedHashMap;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,6 +32,7 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
     String homeTeam, oppteam;
     int matchId, matchEvaluationTeamId;
     List<Integer> selectedPlayers;
+    MatchSetDialog obj;
 
     /**
      * Creates new form MatchEvaluationHome
@@ -52,7 +53,7 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
     }
 
     public void setTeamName() {
-        MatchBean team = matchDao.getMatchesById(Controller.competitionId, teamId);
+        MatchBean team = matchDao.getMatchesById(Controller.competitionId, matchId);
         teamsMap = new LinkedHashMap<>();
         teamsMap.put(team.getTeam1(), team.getTeam1name());
         teamsMap.put(team.getTeam2(), team.getTeam2name());
@@ -61,24 +62,11 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
         hometeamname.setText(homeTeam);
 
         selectedPlayers = td.getMatchPlayers(this.matchId, teamId);
-        if (selectedPlayers.size() != 0) {
-            selectHomeTeam.setText(selectedPlayers.size() + " Selected");
-
-//            if (id == team.getTeam1()) {
-//                evaluatingTeam = team.getTeam1();
-//                opponentTeam = team.getTeam2();
-//                selectHomeTeam.setText(team.getTeam1name());
-//                selectOpponentTeam.setText(team.getTeam2name());
-//            } else {
-//                evaluatingTeam = team.getTeam2();
-//                opponentTeam = team.getTeam1();
-//                selectHomeTeam.setText(team.getTeam2name());
-//                selectOpponentTeam.setText(team.getTeam1name());
-//            }
-        } else {
-            selectHomeTeam.setText("Select");
-
+        if (selectedPlayers.isEmpty()) {
+            List<Player> playerList = td.getTeamPlayers(teamId);
+            matchDao.insertMatchPlayers(this.matchId, this.teamId, playerList);
         }
+
     }
 
     public LinkedHashMap<Integer, String> getTeamsMap() {
@@ -125,9 +113,6 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        selectHomeTeam = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(57, 74, 108));
 
@@ -422,55 +407,18 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel1.setText("Select Players : ");
-
-        selectHomeTeam.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        selectHomeTeam.setForeground(new java.awt.Color(57, 74, 108));
-        selectHomeTeam.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                selectHomeTeamMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(selectHomeTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                    .addComponent(selectHomeTeam))
-                .addContainerGap())
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -483,15 +431,6 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
         // TODO add your handling code here:
         showPanMatchSet(1);
     }//GEN-LAST:event_set1MouseClicked
-
-    private void selectHomeTeamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectHomeTeamMouseClicked
-        // TODO add your handling code here:
-        selectTeamPlayerDialog = new SelectTeamPlayerDialog();
-        selectTeamPlayerDialog.setMatchId(this.matchId, this.teamId);
-        selectTeamPlayerDialog.init();
-        selectTeamPlayerDialog.show();
-
-    }//GEN-LAST:event_selectHomeTeamMouseClicked
 
     private void set2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_set2MouseClicked
         // TODO add your handling code here:
@@ -519,20 +458,15 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
 
     public void showPanMatchSet(int set) {
 
-        if (selectedPlayers.size() == 0) {
-            JOptionPane.showMessageDialog(this, "Please Select Players", "Error", 2);
-        } else {
-            MatchSetDialog obj = new MatchSetDialog();
-            obj.setSetFields(set, this.matchId, this.teamId, this.oppId, evaluationType, matchEvaluationTeamId);
-            obj.init();
-            obj.show();
-        }
+        obj = new MatchSetDialog();
+        obj.setSetFields(set, this.matchId, this.teamId, this.oppId, evaluationType, matchEvaluationTeamId);
+        obj.init();
+        obj.show();
 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel hometeamname;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -546,11 +480,9 @@ public class PanMatchEvaluationHome extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JLabel selectHomeTeam;
     private javax.swing.JLabel selectOpponentTeam;
     private javax.swing.JLabel set1;
     private javax.swing.JLabel set2;

@@ -15,6 +15,7 @@ import javax.swing.JTextField;
  */
 public class TeamRowBean {
 
+    JTextField srNo;
     JTextField name;
     JTextField chestnum;
     JComboBox position;
@@ -22,12 +23,21 @@ public class TeamRowBean {
 
     public TeamRowBean(JTextField name,
             JTextField chestnum,
-            JComboBox position, JCheckBox captain) {
+            JComboBox position, JCheckBox captain, JTextField srNo) {
         this.name = name;
         this.chestnum = chestnum;
         this.position = position;
         this.captain = captain;
+        this.srNo = srNo;
 
+    }
+
+    public JTextField getSrNo() {
+        return srNo;
+    }
+
+    public void setSrNo(JTextField srNo) {
+        this.srNo = srNo;
     }
 
     public JTextField getName() {

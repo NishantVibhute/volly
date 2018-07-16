@@ -52,6 +52,7 @@ public class Setup extends Thread {
             createsetsubstitutionTable(80);
             createsetplusminusTable(80);
             createsettimeoutTable(80);
+            createRallyRotationOrder(80);
             createMatchPlayer(80);
             insertRatings(90);
             insertSkills(95);
@@ -154,6 +155,10 @@ public class Setup extends Thread {
 
     public void createsettimeoutTable(int status) {
         executeQuery(CommonUtil.getResourceProperty("create.settimeout"), SetupEnum.TIMEOUT, status);
+    }
+
+    public void createRallyRotationOrder(int status) {
+        executeQuery(CommonUtil.getResourceProperty("create.rallyRotationorder"), SetupEnum.RALLYROTATIONORDER, status);
     }
 
     public void insertRatings(int status) {

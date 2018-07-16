@@ -5,8 +5,7 @@
  */
 package com.vollyball.dialog;
 
-import com.vollyball.controller.Controller;
-import com.vollyball.panels.PanMatchSet;
+import com.vollyball.panels.PanRallyRotation;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -19,56 +18,43 @@ import javax.swing.JFrame;
  *
  * @author nishant.vibhute
  */
-public class MatchSetDialog {
+public class CreateRallyRotationDialog {
 
     private JFrame parentFrame;
     private JDialog dialog;
 
-    int setNum;
-    int matchId;
-    int teamEvaluateId;
-    int opponentId;
-    int evaluationType;
-    int matchEvaluationTeamId;
+    CreateRallyRotationDialog obj;
 
-    public void init() {
+    public void init(CreateRallyRotationDialog obj) {
         try {
+            this.obj = obj;
 //            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
-            this.dialog = new JDialog(this.parentFrame, "SET " + this.setNum, true);
+            this.dialog = new JDialog(this.parentFrame, "Player Rotation", true);
 
             this.dialog.setResizable(false);
             this.dialog.getContentPane().add(createPane());
             this.dialog.pack();
-//            this.dialog.setSize(1024, 750);
+//            this.dialog.setSize(418, 505);//
 
             Dimension Size = Toolkit.getDefaultToolkit().getScreenSize();
             this.dialog.setLocation(new Double((Size.getWidth() / 2) - (dialog.getWidth() / 2)).intValue(), new Double((Size.getHeight() / 2) - (dialog.getHeight() / 2)).intValue());
+
         } catch (Exception ex) {
 
             Logger.getLogger(CreateMatchDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void setSetFields(int setNum, int matchId, int teamEvaluateId, int opponentId, int evaluationType, int matchEvaluationTeamId) {
-        this.setNum = setNum;
-        this.matchId = matchId;
-        this.teamEvaluateId = teamEvaluateId;
-        this.opponentId = opponentId;
-        this.evaluationType = evaluationType;
-        this.matchEvaluationTeamId = matchEvaluationTeamId;
-    }
-
     protected Container createPane() {
-        Controller.panMatchSet = new PanMatchSet(setNum, matchId, teamEvaluateId, opponentId, evaluationType, matchEvaluationTeamId);
+        PanRallyRotation panRallyRotation = new PanRallyRotation(obj);
 
-        return Controller.panMatchSet;
-
+        return panRallyRotation;
     }
 
     public void show() {
         if (this.dialog == null) {
-            init();
+            init(obj);
         }
         this.dialog.setVisible(true);
     }

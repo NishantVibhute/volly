@@ -18,7 +18,7 @@ public class PanRallyBut extends javax.swing.JPanel {
     int rallyNum;
     int evaluationId;
     int evaluationType;
-    public LinkedHashMap<Integer, Player> positionMap;
+    public LinkedHashMap<Integer, Player> rallyPositionMap;
 
     /**
      * Creates new form PanRallyBut
@@ -27,11 +27,11 @@ public class PanRallyBut extends javax.swing.JPanel {
         initComponents();
     }
 
-    public void setRally(int i, int evaluationId, LinkedHashMap<Integer, Player> positionMap, int evaluationType) {
+    public void setRally(int i, int evaluationId, LinkedHashMap<Integer, Player> rallyPositionMap, int evaluationType) {
         butRally.setText("" + i);
         this.rallyNum = i;
         this.evaluationId = evaluationId;
-        this.positionMap = positionMap;
+        this.rallyPositionMap = rallyPositionMap;
         this.evaluationType = evaluationType;
 
     }
@@ -75,7 +75,7 @@ public class PanRallyBut extends javax.swing.JPanel {
 
     private void butRallyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butRallyMouseClicked
         Controller.panMatchSet.rallyNumNext = rallyNum;
-        Controller.panMatchSet.panRallyCurrent = new PanRallyLiveEvaluation(rallyNum, evaluationId, positionMap, evaluationType);
+        Controller.panMatchSet.panRallyCurrent = new PanRallyLiveEvaluation(rallyNum, evaluationId, rallyPositionMap, evaluationType);
         Controller.panMatchSet.panNext.setVisible(true);
         Controller.panMatchSet.panRallyShow.removeAll();
         Controller.panMatchSet.panRallyShow.add(Controller.panMatchSet.panRallyCurrent);

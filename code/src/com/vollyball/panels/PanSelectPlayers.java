@@ -419,15 +419,15 @@ public class PanSelectPlayers extends javax.swing.JPanel {
                 players.add(playerMap.get(tbSelectedPlayers.getValueAt(i, 0)));
             }
 
-            int count = matchDao.insertMatchPlayers(this.matchId, selectedTeam, players);
-            if (count != 0) {
-
-//                JOptionPane.showMessageDialog(this, "Players Selected Succe");
-                Controller.panMatchEvaluationHome.setTeamName();
-                Controller.panMatchEvaluationHome.selectTeamPlayerDialog.close();
-            } else {
-                JOptionPane.showMessageDialog(this, "Failed to Select Players");
-            }
+//            int count = matchDao.insertMatchPlayers(this.matchId, selectedTeam, players);
+//            if (count != 0) {
+//
+////                JOptionPane.showMessageDialog(this, "Players Selected Succe");
+//                Controller.panMatchEvaluationHome.setTeamName();
+//                Controller.panMatchEvaluationHome.selectTeamPlayerDialog.close();
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Failed to Select Players");
+//            }
         }
     }//GEN-LAST:event_butSaveMouseClicked
 

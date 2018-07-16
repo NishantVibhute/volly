@@ -7,6 +7,8 @@ package com.vollyball.dao;
 
 import com.vollyball.bean.MatchBean;
 import com.vollyball.bean.MatchSet;
+import com.vollyball.bean.Player;
+import com.vollyball.bean.RallyEvaluation;
 import com.vollyball.bean.SetRotationOrder;
 import com.vollyball.bean.SetSubstitution;
 import com.vollyball.bean.SetTimeout;
@@ -44,6 +46,7 @@ public class MatchDao {
             ps.setString(6, mb.getTime());
             ps.setString(7, mb.getPhase());
             ps.setInt(8, mb.getCompId());
+            ps.setString(9, mb.getPlace());
             count = ps.executeUpdate();
 
             if (count != 0) {
@@ -134,7 +137,7 @@ public class MatchDao {
         return mb;
     }
 
-    public int insertMatchPlayers(int matchId, int teamid, List<Integer> players) {
+    public int insertMatchPlayers(int matchId, int teamid, List<Player> players) {
         int count = 0;
         try {
             this.con = db.getConnection();
@@ -143,11 +146,11 @@ public class MatchDao {
             ps1.setInt(2, teamid);
             ps1.executeUpdate();
 
-            for (int id : players) {
+            for (Player id : players) {
                 PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("insert.matchplayers"));
                 ps.setInt(1, matchId);
                 ps.setInt(2, teamid);
-                ps.setInt(3, id);
+                ps.setInt(3, id.getId());
 
                 count = ps.executeUpdate();
             }
@@ -343,9 +346,10 @@ public class MatchDao {
             PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("update.matchset.substitution.point1"));
             ps1.setInt(1, subPlayerId);
             ps1.setString(2, score);
-            ps1.setInt(3, position);
-            ps1.setInt(4, matchEvaluationId);
-            ps1.setInt(5, rallyId);
+            ps1.setInt(3, rallyId);
+            ps1.setInt(4, position);
+            ps1.setInt(5, matchEvaluationId);
+
             id = ps1.executeUpdate();
             this.db.closeConnection(con);
         } catch (SQLException ex) {
@@ -361,9 +365,10 @@ public class MatchDao {
             this.con = db.getConnection();
             PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("update.matchset.substitution.point2"));
             ps1.setString(1, score);
-            ps1.setInt(2, position);
-            ps1.setInt(3, matchEvaluationId);
-            ps1.setInt(4, rallyId);
+            ps1.setInt(2, rallyId);
+            ps1.setInt(3, position);
+            ps1.setInt(4, matchEvaluationId);
+
             id = ps1.executeUpdate();
             this.db.closeConnection(con);
         } catch (SQLException ex) {
@@ -446,4 +451,134 @@ public class MatchDao {
 
     }
 
+    public List<SetTimeout> getListOfTimeoutForRally(int rallyId, int matchEvaluationId) {
+        List<SetTimeout> setTimeout = new ArrayList<>();
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps7 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.matchset.timeoutforrally"));
+            ps7.setInt(1, matchEvaluationId);
+            ps7.setInt(2, rallyId);
+            ResultSet rs7 = ps7.executeQuery();
+
+            while (rs7.next()) {
+                SetTimeout s = new SetTimeout();
+                s.setId(rs7.getInt(1));
+                s.setPosition(rs7.getInt(2));
+                s.setTeam(rs7.getString(3));
+                s.setScoreA(rs7.getInt(4));
+                s.setScoreB(rs7.getInt(5));
+                setTimeout.add(s);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MatchDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return setTimeout;
+    }
+
+    public int updateSetTimeout(SetTimeout s) {
+        int id = 0;
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("update.matchset.timeout"));
+            ps1.setInt(1, s.getScoreA());
+            ps1.setInt(2, s.getScoreB());
+            ps1.setInt(3, s.getId());
+            id = ps1.executeUpdate();
+            this.db.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(MatchDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+
+    public List<SetSubstitution> getMatchSetPointsforRally(int rallyId, int matchEvaluationId, int point) {
+        List<SetSubstitution> setSubstitutions = new ArrayList<>();
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps2;
+
+            if (point == 1) {
+                ps2 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.matchset.substitution.point1.forrally"));
+            } else {
+                ps2 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.matchset.substitution.point2.forrally"));
+            }
+            ps2.setInt(1, matchEvaluationId);
+            ps2.setInt(2, rallyId);
+            ResultSet rs2 = ps2.executeQuery();
+
+            while (rs2.next()) {
+                SetSubstitution s = new SetSubstitution();
+                s.setId(rs2.getInt(1));
+                s.setPosition(rs2.getInt(2));
+                s.setRotation_player_id(rs2.getInt(3));
+                s.setMatch_evaluation_id(rs2.getInt(4));
+                s.setSubstitutePlayerId(rs2.getInt(5));
+                s.setPoint1(rs2.getString(6));
+                s.setPoint2(rs2.getString(7));
+                setSubstitutions.add(s);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MatchDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return setSubstitutions;
+    }
+
+    public int updateSubstitutionPoints(String score, int subid, int point) {
+        int id = 0;
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps1;
+            if (point == 1) {
+                ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("update.matchset.substitution.point1.score"));
+            } else {
+                ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("update.matchset.substitution.point2.score"));
+            }
+            ps1.setString(1, score);
+            ps1.setInt(2, subid);
+            id = ps1.executeUpdate();
+            this.db.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(MatchDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+
+    public int updateMatchSetWonBy(int wonby, int evalId) {
+        int id = 0;
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps1;
+            ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("update.matchsetWonby"));
+            ps1.setInt(1, wonby);
+            ps1.setInt(2, evalId);
+            id = ps1.executeUpdate();
+            this.db.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(MatchDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+
+    public RallyEvaluation getLatestRallyDetails(int matchevaluationId) {
+        RallyEvaluation re = new RallyEvaluation();
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.latestrally"));
+            ps.setInt(1, matchevaluationId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                re.setId(rs.getInt(1));
+                re.setStartby(rs.getInt(4));
+                re.setWonby(rs.getInt(5));
+            }
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return re;
+    }
 }

@@ -22,6 +22,7 @@ public class MatchBean {
     String time;
     String phase;
     int compId;
+    String place;
 
     public int getId() {
         return id;
@@ -109,6 +110,14 @@ public class MatchBean {
 
     public void setTeam2name(String team2name) {
         this.team2name = team2name;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
     }
 
 }

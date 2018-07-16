@@ -6,6 +6,7 @@
 package com.vollyball.bean;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -23,7 +24,11 @@ public class RallyEvaluation {
     int matchEvaluationId;
     int op;
     int tf;
+    String scoreSubtracted;
+    int startby = 0;
+    int wonby = 0;
     List<RallyEvaluationSkillScore> rallyEvaluationSkillScore = new ArrayList<>();
+    public LinkedHashMap<Integer, Player> rallyPositionMap = new LinkedHashMap<Integer, Player>();
 
     public int getId() {
         return id;
@@ -103,6 +108,38 @@ public class RallyEvaluation {
 
     public void setTf(int tf) {
         this.tf = tf;
+    }
+
+    public String getScoreSubtracted() {
+        return scoreSubtracted;
+    }
+
+    public void setScoreSubtracted(String scoreSubtracted) {
+        this.scoreSubtracted = scoreSubtracted;
+    }
+
+    public LinkedHashMap<Integer, Player> getRallyPositionMap() {
+        return rallyPositionMap;
+    }
+
+    public void setRallyPositionMap(LinkedHashMap<Integer, Player> rallyPositionMap) {
+        this.rallyPositionMap = rallyPositionMap;
+    }
+
+    public int getStartby() {
+        return startby;
+    }
+
+    public void setStartby(int startby) {
+        this.startby = startby;
+    }
+
+    public int getWonby() {
+        return wonby;
+    }
+
+    public void setWonby(int wonby) {
+        this.wonby = wonby;
     }
 
 }
