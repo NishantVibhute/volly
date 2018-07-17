@@ -15,8 +15,17 @@ public class PlayerReportBean {
     String name;
     int total;
     int success;
+    double successr;
     String successrate;
     String teamName;
+
+    public double getSuccessr() {
+        return successr;
+    }
+
+    public void setSuccessr(double successr) {
+        this.successr = successr;
+    }
 
     public String getTeamName() {
         return teamName;

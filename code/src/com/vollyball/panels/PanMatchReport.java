@@ -5,17 +5,102 @@
  */
 package com.vollyball.panels;
 
+import com.vollyball.bean.CompetitionBean;
+import com.vollyball.bean.MatchBean;
+import com.vollyball.dao.MatchDao;
+import com.vollyball.dialog.DialogPanMatchReportDetails;
+import com.vollyball.renderer.TableHeaderRenderer;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+
 /**
  *
  * @author nishant.vibhute
  */
 public class PanMatchReport extends javax.swing.JPanel {
 
+    MatchDao matchDao = new MatchDao();
+    DefaultTableModel model;
+
     /**
      * Creates new form PanMatchReport
      */
-    public PanMatchReport() {
+    public PanMatchReport(CompetitionBean cb) {
         initComponents();
+
+        model = (DefaultTableModel) tbMatch.getModel();
+        Color heading = new Color(204, 204, 204);
+        Color ivory = new Color(255, 255, 255);
+        JTableHeader header = tbMatch.getTableHeader();
+        header.setDefaultRenderer(new TableHeaderRenderer(tbMatch));
+        header.setOpaque(false);
+        header.setPreferredSize(new Dimension(100, 35));
+        header.setBackground(heading);
+//        header.setDefaultRenderer(new TableHeaderRenderer(tbAllPlayers));
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tbMatch.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tbMatch.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+
+        tbMatch.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        tbMatch.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        tbMatch.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+
+        tbMatch.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+        tbMatch.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
+        tbMatch.getColumnModel().getColumn(7).setCellRenderer(centerRenderer);
+
+        tbMatch.getColumnModel().getColumn(8).setCellRenderer(centerRenderer);
+
+        tbMatch.setOpaque(true);
+        tbMatch.setFillsViewportHeight(true);
+        tbMatch.setBackground(ivory);
+
+        tbMatch.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    DialogPanMatchReportDetails obj = new DialogPanMatchReportDetails();
+                    obj.init();
+                    obj.show();
+                }
+            }
+        });
+
+        resizeColumns();
+        List<MatchBean> matchList = matchDao.getMatches(cb.getId());
+
+        int i = 0;
+
+        for (MatchBean match : matchList) {
+            i++;
+            Object[] row = {i, match.getMatch(), "", match.getDate(), match.getTime(), match.getPhase(), match.getPlace(), match.getDayNumber(), match.getMatchNumber()};
+            model.addRow(row);
+        }
+
+    }
+
+    float[] columnWidthPercentage = {5.0f, 25.0f, 10.0f, 8.0f, 8.0f, 14.0f, 10.0f, 10.0f, 10.0f};
+
+    private void resizeColumns() {
+        int tW = tbMatch.getPreferredSize().width;
+        TableColumn column;
+        TableColumnModel jTableColumnModel = tbMatch.getColumnModel();
+        int cantCols = jTableColumnModel.getColumnCount();
+        for (int i = 0; i < cantCols; i++) {
+            column = jTableColumnModel.getColumn(i);
+            int pWidth = Math.round(columnWidthPercentage[i] * tW);
+            column.setPreferredWidth(pWidth);
+        }
     }
 
     /**
@@ -27,53 +112,37 @@ public class PanMatchReport extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbMatch = new javax.swing.JTable();
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 54, Short.MAX_VALUE)
-        );
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbMatch.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        tbMatch.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9", "Title 10", "Title 11", "Title 12", "Title 13", "Title 14", "Title 15", "Title 16", "Title 17", "Title 18", "Title 19"
+                "SR No", "Match", "Won By", "Date", "Time", "Phase", "Place", "Day Number", "Match Number"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tbMatch.setRowHeight(30);
+        jScrollPane1.setViewportView(tbMatch);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tbMatch;
     // End of variables declaration//GEN-END:variables
 }

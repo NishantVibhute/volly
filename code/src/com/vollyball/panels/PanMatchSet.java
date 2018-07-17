@@ -110,8 +110,8 @@ public class PanMatchSet extends javax.swing.JPanel {
 
         MatchSet ms = matchDao.getMatchSet(setNum, matchEvaluationTeamId);
 
-        List<Player> playerListL = teamDao.getTeamPlayers(matchEvaluationTeamId);
-        for (Player p : playerListL) {
+//        List<Player> playerListL = teamDao.getTeamPlayers(matchEvaluationTeamId);
+        for (Player p : playerList) {
             playerMap.put(p.getId(), p);
             ChestMap.put(p.getChestNo(), p);
         }

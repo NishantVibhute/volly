@@ -10,6 +10,7 @@ import com.vollyball.bean.Player;
 import com.vollyball.bean.PlayerScores;
 import com.vollyball.dao.ReportDao;
 import com.vollyball.dao.TeamDao;
+import com.vollyball.dialog.DialogPlayerScoreGraph;
 import com.vollyball.renderer.ColumnGroup;
 import com.vollyball.renderer.GroupableTableHeader;
 import com.vollyball.renderer.TableHeaderRenderer;
@@ -25,6 +26,8 @@ import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -50,7 +53,7 @@ public class PanBestScorer extends javax.swing.JPanel {
     /**
      * Creates new form PanBestScorer
      */
-    public PanBestScorer(CompetitionBean cb, List<Player> playerList) {
+    public PanBestScorer(final CompetitionBean cb, List<Player> playerList) {
         initComponents();
         createTable();
         this.playerList = playerList;
@@ -58,11 +61,38 @@ public class PanBestScorer extends javax.swing.JPanel {
         cmbPlayer.addItem("All");
         playerNameMap.put("All", null);
         for (Player p : playerList) {
-            cmbPlayer.addItem(p.getName() + " - " + p.getChestNo());
-            playerNameMap.put(p.getName() + " - " + p.getChestNo(), p);
+            cmbPlayer.addItem(p.getName());
+            playerNameMap.put(p.getName(), p);
 
         }
         setRow(null);
+
+        tbReport.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+
+                    String selectedName = null, teamName = "";
+
+                    int matchesPlayed = 0;
+
+                    int selectedRow = tbReport.getSelectedRow();
+                    for (int i = 0; i <= selectedRow; i++) {
+
+                        selectedName = (String) tbReport.getValueAt(selectedRow, 1);
+                        teamName = (String) tbReport.getValueAt(selectedRow, 2);
+                        matchesPlayed = (int) tbReport.getValueAt(selectedRow, 3);
+
+                    }
+                    if (selectedName != null) {
+                        DialogPlayerScoreGraph createDialogPanMatchWiseReport = new DialogPlayerScoreGraph();
+                        createDialogPanMatchWiseReport.init(cb.getId(), playerNameMap.get(selectedName).getId(), selectedName, matchesPlayed, teamName);
+                        createDialogPanMatchWiseReport.show();
+                    }
+
+                }
+            }
+        });
 
     }
 

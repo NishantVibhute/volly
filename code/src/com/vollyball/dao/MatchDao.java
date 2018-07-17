@@ -100,6 +100,13 @@ public class MatchDao {
                 mb.setTeam1(rs.getInt(4));
                 mb.setTeam2(rs.getInt(5));
                 mb.setId(rs.getInt(6));
+                mb.setMatch(mb.getTeam1name() + " vs " + mb.getTeam2name());
+
+                mb.setTime(rs.getString(7));
+                mb.setDayNumber(rs.getInt(8));
+                mb.setMatchNumber(rs.getInt(9));
+                mb.setPhase(rs.getString(10));
+                mb.setPlace(rs.getString(11));
                 matchList.add(mb);
 
             }

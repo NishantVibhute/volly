@@ -6,8 +6,11 @@
 package com.vollyball.panels;
 
 import com.vollyball.bean.PlayerReportBean;
+import com.vollyball.chart.LineChart;
 import com.vollyball.dao.ReportDao;
 import com.vollyball.dialog.CreateTeamPlayerReportDialog;
+import com.vollyball.dialog.DialogPanChart;
+import com.vollyball.enums.Skill;
 import com.vollyball.renderer.TableHeaderRenderer;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,6 +22,9 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -32,6 +38,7 @@ public class PanPlayerDetails extends javax.swing.JPanel {
     int skillId, compId;
     LinkedHashMap<Integer, PlayerReportBean> mapDetails = new LinkedHashMap<Integer, PlayerReportBean>();
     PlayerReportBean prb;
+    List<PlayerReportBean> pbList;
 
     /**
      * Creates new form PanPlayerDetails
@@ -76,7 +83,7 @@ public class PanPlayerDetails extends javax.swing.JPanel {
         tbMatchwise.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tbMatchwise.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
 
-        List<PlayerReportBean> pbList = reportDao.getMatchWisePlayerReportList(skillId, compId, prb.getId(), type);
+        pbList = reportDao.getMatchWisePlayerReportList(skillId, compId, prb.getId(), type);
         int i = 0;
         for (PlayerReportBean pb : pbList) {
             mapDetails.put(i, pb);
@@ -136,6 +143,8 @@ public class PanPlayerDetails extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         tbMatchwise = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
+        showGraph = new javax.swing.JPanel();
+        lblGraph = new javax.swing.JLabel();
 
         jLabel4.setText("jLabel4");
 
@@ -161,7 +170,7 @@ public class PanPlayerDetails extends javax.swing.JPanel {
                 .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(265, 265, 265)
                 .addComponent(lblSkill, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,6 +240,34 @@ public class PanPlayerDetails extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel3.setText("MATCHES PLAYED");
 
+        showGraph.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        showGraph.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                showGraphMouseClicked(evt);
+            }
+        });
+
+        lblGraph.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vollyball/images/chart_curve.png"))); // NOI18N
+        lblGraph.setToolTipText("Show Graph");
+        lblGraph.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblGraphMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout showGraphLayout = new javax.swing.GroupLayout(showGraph);
+        showGraph.setLayout(showGraphLayout);
+        showGraphLayout.setHorizontalGroup(
+            showGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, showGraphLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblGraph, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
+        );
+        showGraphLayout.setVerticalGroup(
+            showGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblGraph, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -240,18 +277,20 @@ public class PanPlayerDetails extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3)
-                        .addGap(883, 883, 883))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
-                        .addGap(20, 20, 20))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(showGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(showGraph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
                 .addGap(20, 20, 20))
         );
 
@@ -274,6 +313,25 @@ public class PanPlayerDetails extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void showGraphMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showGraphMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_showGraphMouseClicked
+
+    private void lblGraphMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGraphMouseClicked
+        // TODO add your handling code here:
+
+        String series1 = "Matches";
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        for (PlayerReportBean pb : pbList) {
+            dataset.addValue(pb.getSuccessr(), series1, pb.getName());
+        }
+        JFreeChart jcChart = LineChart.LineChartExample(dataset, Skill.getNameById(skillId).getType());
+        ChartPanel panel = new ChartPanel(jcChart);
+        DialogPanChart obj = new DialogPanChart();
+        obj.init(prb.getName(), prb.getTeamName(), panel);
+        obj.show();
+    }//GEN-LAST:event_lblGraphMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -283,8 +341,10 @@ public class PanPlayerDetails extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblGraph;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblSkill;
+    private javax.swing.JPanel showGraph;
     private javax.swing.JTable tbMatchwise;
     private javax.swing.JTable tbOverall;
     // End of variables declaration//GEN-END:variables

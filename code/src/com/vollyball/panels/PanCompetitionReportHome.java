@@ -9,6 +9,7 @@ import com.vollyball.bean.CompetitionBean;
 import com.vollyball.bean.PlayerReportBean;
 import com.vollyball.dao.ReportDao;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -37,6 +38,18 @@ public class PanCompetitionReportHome extends javax.swing.JPanel {
         initComponents();
         this.cb = cb;
         lblComHeading.setText(cb.getName());
+        panMatches.setBackground(new Color(57, 74, 108));
+        panPlayer.setBackground(new Color(255, 255, 255));
+        panMatches1.setBackground(new Color(255, 255, 255));
+        lblMatch.setForeground(Color.WHITE);
+        lblPlayer.setForeground(new Color(57, 74, 108));
+        lblTeam.setForeground(new Color(57, 74, 108));
+
+        PanMatchReport p = new PanMatchReport(cb);
+        panReports.removeAll();
+        panReports.add(p, BorderLayout.CENTER);
+        panReports.validate();
+        panReports.repaint();
 
     }
 
@@ -57,11 +70,9 @@ public class PanCompetitionReportHome extends javax.swing.JPanel {
         panMatches = new javax.swing.JPanel();
         lblMatch = new javax.swing.JLabel();
         panMatches1 = new javax.swing.JPanel();
-        lblTeamwise = new javax.swing.JLabel();
-        panMatches4 = new javax.swing.JPanel();
+        lblTeam = new javax.swing.JLabel();
+        panPlayer = new javax.swing.JPanel();
         lblPlayer = new javax.swing.JLabel();
-        panMatches3 = new javax.swing.JPanel();
-        lblPlayerSillWise = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(57, 74, 108));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -110,9 +121,7 @@ public class PanCompetitionReportHome extends javax.swing.JPanel {
         panMatches.setLayout(panMatchesLayout);
         panMatchesLayout.setHorizontalGroup(
             panMatchesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panMatchesLayout.createSequentialGroup()
-                .addComponent(lblMatch, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(lblMatch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panMatchesLayout.setVerticalGroup(
             panMatchesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,13 +131,13 @@ public class PanCompetitionReportHome extends javax.swing.JPanel {
         panMatches1.setBackground(new java.awt.Color(255, 255, 255));
         panMatches1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        lblTeamwise.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblTeamwise.setForeground(new java.awt.Color(57, 74, 108));
-        lblTeamwise.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTeamwise.setText("Team Skillwise");
-        lblTeamwise.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblTeam.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTeam.setForeground(new java.awt.Color(57, 74, 108));
+        lblTeam.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTeam.setText("TEAM");
+        lblTeam.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblTeamwiseMouseClicked(evt);
+                lblTeamMouseClicked(evt);
             }
         });
 
@@ -136,65 +145,35 @@ public class PanCompetitionReportHome extends javax.swing.JPanel {
         panMatches1.setLayout(panMatches1Layout);
         panMatches1Layout.setHorizontalGroup(
             panMatches1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panMatches1Layout.createSequentialGroup()
-                .addComponent(lblTeamwise, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(lblTeam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panMatches1Layout.setVerticalGroup(
             panMatches1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblTeamwise, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblTeam, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
-        panMatches4.setBackground(new java.awt.Color(255, 255, 255));
-        panMatches4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panPlayer.setBackground(new java.awt.Color(255, 255, 255));
+        panPlayer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         lblPlayer.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblPlayer.setForeground(new java.awt.Color(57, 74, 108));
         lblPlayer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblPlayer.setText("Player ");
+        lblPlayer.setText("PLAYER");
         lblPlayer.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblPlayerMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout panMatches4Layout = new javax.swing.GroupLayout(panMatches4);
-        panMatches4.setLayout(panMatches4Layout);
-        panMatches4Layout.setHorizontalGroup(
-            panMatches4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panMatches4Layout.createSequentialGroup()
-                .addComponent(lblPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+        javax.swing.GroupLayout panPlayerLayout = new javax.swing.GroupLayout(panPlayer);
+        panPlayer.setLayout(panPlayerLayout);
+        panPlayerLayout.setHorizontalGroup(
+            panPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblPlayer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        panMatches4Layout.setVerticalGroup(
-            panMatches4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblPlayer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        panMatches3.setBackground(new java.awt.Color(255, 255, 255));
-        panMatches3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        lblPlayerSillWise.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblPlayerSillWise.setForeground(new java.awt.Color(57, 74, 108));
-        lblPlayerSillWise.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblPlayerSillWise.setText("Player Skillwise");
-        lblPlayerSillWise.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblPlayerSillWiseMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panMatches3Layout = new javax.swing.GroupLayout(panMatches3);
-        panMatches3.setLayout(panMatches3Layout);
-        panMatches3Layout.setHorizontalGroup(
-            panMatches3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panMatches3Layout.createSequentialGroup()
-                .addComponent(lblPlayerSillWise, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 55, Short.MAX_VALUE))
-        );
-        panMatches3Layout.setVerticalGroup(
-            panMatches3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblPlayerSillWise, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        panPlayerLayout.setVerticalGroup(
+            panPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblPlayer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -205,19 +184,16 @@ public class PanCompetitionReportHome extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addComponent(panMatches, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
-                .addComponent(panMatches3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panPlayer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(panMatches1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(panMatches4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panMatches, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panMatches1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panMatches4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panMatches3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panMatches, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panMatches1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -255,24 +231,46 @@ public class PanCompetitionReportHome extends javax.swing.JPanel {
 
     private void lblMatchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMatchMouseClicked
         // TODO add your handling code here:
+        panMatches.setBackground(new Color(57, 74, 108));
+        panPlayer.setBackground(new Color(255, 255, 255));
+        panMatches1.setBackground(new Color(255, 255, 255));
+        lblMatch.setForeground(Color.WHITE);
+        lblPlayer.setForeground(new Color(57, 74, 108));
+        lblTeam.setForeground(new Color(57, 74, 108));
+
+        PanMatchReport p = new PanMatchReport(cb);
+        panReports.removeAll();
+        panReports.add(p, BorderLayout.CENTER);
+        panReports.validate();
+        panReports.repaint();
 
     }//GEN-LAST:event_lblMatchMouseClicked
 
-    private void lblTeamwiseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTeamwiseMouseClicked
+    private void lblTeamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTeamMouseClicked
         // TODO add your handling code here:
+        panMatches1.setBackground(new Color(57, 74, 108));
+        panPlayer.setBackground(new Color(255, 255, 255));
+        panMatches.setBackground(new Color(255, 255, 255));
+
+        lblTeam.setForeground(Color.WHITE);
+        lblMatch.setForeground(new Color(57, 74, 108));
+        lblPlayer.setForeground(new Color(57, 74, 108));
         PanTeamSkillWiseReport p = new PanTeamSkillWiseReport(cb);
         panReports.removeAll();
         panReports.add(p, BorderLayout.CENTER);
         panReports.validate();
         panReports.repaint();
-    }//GEN-LAST:event_lblTeamwiseMouseClicked
+    }//GEN-LAST:event_lblTeamMouseClicked
 
     private void lblPlayerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPlayerMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_lblPlayerMouseClicked
+        panPlayer.setBackground(new Color(57, 74, 108));
+        panMatches.setBackground(new Color(255, 255, 255));
+        panMatches1.setBackground(new Color(255, 255, 255));
 
-    private void lblPlayerSillWiseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPlayerSillWiseMouseClicked
-        // TODO add your handling code here:
+        lblPlayer.setForeground(Color.WHITE);
+        lblMatch.setForeground(new Color(57, 74, 108));
+        lblTeam.setForeground(new Color(57, 74, 108));
 
         PanPlayerSkillWiseReport p = new PanPlayerSkillWiseReport(cb);
         panReports.removeAll();
@@ -280,7 +278,7 @@ public class PanCompetitionReportHome extends javax.swing.JPanel {
         panReports.validate();
         panReports.repaint();
 
-    }//GEN-LAST:event_lblPlayerSillWiseMouseClicked
+    }//GEN-LAST:event_lblPlayerMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
@@ -288,15 +286,11 @@ public class PanCompetitionReportHome extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblComHeading;
     private javax.swing.JLabel lblMatch;
-    private javax.swing.JLabel lblMatch2;
     private javax.swing.JLabel lblPlayer;
-    private javax.swing.JLabel lblPlayerSillWise;
-    private javax.swing.JLabel lblTeamwise;
+    private javax.swing.JLabel lblTeam;
     private javax.swing.JPanel panMatches;
     private javax.swing.JPanel panMatches1;
-    private javax.swing.JPanel panMatches2;
-    private javax.swing.JPanel panMatches3;
-    private javax.swing.JPanel panMatches4;
+    private javax.swing.JPanel panPlayer;
     private javax.swing.JPanel panReports;
     // End of variables declaration//GEN-END:variables
 }

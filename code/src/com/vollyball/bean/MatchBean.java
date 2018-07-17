@@ -12,6 +12,7 @@ package com.vollyball.bean;
 public class MatchBean {
 
     int id;
+    String match;
     int team1;
     String team1name;
     int team2;
@@ -23,6 +24,23 @@ public class MatchBean {
     String phase;
     int compId;
     String place;
+    String wonBy;
+
+    public String getMatch() {
+        return match;
+    }
+
+    public void setMatch(String match) {
+        this.match = match;
+    }
+
+    public String getWonBy() {
+        return wonBy;
+    }
+
+    public void setWonBy(String wonBy) {
+        this.wonBy = wonBy;
+    }
 
     public int getId() {
         return id;
