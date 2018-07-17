@@ -57,6 +57,7 @@ public class PanTableSkillWiseReport extends javax.swing.JPanel {
         tbReport.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        tbReport.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         Color ivory = new Color(255, 255, 255);
         tbReport.setOpaque(true);
         tbReport.setFillsViewportHeight(true);
@@ -105,7 +106,7 @@ public class PanTableSkillWiseReport extends javax.swing.JPanel {
         int i = 0;
         for (PlayerReportBean pb : pbList) {
             playerId.put(i, pb);
-            Object[] row = {pb.getName(), pb.getTotal(), pb.getSuccess(), pb.getSuccessrate()};
+            Object[] row = {pb.getName(), pb.getTeamName(), pb.getTotal(), pb.getSuccess(), pb.getSuccessrate()};
             model.addRow(row);
             i++;
         }
@@ -161,7 +162,7 @@ public class PanTableSkillWiseReport extends javax.swing.JPanel {
 
             },
             new String [] {
-                "PLAYER NAME", "TOTAL ATTEMPT", "SUCCESSFUL ATTEMPT", "SUCCESS RATE "
+                "PLAYER NAME", "TEAM", "TOTAL ATTEMPT", "SUCCESSFUL ATTEMPT", "SUCCESS RATE "
             }
         ));
         tbReport.setOpaque(false);
