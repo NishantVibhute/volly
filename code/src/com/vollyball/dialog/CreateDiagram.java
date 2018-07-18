@@ -5,6 +5,7 @@
  */
 package com.vollyball.dialog;
 
+import com.vollyball.bean.VollyCourtCoordinateBean;
 import com.vollyball.panels.PanVolleyCourt;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -22,7 +23,8 @@ public class CreateDiagram {
 
     private JFrame parentFrame;
     private JDialog dialog;
-    String home, opp, chestNum;
+    String chestNum;
+    VollyCourtCoordinateBean v;
 
     public void init() {
         try {
@@ -44,15 +46,15 @@ public class CreateDiagram {
         }
     }
 
-    public void setValues(String home, String opp, String chestNum) {
-        this.home = home;
-        this.opp = opp;
+    public void setValues(VollyCourtCoordinateBean v, String chestNum) {
+        this.v = v;
+
         this.chestNum = chestNum;
     }
 
     protected Container createPane() {
         PanVolleyCourt panMatch = new PanVolleyCourt();
-        panMatch.setValues(home, opp, chestNum);
+        panMatch.setValues(v, chestNum);
         return panMatch;
     }
 

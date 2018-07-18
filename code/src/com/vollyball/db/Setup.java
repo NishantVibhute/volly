@@ -11,6 +11,7 @@ import com.vollyball.enums.Rating;
 import com.vollyball.enums.SetupEnum;
 import com.vollyball.enums.Skill;
 import com.vollyball.enums.SkillDetails;
+import com.vollyball.enums.VollyCourtCoordinate;
 import com.vollyball.frames.FrmRegister;
 import com.vollyball.util.CommonUtil;
 import java.sql.Connection;
@@ -54,10 +55,13 @@ public class Setup extends Thread {
             createsettimeoutTable(80);
             createRallyRotationOrder(80);
             createMatchPlayer(80);
+            createVollyCoordinate(80);
             insertRatings(90);
             insertSkills(95);
             insertSkillDetails(97);
             insertUser(100);
+            insertVollyCoordinate(100);
+
             FrmRegister.lblStatus.setText("Done");
             FrmRegister.lblFinish.setVisible(true);
         }
@@ -159,6 +163,10 @@ public class Setup extends Thread {
 
     public void createRallyRotationOrder(int status) {
         executeQuery(CommonUtil.getResourceProperty("create.rallyRotationorder"), SetupEnum.RALLYROTATIONORDER, status);
+    }
+
+    public void createVollyCoordinate(int status) {
+        executeQuery(CommonUtil.getResourceProperty("create.vollycoordinate"), SetupEnum.VollyCoordinate, status);
     }
 
     public void insertRatings(int status) {
@@ -269,6 +277,44 @@ public class Setup extends Thread {
 
         if (resp != 0) {
             Controller.stepCompleted.put(SetupEnum.InsertUser.getStep(), SetupEnum.InsertUser.getValue());
+            FrmRegister.pgrStatus.setValue(status);
+        }
+    }
+
+    public void insertVollyCoordinate(int status) {
+
+        int count = 0;
+        String query = CommonUtil.getResourceProperty("insert.vollycoordinate");
+
+        Connection conn = db.getConnection();
+        int resp = 0;
+        try {
+
+            for (VollyCourtCoordinate v : VollyCourtCoordinate.values()) {
+                PreparedStatement preparedStmt = conn.prepareStatement(query);
+                preparedStmt.setInt(1, v.getId());
+                preparedStmt.setString(2, v.getSkill());
+                preparedStmt.setInt(3, v.getFrom());
+                preparedStmt.setInt(4, v.getTo());
+                preparedStmt.setInt(5, v.getX1());
+                preparedStmt.setInt(6, v.getY1());
+                preparedStmt.setInt(7, v.getX2());
+                preparedStmt.setInt(8, v.getY2());
+                preparedStmt.setInt(9, v.getX3());
+                preparedStmt.setInt(10, v.getY3());
+                preparedStmt.setInt(11, v.getX4());
+                preparedStmt.setInt(12, v.getY4());
+                resp = preparedStmt.executeUpdate();
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Setup.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            db.closeConnection(conn);
+        }
+
+        if (resp != 0) {
+            Controller.stepCompleted.put(SetupEnum.InsertVollyCoordinate.getStep(), SetupEnum.InsertVollyCoordinate.getValue());
             FrmRegister.pgrStatus.setValue(status);
         }
     }

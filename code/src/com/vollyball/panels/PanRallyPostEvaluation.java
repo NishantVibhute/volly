@@ -5,7 +5,9 @@
  */
 package com.vollyball.panels;
 
+import com.vollyball.bean.VollyCourtCoordinateBean;
 import com.vollyball.controller.Controller;
+import com.vollyball.dao.RallyDao;
 import com.vollyball.dialog.CreateDiagram;
 import com.vollyball.enums.Skill;
 import com.vollyball.enums.SkillsDescCriteria;
@@ -269,9 +271,9 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
-
+        RallyDao rd = new RallyDao();
         LinkedHashMap<Integer, String> Dig = new LinkedHashMap<Integer, String>();
-        String home = null, opp = null;
+        int home = 0, opp = 0;
         for (int i = 0; i < panListRow.size(); i++) {
             try {
                 PanPostSkillDetailsCriteriaRow panRallyEvaluationRow = panListRow.get(i);
@@ -282,12 +284,19 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
         }
 
         if (skillId == Skill.Service.getId()) {
-            home = "SH" + Dig.get(SkillsDescCriteria.ServiceD.getId());
-            opp = "O" + Dig.get(SkillsDescCriteria.ServiceE.getId());
+            home = Integer.parseInt(Dig.get(SkillsDescCriteria.ServiceD.getId()));
+            opp = Integer.parseInt(Dig.get(SkillsDescCriteria.ServiceE.getId()));
         }
 
+        if (skillId == Skill.Attack.getId()) {
+            home = Integer.parseInt(Dig.get(SkillsDescCriteria.AttackE.getId()));
+            opp = Integer.parseInt(Dig.get(SkillsDescCriteria.AttackF.getId()));
+        }
+
+        VollyCourtCoordinateBean v = rd.getCordinates(Skill.getNameById(skillId).getType(), home, opp);
+
         CreateDiagram cd = new CreateDiagram();
-        cd.setValues(home, opp, chestNum);
+        cd.setValues(v, chestNum);
         cd.init();
         cd.show();
 

@@ -10,6 +10,7 @@ import com.vollyball.bean.RallyEvaluation;
 import com.vollyball.bean.RallyEvaluationSkillScore;
 import com.vollyball.bean.SetSubstitution;
 import com.vollyball.bean.SetTimeout;
+import com.vollyball.bean.VollyCourtCoordinateBean;
 import com.vollyball.controller.Controller;
 import com.vollyball.db.DbUtil;
 import com.vollyball.util.CommonUtil;
@@ -439,6 +440,39 @@ public class RallyDao {
             Logger.getLogger(RallyDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rallyPositionMap;
+    }
+
+    public VollyCourtCoordinateBean getCordinates(String type, int from, int to) {
+        VollyCourtCoordinateBean v = new VollyCourtCoordinateBean();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.vollycourtcoordinates"));
+            ps.setString(1, type);
+            ps.setInt(2, from);
+            ps.setInt(3, to);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                v.setX1(rs.getInt(1));
+                v.setY1(rs.getInt(2));
+                v.setX2(rs.getInt(3));
+                v.setY2(rs.getInt(4));
+                v.setX3(rs.getInt(5));
+                v.setY3(rs.getInt(6));
+                v.setX4(rs.getInt(7));
+                v.setY4(rs.getInt(8));
+                v.setSkill(rs.getString(9));
+                v.setFrom(rs.getInt(10));
+                v.setTo(rs.getInt(11));
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return v;
     }
 
 }

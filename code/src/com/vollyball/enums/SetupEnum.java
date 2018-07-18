@@ -37,9 +37,12 @@ public enum SetupEnum {
     InsertSkills(24, "Skills Inserted"),
     InsertSkillDetails(25, "Skill details Inserted"),
     InsertUser(26, "User Inserted"),
-    MatchPlayers(27, "Match Player");
+    MatchPlayers(27, "Match Player"),
+    VollyCoordinate(28, "Volly Coordinate"),
+    InsertVollyCoordinate(29, "Insert Volly Coordinate");
 
     int step;
+
     String value;
 
     SetupEnum(int step, String value) {
