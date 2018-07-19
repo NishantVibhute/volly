@@ -19,7 +19,6 @@ import com.vollyball.dao.MatchDao;
 import com.vollyball.dao.RallyDao;
 import com.vollyball.dao.TeamDao;
 import com.vollyball.dialog.CreateRallyRotationDialog;
-
 import com.vollyball.dialog.SetRotationDialog;
 import com.vollyball.dialog.SetSubstituteSelectPlayerDialog;
 import com.vollyball.enums.HomeOpponent;
@@ -2587,7 +2586,7 @@ public class PanMatchSet extends javax.swing.JPanel {
     }
 
     private void registerLibrary() {
-        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "E:\\VLC\\VLC64");
+        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "H:\\vollyball\\volly new\\volly\\VLC\\VLC64");
         Native
                 .loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class
                 );

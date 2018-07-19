@@ -227,20 +227,21 @@ public class PanVolleyCourt extends javax.swing.JPanel {
             g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
             g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(Color.GREEN);
+
+//            g2.setStroke(new BasicStroke(0f));
+//            g2.draw(totalCurve);
+            g2.setStroke(new BasicStroke(5f));
+            g2.setColor(Color.RED);
+            g2.draw(path1);
+            g2.setColor(Color.YELLOW);
             for (Shape mark : marks) {
                 g2.fill(mark);
             }
-            g2.setStroke(new BasicStroke(2f));
-            g2.setColor(Color.BLACK);
+            g2.setStroke(new BasicStroke(5f));
+            g2.setColor(Color.BLUE);
             for (Shape mark : marks) {
                 g2.draw(mark);
             }
-//            g2.setStroke(new BasicStroke(0f));
-//            g2.draw(totalCurve);
-            g2.setStroke(new BasicStroke(2f));
-            g2.setColor(Color.RED);
-            g2.draw(path1);
             g2.setStroke(new BasicStroke(.5f));
             g2.setColor(Color.BLACK);
         }
@@ -261,7 +262,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
             if (step <= steps) {
                 double t = step / steps;
                 Point2D newPoint = computeBezierPoint(new Point2D.Double(), t, curvePoints);
-                marks[marks.length - 1].setFrame(newPoint.getX() - 5, newPoint.getY() - 5, 10, 10);
+                marks[marks.length - 1].setFrame(newPoint.getX() - 10, newPoint.getY() - 10, 20, 20);
                 points.add(newPoint);
                 if (moveTo) {
                     path.moveTo(newPoint.getX(), newPoint.getY());

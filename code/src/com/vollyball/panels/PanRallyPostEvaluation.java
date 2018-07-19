@@ -271,6 +271,7 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
+
         RallyDao rd = new RallyDao();
         LinkedHashMap<Integer, String> Dig = new LinkedHashMap<Integer, String>();
         int home = 0, opp = 0;
@@ -282,18 +283,39 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
                 Logger.getLogger(PanRallyLiveEvaluation.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        String type = null;
 
         if (skillId == Skill.Service.getId()) {
             home = Integer.parseInt(Dig.get(SkillsDescCriteria.ServiceD.getId()));
             opp = Integer.parseInt(Dig.get(SkillsDescCriteria.ServiceE.getId()));
+            type = Skill.getNameById(skillId).getType();
         }
 
         if (skillId == Skill.Attack.getId()) {
             home = Integer.parseInt(Dig.get(SkillsDescCriteria.AttackE.getId()));
             opp = Integer.parseInt(Dig.get(SkillsDescCriteria.AttackF.getId()));
+            type = Skill.getNameById(skillId).getType();
         }
 
-        VollyCourtCoordinateBean v = rd.getCordinates(Skill.getNameById(skillId).getType(), home, opp);
+        if (skillId == Skill.Set.getId()) {
+            home = Integer.parseInt(Dig.get(SkillsDescCriteria.SetF.getId()));
+            opp = Integer.parseInt(Dig.get(SkillsDescCriteria.SetG.getId()));
+            type = Skill.getNameById(skillId).getType() + "H";
+        }
+
+        if (skillId == Skill.Reception.getId()) {
+            home = Integer.parseInt(Dig.get(SkillsDescCriteria.ReceptionC.getId()));
+            opp = Integer.parseInt(Dig.get(SkillsDescCriteria.ReceptionD.getId()));
+            type = Skill.getNameById(skillId).getType();
+        }
+
+        if (skillId == Skill.Defence.getId()) {
+            home = Integer.parseInt(Dig.get(SkillsDescCriteria.DefenceH.getId()));
+            opp = Integer.parseInt(Dig.get(SkillsDescCriteria.DefenceI.getId()));
+            type = Skill.getNameById(skillId).getType();
+        }
+
+        VollyCourtCoordinateBean v = rd.getCordinates(type, home, opp);
 
         CreateDiagram cd = new CreateDiagram();
         cd.setValues(v, chestNum);
