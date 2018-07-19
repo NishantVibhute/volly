@@ -10,6 +10,8 @@ import com.vollyball.panels.PanVolleyCourt;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
@@ -25,6 +27,8 @@ public class CreateDiagram {
     private JDialog dialog;
     String chestNum;
     VollyCourtCoordinateBean v;
+    String type = "";
+    List<VollyCourtCoordinateBean> vlist = new ArrayList<VollyCourtCoordinateBean>();
 
     public void init() {
         try {
@@ -48,13 +52,23 @@ public class CreateDiagram {
 
     public void setValues(VollyCourtCoordinateBean v, String chestNum) {
         this.v = v;
-
         this.chestNum = chestNum;
+        type = "single";
+    }
+
+    public void setValues(List<VollyCourtCoordinateBean> v) {
+        this.vlist = v;
+        this.chestNum = chestNum;
+        type = "multiple";
     }
 
     protected Container createPane() {
         PanVolleyCourt panMatch = new PanVolleyCourt();
-        panMatch.setValues(v, chestNum);
+        if (type.equalsIgnoreCase("single")) {
+            panMatch.setValues(v, chestNum);
+        } else {
+            panMatch.setValues(vlist);
+        }
         return panMatch;
     }
 

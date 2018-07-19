@@ -7,6 +7,7 @@ package com.vollyball.panels;
 
 import com.vollyball.enums.SkillDescCriteriaPoint;
 import com.vollyball.enums.SkillsDescCriteria;
+import java.awt.event.ItemEvent;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -34,6 +35,10 @@ public class PanPostSkillDetailsCriteriaRow extends javax.swing.JPanel {
             cmbvalue.addItem(cb.getAbbreviation());
         }
 
+    }
+
+    public void setValue(String value) {
+        cmbvalue.setSelectedItem(value);
     }
 
     /**
@@ -83,8 +88,13 @@ public class PanPostSkillDetailsCriteriaRow extends javax.swing.JPanel {
 
     private void cmbvalueItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbvalueItemStateChanged
         // TODO add your handling code here:
-        skillDescId = SkillsDescCriteria.getTypeByName(lbltype.getText()).getId();
-        value = evt.getItem().toString();
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            skillDescId = SkillsDescCriteria.getTypeByName(lbltype.getText()).getId();
+            value = evt.getItem().toString();
+            if (value.equals("Select")) {
+                skillDescId = 0;
+            }
+        }
 
     }//GEN-LAST:event_cmbvalueItemStateChanged
 

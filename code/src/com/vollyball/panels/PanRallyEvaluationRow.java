@@ -40,6 +40,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
     LinkedHashMap<String, Integer> chestNumPlayerId = new LinkedHashMap<String, Integer>();
     LinkedHashMap<Integer, String> playerIdChestNum = new LinkedHashMap<Integer, String>();
     public boolean isAddClicked = false, isSubClicked = false, isrowadded = false;
+    String score;
 
     /**
      * Creates new form PanRallyEvaluationRow
@@ -69,7 +70,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
 
     }
 
-    public void setValues(String skill, Integer PlayerId, int score, int id) {
+    public void setValues(String skill, Integer PlayerId, int score, int id, LinkedHashMap<Integer, String> detailsValues) {
 
         txtSkill.setText(skill);
 //        cmbChest.setSelectedItem(chestNo);
@@ -77,6 +78,9 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
         txtChestNum.setText(playerIdChestNum.get(PlayerId));
         cmbScore.setSelectedItem(score);
         this.id = id;
+        this.score = "" + score;
+        this.detailsValues = detailsValues;
+        this.skill = skill;
 
     }
 
@@ -102,7 +106,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
         lblAddNew = new javax.swing.JLabel();
         txtChestNum = new javax.swing.JTextField();
         lblSub = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblDetail = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -154,9 +158,14 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vollyball/images/icons8-view-details-20.png"))); // NOI18N
-        jLabel1.setToolTipText("Detail Analysis");
+        lblDetail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vollyball/images/icons8-view-details-20.png"))); // NOI18N
+        lblDetail.setToolTipText("Detail Analysis");
+        lblDetail.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblDetailMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -173,7 +182,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addComponent(lblSub, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
@@ -186,7 +195,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
                     .addComponent(txtSkill, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtChestNum, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -221,7 +230,7 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
                     if (p.evaluationType == 2) {
                         isDetailed = true;
                         Controller.panMatchSet.panRallyShow.removeAll();
-                        PanRallyPostEvaluation panRallyPostEvaluation = new PanRallyPostEvaluation(item, this, skill, txtChestNum.getText());
+                        PanRallyPostEvaluation panRallyPostEvaluation = new PanRallyPostEvaluation(item, this, skill, txtChestNum.getText(), this.detailsValues);
                         Controller.panMatchSet.panRallyShow.add(panRallyPostEvaluation);
                         Controller.panMatchSet.panRallyShow.validate();
                         Controller.panMatchSet.panRallyShow.repaint();
@@ -273,6 +282,16 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
         p.removePosition();
 
     }//GEN-LAST:event_lblSubMouseClicked
+
+    private void lblDetailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDetailMouseClicked
+        // TODO add your handling code here:
+        Controller.panMatchSet.panRallyShow.removeAll();
+        isDetailed = true;
+        PanRallyPostEvaluation panRallyPostEvaluation = new PanRallyPostEvaluation("" + this.score, this, skill, txtChestNum.getText(), this.detailsValues);
+        Controller.panMatchSet.panRallyShow.add(panRallyPostEvaluation);
+        Controller.panMatchSet.panRallyShow.validate();
+        Controller.panMatchSet.panRallyShow.repaint();
+    }//GEN-LAST:event_lblDetailMouseClicked
 
     public void setRallyRow(String item) {
         if (p.evaluationType == 2) {
@@ -348,10 +367,12 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
                     }
                     p.scoreAddedOf = "none";
                 }
-                if (!isrowadded) {
-                    isrowadded = true;
-                    p.refresh();
-                    robot.keyPress(KeyEvent.VK_TAB);
+                if (!p.isInserted) {
+                    if (!isrowadded) {
+                        isrowadded = true;
+                        p.refresh();
+                        robot.keyPress(KeyEvent.VK_TAB);
+                    }
                 }
         }
     }
@@ -426,8 +447,8 @@ public class PanRallyEvaluationRow extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox cmbScore;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblAddNew;
+    private javax.swing.JLabel lblDetail;
     private javax.swing.JLabel lblSub;
     public javax.swing.JTextField txtChestNum;
     public javax.swing.JTextField txtSkill;

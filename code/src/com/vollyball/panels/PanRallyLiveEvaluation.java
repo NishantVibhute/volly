@@ -8,10 +8,13 @@ package com.vollyball.panels;
 import com.vollyball.bean.Player;
 import com.vollyball.bean.RallyEvaluation;
 import com.vollyball.bean.RallyEvaluationSkillScore;
+import com.vollyball.bean.VollyCourtCoordinateBean;
 import com.vollyball.controller.Controller;
 import com.vollyball.dao.RallyDao;
+import com.vollyball.dialog.CreateDiagram;
 import com.vollyball.dialog.CreateRallyRotationDialog;
 import com.vollyball.enums.Skill;
+import com.vollyball.enums.SkillsDescCriteria;
 import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -217,7 +220,7 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
             for (RallyEvaluationSkillScore ress : re.getRallyEvaluationSkillScore()) {
                 rallyRow++;
                 PanRallyEvaluationRow panel = new PanRallyEvaluationRow(PanRallyLiveEvaluation.this);
-                panel.setValues(Skill.getNameById(ress.getSkillId()).getType(), ress.getPlayerId(), ress.getScore(), ress.getId());
+                panel.setValues(Skill.getNameById(ress.getSkillId()).getType(), ress.getPlayerId(), ress.getScore(), ress.getId(), ress.getDetailsValues());
                 GridBagConstraints gbcRow = new GridBagConstraints();
                 gbcRow.gridwidth = GridBagConstraints.REMAINDER;
                 gbcRow.weightx = 1;
@@ -254,6 +257,7 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
         rallyRotation = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         lblResult = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         panDynamic = new javax.swing.JPanel();
@@ -310,6 +314,16 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
         lblResult.setForeground(new java.awt.Color(251, 201, 0));
         lblResult.setText(" ");
 
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("DIG");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -317,11 +331,13 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblBack)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(50, 50, 50)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblResult, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rallyRotation)
                 .addContainerGap())
         );
@@ -331,6 +347,7 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
             .addComponent(lblBack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -504,14 +521,69 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
 
     private void rallyRotationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rallyRotationMouseClicked
         // TODO add your handling code here:
-
         obj = new CreateRallyRotationDialog();
-
         obj.init(obj);
         obj.show();
     }//GEN-LAST:event_rallyRotationMouseClicked
 
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        RallyDao rd = new RallyDao();
+        List<VollyCourtCoordinateBean> listCCB = new ArrayList<>();
+        RallyEvaluation re = rallyDao.getRally(rallyNum, matchEvaluationId);
+        int home = 0, opp = 0;
+        String type = null;
+
+        for (RallyEvaluationSkillScore ress : re.getRallyEvaluationSkillScore()) {
+
+            int skillId = ress.getSkillId();
+            String chestNum = ress.getChestNo();
+            LinkedHashMap<Integer, String> Dig = ress.getDetailsValues();
+            if (skillId == Skill.Service.getId()) {
+                home = Integer.parseInt(Dig.get(SkillsDescCriteria.ServiceD.getId()));
+                opp = Integer.parseInt(Dig.get(SkillsDescCriteria.ServiceE.getId()));
+                type = Skill.getNameById(skillId).getType();
+            }
+
+            if (skillId == Skill.Attack.getId()) {
+                home = Integer.parseInt(Dig.get(SkillsDescCriteria.AttackE.getId()));
+                opp = Integer.parseInt(Dig.get(SkillsDescCriteria.AttackF.getId()));
+                type = Skill.getNameById(skillId).getType();
+            }
+
+            if (skillId == Skill.Set.getId()) {
+                home = Integer.parseInt(Dig.get(SkillsDescCriteria.SetF.getId()));
+                opp = Integer.parseInt(Dig.get(SkillsDescCriteria.SetG.getId()));
+                type = Skill.getNameById(skillId).getType() + "H";
+            }
+
+            if (skillId == Skill.Reception.getId()) {
+                home = Integer.parseInt(Dig.get(SkillsDescCriteria.ReceptionC.getId()));
+                opp = Integer.parseInt(Dig.get(SkillsDescCriteria.ReceptionD.getId()));
+                type = Skill.getNameById(skillId).getType();
+            }
+
+            if (skillId == Skill.Defence.getId()) {
+                home = Integer.parseInt(Dig.get(SkillsDescCriteria.DefenceH.getId()));
+                opp = Integer.parseInt(Dig.get(SkillsDescCriteria.DefenceI.getId()));
+                type = Skill.getNameById(skillId).getType();
+            }
+
+            VollyCourtCoordinateBean v = rd.getCordinates(type, home, opp);
+            v.setChestNum(chestNum);
+            listCCB.add(v);
+        }
+
+        CreateDiagram cd = new CreateDiagram();
+        cd.setValues(listCCB);
+        cd.init();
+        cd.show();
+
+        System.out.println("");
+    }//GEN-LAST:event_jLabel1MouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel5;

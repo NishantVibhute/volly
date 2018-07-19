@@ -1958,6 +1958,10 @@ public class PanMatchSet extends javax.swing.JPanel {
                                 rs.setPlayerId(panRallyEvaluationRow.playerId);
                                 rs.setScore(Integer.parseInt(String.valueOf(panRallyEvaluationRow.cmbScore.getSelectedItem())));
                                 rs.setOrderNum(i + 1);
+                                if (panRallyEvaluationRow.isDetailed) {
+                                    rs.setIsDetailed(true);
+                                    rs.setDetailsValues(panRallyEvaluationRow.getDetailsValues());
+                                }
                                 rallyUpdate.getRallyEvaluationSkillScore().add(rs);
                             }
                         } catch (Exception ex) {
@@ -2586,7 +2590,7 @@ public class PanMatchSet extends javax.swing.JPanel {
     }
 
     private void registerLibrary() {
-        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "H:\\vollyball\\volly new\\volly\\VLC\\VLC64");
+        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "E:\\VLC\\VLC64");
         Native
                 .loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class
                 );

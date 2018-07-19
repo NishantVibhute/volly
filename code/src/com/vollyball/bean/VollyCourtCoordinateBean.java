@@ -23,6 +23,7 @@ public class VollyCourtCoordinateBean {
     int y3;
     int x4;
     int y4;
+    String chestNum;
 
     public int getId() {
         return id;
@@ -118,6 +119,14 @@ public class VollyCourtCoordinateBean {
 
     public void setY4(int y4) {
         this.y4 = y4;
+    }
+
+    public String getChestNum() {
+        return chestNum;
+    }
+
+    public void setChestNum(String chestNum) {
+        this.chestNum = chestNum;
     }
 
 }

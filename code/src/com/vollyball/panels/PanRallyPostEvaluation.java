@@ -38,13 +38,20 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
 
     /**
      * Creates new form PanRallyPostEvaluation
+     *
+     * @param item
+     * @param p
+     * @param skill
+     * @param chestNum
+     * @param detailsValues
      */
-    public PanRallyPostEvaluation(String item, PanRallyEvaluationRow p, String skill, String chestNum) {
+    public PanRallyPostEvaluation(String item, PanRallyEvaluationRow p, String skill, String chestNum, LinkedHashMap<Integer, String> detailsValues) {
         initComponents();
         this.p = p;
         this.item = item;
         this.chestNum = chestNum;
         this.skillId = Skill.getIdByName(skill).getId();
+        this.detailsValues = detailsValues;
         panSkillDetailsListValue = new PanSkillDetailsListValue();
         Controller.panMatchSet.panButton.setVisible(false);
         try {
@@ -77,6 +84,10 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
             for (SkillsDescCriteria cb : list) {
                 PanPostSkillDetailsCriteriaRow panel = new PanPostSkillDetailsCriteriaRow(cb.getType());
 //                panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
+                if (detailsValues.containsKey(cb.getId())) {
+                    panel.setValue(detailsValues.get(cb.getId()));
+                }
+
                 GridBagConstraints gbcRow = new GridBagConstraints();
                 gbcRow.gridwidth = GridBagConstraints.REMAINDER;
                 gbcRow.weightx = 1;
@@ -260,7 +271,10 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
         for (int i = 0; i < panListRow.size(); i++) {
             try {
                 PanPostSkillDetailsCriteriaRow panRallyEvaluationRow = panListRow.get(i);
-                detailsValues.put(panRallyEvaluationRow.skillDescId, panRallyEvaluationRow.value);
+
+                if (panRallyEvaluationRow.skillDescId != 0) {
+                    detailsValues.put(panRallyEvaluationRow.skillDescId, panRallyEvaluationRow.value);
+                }
             } catch (Exception ex) {
                 Logger.getLogger(PanRallyLiveEvaluation.class.getName()).log(Level.SEVERE, null, ex);
             }

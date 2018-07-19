@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -37,8 +36,11 @@ import javax.swing.Timer;
  *
  * @author nishant.vibhute
  */
-public class PanVolleyCourt extends javax.swing.JPanel {
+public class PanVollyCourtMultiple extends javax.swing.JPanel {
 
+    /**
+     * Creates new form PanVollyCourtMultiple
+     */
     LinkedHashMap<String, PixelBean> positionPixelValue = new LinkedHashMap<>();
     int x1, x2, y1, y2, x3, x4, y3, y4;
     private BufferedImage image;
@@ -46,12 +48,11 @@ public class PanVolleyCourt extends javax.swing.JPanel {
     int barb;
     private Point2D[] curvePoints;
     boolean isEnd = false;
-    List<VollyCourtCoordinateBean> vList = new ArrayList<>();
 
     /**
      * Creates new form PanVolleyCourt
      */
-    public PanVolleyCourt() {
+    public PanVollyCourtMultiple() {
         initComponents();
 
         phi = Math.toRadians(40);
@@ -90,14 +91,6 @@ public class PanVolleyCourt extends javax.swing.JPanel {
             panHPos5.setText("");
         } else if (panHPos6.getText().equals(chestNum)) {
             panHPos6.setText("");
-        }
-    }
-
-    public void setValues(List<VollyCourtCoordinateBean> vList) {
-        this.vList = vList;
-        if (vList.size() > 0) {
-            VollyCourtCoordinateBean v = vList.get(0);
-            setValues(v, v.getChestNum());
         }
     }
 
@@ -265,8 +258,6 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         private double step = -1;
         private double steps;
         private Timer timer = new Timer(0, this);
-        int j = 1;
-        int size;
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -286,38 +277,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
             } else {
                 timer.stop();
 
-                if (j < size) {
-                    VollyCourtCoordinateBean v = vList.get(j);
-                    int x1 = v.getX1();
-                    int y1 = v.getY1();
-                    int x2 = v.getX2();
-                    int y2 = v.getY2();
-
-                    int x3 = v.getX3();
-                    int y3 = v.getY3();
-                    int x4 = v.getX4();
-                    int y4 = v.getY4();
-                    curvePoints = new Point2D[]{new Point(x1, y1), new Point(x2, y2), new Point(x3, y3), new Point(x4, y4)};
-                    marks = new Ellipse2D[curvePoints.length + 1];
-                    for (int index = 0; index < marks.length; index++) {
-                        marks[index] = new Ellipse2D.Double();
-                    }
-
-                    curvePoints = new Point2D[]{new Point2D.Double(curvePoints[0].getX(), curvePoints[0].getY()), new Point2D.Double(curvePoints[1].getX(), curvePoints[1].getY()), new Point2D.Double(curvePoints[2].getX(), curvePoints[2].getY()), new Point2D.Double(curvePoints[3].getX(), curvePoints[3].getY())};
-                    totalCurve = new Path2D.Double();
-                    totalCurve.moveTo(curvePoints[0].getX(), curvePoints[0].getY());
-                    totalCurve.curveTo(curvePoints[1].getX(), curvePoints[1].getY(), curvePoints[2].getX(), curvePoints[2].getY(), curvePoints[3].getX(), curvePoints[3].getY());
-                    timer.stop();
-
-                    steps = 75;
-                    step = -1;
-                    moveTo = true;
-                    j++;
-                    int sleepTime = 31;
-                    timer.setDelay(sleepTime);
-                    timer.setInitialDelay(0);
-                    timer.start();
-                }
+                isEnd = true;
                 repaint();
             }
         }
@@ -325,9 +285,6 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         public void init() {
             timer.stop();
 
-            if (vList.size() > 0) {
-                size = vList.size();
-            }
             steps = 75;
             step = -1;
             moveTo = true;
@@ -367,13 +324,14 @@ public class PanVolleyCourt extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         panHPos5 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         panHPos6 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         panHPos1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         panHPos4 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
@@ -398,10 +356,10 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         panSHPos1 = new javax.swing.JLabel();
         panSHPos6 = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(97, 153, 94));
+        jPanel1.setBackground(new java.awt.Color(97, 153, 94));
 
-        jPanel1.setBackground(new java.awt.Color(255, 102, 204));
-        jPanel1.setOpaque(false);
+        jPanel2.setBackground(new java.awt.Color(255, 102, 204));
+        jPanel2.setOpaque(false);
 
         jPanel10.setBackground(new java.awt.Color(225, 155, 78));
         jPanel10.setOpaque(false);
@@ -477,21 +435,21 @@ public class PanVolleyCourt extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(51, 51, 51)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(59, 59, 59))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -501,8 +459,8 @@ public class PanVolleyCourt extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel2.setOpaque(false);
+        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel3.setOpaque(false);
 
         jPanel7.setBackground(new java.awt.Color(225, 155, 78));
         jPanel7.setOpaque(false);
@@ -579,21 +537,21 @@ public class PanVolleyCourt extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -819,38 +777,38 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         panSHPos6.setForeground(new java.awt.Color(255, 255, 255));
         panSHPos6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panSHPos5, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                     .addComponent(panSHPos1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panSHPos6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(114, 114, 114))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(105, 105, 105)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(128, 128, 128)
                         .addComponent(panSHPos5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(43, 43, 43)
@@ -858,6 +816,27 @@ public class PanVolleyCourt extends javax.swing.JPanel {
                         .addGap(40, 40, 40)
                         .addComponent(panSHPos1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(105, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 818, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 486, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -874,6 +853,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
