@@ -329,12 +329,55 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
             type = Skill.getNameById(skillId).getType();
         }
 
-        VollyCourtCoordinateBean v = rd.getCordinates(type, home, opp);
+        if (skillId == Skill.Block.getId()) {
+            List<VollyCourtCoordinateBean> listCCB = new ArrayList<>();
+            home = Integer.parseInt(Dig.get(SkillsDescCriteria.BlockF.getId()));
+            opp = Integer.parseInt(Dig.get(SkillsDescCriteria.BlockG.getId()));
+            type = Skill.getNameById(skillId).getType() + "Attack";
 
-        CreateDiagram cd = new CreateDiagram();
-        cd.setValues(v, chestNum);
-        cd.init();
-        cd.show();
+            VollyCourtCoordinateBean v = rd.getCordinates(type, home, opp);
+            listCCB.add(v);
+
+            String court = Dig.get(SkillsDescCriteria.BlockM.getId());
+            home = Integer.parseInt(Dig.get(SkillsDescCriteria.BlockG.getId()));
+            if (court.equalsIgnoreCase("H")) {
+                type = Skill.getNameById(skillId).getType() + "RH";
+
+            } else {
+                type = Skill.getNameById(skillId).getType() + "RO";
+            }
+
+            String oppH = Dig.get(SkillsDescCriteria.BlockH.getId());
+
+            switch (oppH) {
+                case "LOC":
+                    opp = 7;
+                    break;
+                case "ROC":
+                    opp = 8;
+                    break;
+                case "BOC":
+                    opp = 9;
+                    break;
+                default:
+                    opp = Integer.parseInt(oppH);
+                    break;
+            }
+            VollyCourtCoordinateBean v1 = rd.getCordinates(type, home, opp);
+            listCCB.add(v1);
+            CreateDiagram cd = new CreateDiagram();
+            cd.setValues(listCCB);
+            cd.init();
+            cd.show();
+        }
+
+        if (skillId != Skill.Block.getId()) {
+            VollyCourtCoordinateBean v = rd.getCordinates(type, home, opp);
+            CreateDiagram cd = new CreateDiagram();
+            cd.setValues(v, chestNum);
+            cd.init();
+            cd.show();
+        }
 
     }//GEN-LAST:event_jLabel3MouseClicked
 

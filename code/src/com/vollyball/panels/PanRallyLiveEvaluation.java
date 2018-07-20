@@ -23,7 +23,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Robot;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -569,9 +568,50 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
                 type = Skill.getNameById(skillId).getType();
             }
 
-            VollyCourtCoordinateBean v = rd.getCordinates(type, home, opp);
-            v.setChestNum(chestNum);
-            listCCB.add(v);
+            if (skillId == Skill.Block.getId()) {
+
+                home = Integer.parseInt(Dig.get(SkillsDescCriteria.BlockF.getId()));
+                opp = Integer.parseInt(Dig.get(SkillsDescCriteria.BlockG.getId()));
+                type = Skill.getNameById(skillId).getType() + "Attack";
+
+                VollyCourtCoordinateBean v = rd.getCordinates(type, home, opp);
+                listCCB.add(v);
+
+                String court = Dig.get(SkillsDescCriteria.BlockM.getId());
+                home = Integer.parseInt(Dig.get(SkillsDescCriteria.BlockG.getId()));
+                if (court.equalsIgnoreCase("H")) {
+                    type = Skill.getNameById(skillId).getType() + "RH";
+
+                } else {
+                    type = Skill.getNameById(skillId).getType() + "RO";
+                }
+
+                String oppH = Dig.get(SkillsDescCriteria.BlockH.getId());
+
+                switch (oppH) {
+                    case "LOC":
+                        opp = 7;
+                        break;
+                    case "ROC":
+                        opp = 8;
+                        break;
+                    case "BOC":
+                        opp = 9;
+                        break;
+                    default:
+                        opp = Integer.parseInt(oppH);
+                        break;
+                }
+                VollyCourtCoordinateBean v1 = rd.getCordinates(type, home, opp);
+                listCCB.add(v1);
+            }
+
+            if (skillId != Skill.Block.getId()) {
+                VollyCourtCoordinateBean v = rd.getCordinates(type, home, opp);
+                listCCB.add(v);
+                v.setChestNum(chestNum);
+            }
+
         }
 
         CreateDiagram cd = new CreateDiagram();
