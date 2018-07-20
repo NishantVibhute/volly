@@ -15,6 +15,7 @@ import com.vollyball.dialog.CreateDiagram;
 import com.vollyball.dialog.CreateRallyRotationDialog;
 import com.vollyball.enums.Skill;
 import com.vollyball.enums.SkillsDescCriteria;
+import com.vollyball.util.CommonUtil;
 import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -573,8 +574,9 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
                 home = Integer.parseInt(Dig.get(SkillsDescCriteria.BlockF.getId()));
                 opp = Integer.parseInt(Dig.get(SkillsDescCriteria.BlockG.getId()));
                 type = Skill.getNameById(skillId).getType() + "Attack";
-
+                Color c = CommonUtil.getColorONScore("" + ress.getScore());
                 VollyCourtCoordinateBean v = rd.getCordinates(type, home, opp);
+                v.setColor(c);
                 listCCB.add(v);
 
                 String court = Dig.get(SkillsDescCriteria.BlockM.getId());
@@ -607,7 +609,9 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
             }
 
             if (skillId != Skill.Block.getId()) {
+                Color c = CommonUtil.getColorONScore("" + ress.getScore());
                 VollyCourtCoordinateBean v = rd.getCordinates(type, home, opp);
+                v.setColor(c);
                 listCCB.add(v);
                 v.setChestNum(chestNum);
             }

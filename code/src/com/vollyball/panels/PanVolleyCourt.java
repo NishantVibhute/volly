@@ -5,6 +5,7 @@
  */
 package com.vollyball.panels;
 
+import com.vollyball.bean.ArrowBean;
 import com.vollyball.bean.PixelBean;
 import com.vollyball.bean.Player;
 import com.vollyball.bean.VollyCourtCoordinateBean;
@@ -47,6 +48,10 @@ public class PanVolleyCourt extends javax.swing.JPanel {
     private Point2D[] curvePoints;
     boolean isEnd = false;
     List<VollyCourtCoordinateBean> vList = new ArrayList<>();
+    List<ArrowBean> pathList = new ArrayList<>();
+    Color color;
+    VollyCourtCoordinateBean vmain;
+    private Ellipse2D[] start;
 
     /**
      * Creates new form PanVolleyCourt
@@ -103,6 +108,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
 
     public void setValues(VollyCourtCoordinateBean v, String chestNum) {
 
+        this.vmain = v;
         LinkedHashMap<Integer, Player> positionMap = Controller.panMatchSet.rallyPositionMap;
         panOPos1.setText("1");
         panOPos2.setText("2");
@@ -140,11 +146,15 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         this.y3 = v.getY3();
         this.x4 = v.getX4();
         this.y4 = v.getY4();
+        color = v.getColor();
         curvePoints = new Point2D[]{new Point(x1, y1), new Point(x2, y2), new Point(x3, y3), new Point(x4, y4)};
         marks = new Ellipse2D[curvePoints.length + 1];
+        start = new Ellipse2D[1];
         for (int index = 0; index < marks.length; index++) {
             marks[index] = new Ellipse2D.Double();
         }
+        start[0] = new Ellipse2D.Double();
+        start[0].setFrame(x1 - 5, y1 - 5, 10, 10);
         animator.init();
 
         curvePoints = new Point2D[]{new Point2D.Double(curvePoints[0].getX(), curvePoints[0].getY()), new Point2D.Double(curvePoints[1].getX(), curvePoints[1].getY()), new Point2D.Double(curvePoints[2].getX(), curvePoints[2].getY()), new Point2D.Double(curvePoints[3].getX(), curvePoints[3].getY())};
@@ -238,10 +248,31 @@ public class PanVolleyCourt extends javax.swing.JPanel {
             g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+            g2.setColor(Color.BLACK);
+            for (Shape mark : start) {
+                g2.fill(mark);
+            }
+            g2.setStroke(new BasicStroke(5f));
+            g2.setColor(Color.BLACK);
+            for (Shape mark : start) {
+                g2.draw(mark);
+            }
+
 //            g2.setStroke(new BasicStroke(0f));
 //            g2.draw(totalCurve);
+            if (pathList.size() > 0) {
+                for (ArrowBean p : pathList) {
+                    g2.setStroke(new BasicStroke(5f));
+                    g2.setColor(p.getColor());
+                    g2.draw(p.getPath());
+                    Point sw = new Point(p.getX3(), p.getY3());
+                    Point ne = new Point(p.getX4(), p.getY4());
+                    drawArrowHead(g2, ne, sw, p.getColor());
+                }
+            }
+
             g2.setStroke(new BasicStroke(5f));
-            g2.setColor(Color.RED);
+            g2.setColor(color);
             g2.draw(path1);
             g2.setColor(Color.YELLOW);
             for (Shape mark : marks) {
@@ -254,6 +285,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
             }
             g2.setStroke(new BasicStroke(.5f));
             g2.setColor(Color.BLACK);
+
         }
     }
 
@@ -287,28 +319,42 @@ public class PanVolleyCourt extends javax.swing.JPanel {
                 timer.stop();
 
                 if (j < size) {
+                    ArrowBean a = new ArrowBean();
+                    if (vmain.getSkill().contains("Set")) {
+                        a.setX3(x3);
+                        a.setY3(y3);
+                    } else {
+                        a.setX3(x1);
+                        a.setY3(y1);
+                    }
+                    a.setX4(x4);
+                    a.setY4(y4);
+                    a.setPath(path);
+                    a.setColor(color);
+                    pathList.add(a);
                     VollyCourtCoordinateBean v = vList.get(j);
-                    int x1 = v.getX1();
-                    int y1 = v.getY1();
-                    int x2 = v.getX2();
-                    int y2 = v.getY2();
+                    vmain = v;
+                    x1 = v.getX1();
+                    y1 = v.getY1();
+                    x2 = v.getX2();
+                    y2 = v.getY2();
 
-                    int x3 = v.getX3();
-                    int y3 = v.getY3();
-                    int x4 = v.getX4();
-                    int y4 = v.getY4();
+                    x3 = v.getX3();
+                    y3 = v.getY3();
+                    x4 = v.getX4();
+                    y4 = v.getY4();
                     curvePoints = new Point2D[]{new Point(x1, y1), new Point(x2, y2), new Point(x3, y3), new Point(x4, y4)};
                     marks = new Ellipse2D[curvePoints.length + 1];
                     for (int index = 0; index < marks.length; index++) {
                         marks[index] = new Ellipse2D.Double();
                     }
-
+                    color = v.getColor();
                     curvePoints = new Point2D[]{new Point2D.Double(curvePoints[0].getX(), curvePoints[0].getY()), new Point2D.Double(curvePoints[1].getX(), curvePoints[1].getY()), new Point2D.Double(curvePoints[2].getX(), curvePoints[2].getY()), new Point2D.Double(curvePoints[3].getX(), curvePoints[3].getY())};
                     totalCurve = new Path2D.Double();
                     totalCurve.moveTo(curvePoints[0].getX(), curvePoints[0].getY());
                     totalCurve.curveTo(curvePoints[1].getX(), curvePoints[1].getY(), curvePoints[2].getX(), curvePoints[2].getY(), curvePoints[3].getX(), curvePoints[3].getY());
                     timer.stop();
-
+                    path = new Path2D.Double();
                     steps = 75;
                     step = -1;
                     moveTo = true;
@@ -406,7 +452,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         jPanel10.setBackground(new java.awt.Color(225, 155, 78));
         jPanel10.setOpaque(false);
 
-        panHPos5.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panHPos5.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         panHPos5.setForeground(new java.awt.Color(255, 255, 255));
         panHPos5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -431,7 +477,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         jPanel14.setOpaque(false);
 
         panHPos6.setBackground(new java.awt.Color(225, 155, 78));
-        panHPos6.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panHPos6.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         panHPos6.setForeground(new java.awt.Color(255, 255, 255));
         panHPos6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -456,7 +502,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         jPanel15.setOpaque(false);
 
         panHPos1.setBackground(new java.awt.Color(225, 155, 78));
-        panHPos1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panHPos1.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         panHPos1.setForeground(new java.awt.Color(255, 255, 255));
         panHPos1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -508,7 +554,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         jPanel7.setOpaque(false);
 
         panHPos4.setBackground(new java.awt.Color(225, 155, 78));
-        panHPos4.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panHPos4.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         panHPos4.setForeground(new java.awt.Color(255, 255, 255));
         panHPos4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -533,7 +579,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         jPanel11.setOpaque(false);
 
         panHPos3.setBackground(new java.awt.Color(225, 155, 78));
-        panHPos3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panHPos3.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         panHPos3.setForeground(new java.awt.Color(255, 255, 255));
         panHPos3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -558,7 +604,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         jPanel13.setOpaque(false);
 
         panHPos2.setBackground(new java.awt.Color(225, 155, 78));
-        panHPos2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panHPos2.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         panHPos2.setForeground(new java.awt.Color(255, 255, 255));
         panHPos2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -610,7 +656,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         panel.setOpaque(false);
 
         panOPos2.setBackground(new java.awt.Color(225, 155, 78));
-        panOPos2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panOPos2.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         panOPos2.setForeground(new java.awt.Color(255, 255, 255));
         panOPos2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -635,7 +681,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         jPanel17.setOpaque(false);
 
         panOPos3.setBackground(new java.awt.Color(225, 155, 78));
-        panOPos3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panOPos3.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         panOPos3.setForeground(new java.awt.Color(255, 255, 255));
         panOPos3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -660,7 +706,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         jPanel18.setOpaque(false);
 
         panOPos4.setBackground(new java.awt.Color(225, 155, 78));
-        panOPos4.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panOPos4.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         panOPos4.setForeground(new java.awt.Color(255, 255, 255));
         panOPos4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -712,7 +758,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         jPanel19.setOpaque(false);
 
         panOPos1.setBackground(new java.awt.Color(225, 155, 78));
-        panOPos1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panOPos1.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         panOPos1.setForeground(new java.awt.Color(255, 255, 255));
         panOPos1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -737,7 +783,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         jPanel20.setOpaque(false);
 
         panOPos6.setBackground(new java.awt.Color(225, 155, 78));
-        panOPos6.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panOPos6.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         panOPos6.setForeground(new java.awt.Color(255, 255, 255));
         panOPos6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -762,7 +808,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         jPanel21.setOpaque(false);
 
         panOPos5.setBackground(new java.awt.Color(225, 155, 78));
-        panOPos5.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        panOPos5.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         panOPos5.setForeground(new java.awt.Color(255, 255, 255));
         panOPos5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 

@@ -5,6 +5,8 @@
  */
 package com.vollyball.bean;
 
+import java.awt.Color;
+
 /**
  *
  * @author nishant.vibhute
@@ -24,6 +26,7 @@ public class VollyCourtCoordinateBean {
     int x4;
     int y4;
     String chestNum;
+    Color color;
 
     public int getId() {
         return id;
@@ -127,6 +130,14 @@ public class VollyCourtCoordinateBean {
 
     public void setChestNum(String chestNum) {
         this.chestNum = chestNum;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
 }

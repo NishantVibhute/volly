@@ -5,6 +5,7 @@
  */
 package com.vollyball.util;
 
+import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -80,6 +81,25 @@ public class CommonUtil {
         }
         String formattedDate = targetFormat.format(date);  // 20120821
         return formattedDate;
+    }
+
+    public static Color getColorONScore(String score) {
+        Color color = Color.BLACK;
+
+        switch (score) {
+            case "1":
+                color = Color.RED;
+                break;
+            case "2":
+            case "3":
+            case "4":
+                color = Color.ORANGE;
+                break;
+            case "5":
+                color = Color.GREEN;
+                break;
+        }
+        return color;
     }
 
 }

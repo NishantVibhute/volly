@@ -11,7 +11,9 @@ import com.vollyball.dao.RallyDao;
 import com.vollyball.dialog.CreateDiagram;
 import com.vollyball.enums.Skill;
 import com.vollyball.enums.SkillsDescCriteria;
+import com.vollyball.util.CommonUtil;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
     LinkedHashMap<Integer, String> detailsValues = new LinkedHashMap<Integer, String>();
     String item, chestNum;
     int skillId;
+    String score;
 
     /**
      * Creates new form PanRallyPostEvaluation
@@ -52,6 +55,7 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
         this.chestNum = chestNum;
         this.skillId = Skill.getIdByName(skill).getId();
         this.detailsValues = detailsValues;
+
         panSkillDetailsListValue = new PanSkillDetailsListValue();
         Controller.panMatchSet.panButton.setVisible(false);
         try {
@@ -363,7 +367,9 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
                     opp = Integer.parseInt(oppH);
                     break;
             }
+            Color c = CommonUtil.getColorONScore(this.item);
             VollyCourtCoordinateBean v1 = rd.getCordinates(type, home, opp);
+            v1.setColor(c);
             listCCB.add(v1);
             CreateDiagram cd = new CreateDiagram();
             cd.setValues(listCCB);

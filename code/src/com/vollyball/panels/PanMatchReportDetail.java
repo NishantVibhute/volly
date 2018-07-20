@@ -12,6 +12,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.print.Book;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
@@ -33,11 +34,11 @@ public class PanMatchReportDetail extends javax.swing.JPanel {
     public PanMatchReportDetail() {
         initComponents();
         jScrollPane2.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
-        panRallyList.setLayout(new GridLayout(2, 3));
+        panRallyList.setLayout(new GridLayout(3, 5));
         List<RallyEvaluation> rallies = rallyDao.getRalliesList(1);
 
         int totalRallies = rallies.size();
-        for (int i = 0; i <= 5; i++) {
+        for (int i = 0; i <= 12; i++) {
             PanRallyReport pnBut = new PanRallyReport(i);
 //            pnBut.setRally(rally.getRallyNum(), matchEvaluationId, initialPositionMap, evaluationType);
             panRallyList.add(pnBut);
@@ -975,16 +976,15 @@ public class PanMatchReportDetail extends javax.swing.JPanel {
                     .addComponent(ScoreA5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ScoreA6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField58, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ScoreB1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ScoreB2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ScoreB3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ScoreB4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ScoreB5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(ScoreB6)
-                        .addGap(0, 0, 0))))
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ScoreB6)
+                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField58, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ScoreB1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ScoreB2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ScoreB3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ScoreB4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ScoreB5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
@@ -1174,16 +1174,14 @@ public class PanMatchReportDetail extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1211,10 +1209,13 @@ public class PanMatchReportDetail extends javax.swing.JPanel {
         PrinterJob pj = PrinterJob.getPrinterJob();
         pj.setJobName("Score Report_-_");
 
-        pj.setPrintable(new Printable() {
-            public int print(Graphics g, PageFormat format, int page_index)
-                    throws PrinterException {
-                if (page_index > 0) {
+        Book book = new Book();
+
+        Printable p = new Printable() {
+
+            @Override
+            public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+                if (pageIndex > 0) {
                     return Printable.NO_SUCH_PAGE;
                 }
 
@@ -1225,23 +1226,27 @@ public class PanMatchReportDetail extends javax.swing.JPanel {
                 double cWidth = dim.getWidth();
 
                 // get the bounds of the printable area
-                double pHeight = format.getImageableHeight();
-                double pWidth = format.getImageableWidth();
+                double pHeight = pageFormat.getImageableHeight();
+                double pWidth = pageFormat.getImageableWidth();
 
-                double pXStart = format.getImageableX();
-                double pYStart = format.getImageableY();
+                double pXStart = pageFormat.getImageableX();
+                double pYStart = pageFormat.getImageableY();
 
                 double xRatio = pWidth / cWidth;
                 double yRatio = pHeight / cHeight;
 
-                Graphics2D g2 = (Graphics2D) g;
+                Graphics2D g2 = (Graphics2D) graphics;
                 g2.translate(pXStart, pYStart);
                 g2.scale(xRatio, yRatio);
                 comp.printAll(g2);
 
                 return Printable.PAGE_EXISTS;
             }
-        });
+        };
+        book.append(p, documentPageFormat);
+
+        pj.setPageable(book);
+
         if (pj.printDialog() == false) {
             return;
         }
@@ -1251,6 +1256,17 @@ public class PanMatchReportDetail extends javax.swing.JPanel {
         } catch (PrinterException ex) {
             // handle exception
         }
+
+//
+//        if (pj.printDialog() == false) {
+//            return;
+//        }
+//
+//        try {
+//            pj.print();
+//        } catch (PrinterException ex) {
+//            // handle exception
+//        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ScoreA1;
@@ -1318,12 +1334,10 @@ public class PanMatchReportDetail extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField51;
     private javax.swing.JTextField jTextField58;
     private javax.swing.JTextField lblOp;
-    private javax.swing.JLabel lblPrint;
     private javax.swing.JLabel lblPrint1;
     private javax.swing.JTextField lblTf;
     private javax.swing.JPanel panHeading;
     private javax.swing.JPanel panPrint;
-    private javax.swing.JPanel panPrint1;
     private javax.swing.JPanel panRallyList;
     public javax.swing.JTextField pt11;
     public javax.swing.JTextField pt12;
