@@ -6,11 +6,13 @@
             <file>file:/H:/vollyball/volly%20new/volly/code/src/com/vollyball/panels/PanRallyEvaluationRow.java</file>
             <file>file:/H:/vollyball/volly%20new/volly/code/src/com/vollyball/enums/SkillsDescCriteria.java</file>
             <file>file:/H:/vollyball/volly%20new/volly/code/src/com/vollyball/bean/RallyEvaluationSkillScore.java</file>
-            <file>file:/H:/vollyball/volly%20new/volly/code/src/com/vollyball/enums/VollyCourtCoordinate.java</file>
             <file>file:/H:/vollyball/volly%20new/volly/code/src/com/vollyball/panels/PanVolleyCourt.java</file>
             <file>file:/H:/vollyball/volly%20new/volly/code/src/com/vollyball/panels/PanMatchSet.java</file>
+            <file>file:/H:/vollyball/volly%20new/volly/code/src/com/vollyball/enums/SkillDescCriteriaPoint.java</file>
+            <file>file:/H:/vollyball/volly%20new/volly/code/src/com/vollyball/enums/SkillDetails.java</file>
             <file>file:/H:/vollyball/volly%20new/volly/code/src/com/vollyball/dao/RallyDao.java</file>
             <file>file:/H:/vollyball/volly%20new/volly/code/src/com/vollyball/panels/PanRallyPostEvaluation.java</file>
+            <file>file:/H:/vollyball/volly%20new/volly/code/src/com/vollyball/panels/PanRallyLiveEvaluation.java</file>
         </group>
     </open-files>
 </project-private>

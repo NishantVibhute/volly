@@ -92,8 +92,9 @@ public class PanMatchSet extends javax.swing.JPanel {
     public PanMatchSet(int setNum, int matchId, int teamEvaluateId, int opponentId, int evaluationType, int matchEvaluationTeamId) {
 
         initComponents();
-//
+
 //        Setup s1 = new Setup();
+//        s1.executeQuery("delete from VollyCourtCoordinates", SetupEnum.Database, 155);
 //        s1.insertVollyCoordinate(100);
         setBackNextInVisible();
         if (evaluationType == 2) {
@@ -2590,7 +2591,7 @@ public class PanMatchSet extends javax.swing.JPanel {
     }
 
     private void registerLibrary() {
-        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "E:\\VLC\\VLC64");
+        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "H:\\vollyball\\volly new\\volly\\VLC\\VLC64");
         Native
                 .loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class
                 );
