@@ -13,6 +13,7 @@ public class PlayerScores {
 
     int id;
     String playerName;
+    String matchPhase;
     int matchesPlayed;
     int totalService;
     int bestService;
@@ -48,6 +49,14 @@ public class PlayerScores {
     int bestAttempt;
     double attemptRate;
     String attemptRatePerc;
+
+    public String getMatchPhase() {
+        return matchPhase;
+    }
+
+    public void setMatchPhase(String matchPhase) {
+        this.matchPhase = matchPhase;
+    }
 
     public String getTeamName() {
         return teamName;

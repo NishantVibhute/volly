@@ -6,11 +6,11 @@
 package com.vollyball.panels;
 
 import com.vollyball.bean.CompetitionBean;
-import com.vollyball.bean.Player;
 import com.vollyball.bean.PlayerScores;
+import com.vollyball.bean.Team;
 import com.vollyball.dao.ReportDao;
 import com.vollyball.dao.TeamDao;
-import com.vollyball.dialog.DialogPlayerScoreGraph;
+import com.vollyball.dialog.DialogTamDetail;
 import com.vollyball.renderer.ColumnGroup;
 import com.vollyball.renderer.GroupableTableHeader;
 import com.vollyball.renderer.TableHeaderRenderer;
@@ -38,31 +38,31 @@ import javax.swing.table.TableColumnModel;
  *
  * @author nishant.vibhute
  */
-public class PanBestScorer extends javax.swing.JPanel {
+public class PanTeamBestScorer extends javax.swing.JPanel {
 
     DefaultTableModel model;
     JTable tbReport;
     TeamDao td = new TeamDao();
     DefaultTableModel dm;
-    Map<String, Player> playerNameMap = new HashMap<String, Player>();
+    Map<String, Team> playerTeamMap = new HashMap<String, Team>();
 
     ReportDao reportDao = new ReportDao();
-    List<Player> playerList;
+    List<Team> teamList;
     CompetitionBean cb;
 
     /**
-     * Creates new form PanBestScorer
+     * Creates new form PanTeamBestScorer
      */
-    public PanBestScorer(final CompetitionBean cb, List<Player> playerList) {
+    public PanTeamBestScorer(final CompetitionBean cb, List<Team> teamList) {
         initComponents();
         createTable();
-        this.playerList = playerList;
+        this.teamList = teamList;
         this.cb = cb;
         cmbPlayer.addItem("All");
-        playerNameMap.put("All", null);
-        for (Player p : playerList) {
-            cmbPlayer.addItem(p.getName());
-            playerNameMap.put(p.getName(), p);
+        playerTeamMap.put("All", null);
+        for (Team t : teamList) {
+
+            playerTeamMap.put(t.getName(), t);
 
         }
         setRow(null);
@@ -80,32 +80,29 @@ public class PanBestScorer extends javax.swing.JPanel {
                     for (int i = 0; i <= selectedRow; i++) {
 
                         selectedName = (String) tbReport.getValueAt(selectedRow, 1);
-                        teamName = (String) tbReport.getValueAt(selectedRow, 2);
-                        matchesPlayed = (int) tbReport.getValueAt(selectedRow, 3);
 
                     }
                     if (selectedName != null) {
-                        DialogPlayerScoreGraph createDialogPanMatchWiseReport = new DialogPlayerScoreGraph();
-                        createDialogPanMatchWiseReport.init(cb.getId(), playerNameMap.get(selectedName).getId(), selectedName, matchesPlayed, teamName);
+                        DialogTamDetail createDialogPanMatchWiseReport = new DialogTamDetail();
+                        createDialogPanMatchWiseReport.init(cb.getId(), playerTeamMap.get(selectedName).getId());
                         createDialogPanMatchWiseReport.show();
                     }
 
                 }
             }
         });
-
     }
 
-    public void setRow(Player player) {
+    public void setRow(Team Team) {
         List<PlayerScores> playerScoresList = new ArrayList<>();
 
         for (int i = dm.getRowCount() - 1; i >= 0; i--) {
             dm.removeRow(i);
         }
 
-        if (player == null) {
-            for (Player p : playerList) {
-                PlayerScores playerScore = reportDao.getPlayerScores(cb.getId(), p);
+        if (Team == null) {
+            for (Team p : teamList) {
+                PlayerScores playerScore = reportDao.getTeamScores(p);
                 playerScoresList.add(playerScore);
             }
 
@@ -119,18 +116,18 @@ public class PanBestScorer extends javax.swing.JPanel {
 
             int i = 0;
             for (PlayerScores p : playerScoresList) {
-                Object[] row = {i + 1, p.getPlayerName(), p.getTeamName(), p.getMatchesPlayed(), p.getServiceRatePerc(), p.getAttackRatePerc(), p.getBlockRatePerc(), p.getSetRatePerc(), p.getReceptionRatePerc(), p.getDefenceRatePerc(), p.getAttemptRatePerc()};
+                Object[] row = {i + 1, p.getPlayerName(), p.getMatchesPlayed(), p.getServiceRatePerc(), p.getAttackRatePerc(), p.getBlockRatePerc(), p.getSetRatePerc(), p.getReceptionRatePerc(), p.getDefenceRatePerc(), p.getAttemptRatePerc()};
                 dm.addRow(row);
                 i++;
             }
         } else {
 
-            PlayerScores playerScore = reportDao.getPlayerScores(cb.getId(), player);
+            PlayerScores playerScore = reportDao.getTeamScores(Team);
             playerScoresList.add(playerScore);
 
             int i = 0;
             for (PlayerScores p : playerScoresList) {
-                Object[] row = {i + 1, p.getPlayerName(), p.getTeamName(), p.getMatchesPlayed(), p.getServiceRatePerc(), p.getAttackRatePerc(), p.getBlockRatePerc(), p.getSetRatePerc(), p.getReceptionRatePerc(), p.getDefenceRatePerc(), p.getAttemptRatePerc()};
+                Object[] row = {i + 1, p.getPlayerName(), p.getMatchesPlayed(), p.getServiceRatePerc(), p.getAttackRatePerc(), p.getBlockRatePerc(), p.getSetRatePerc(), p.getReceptionRatePerc(), p.getDefenceRatePerc(), p.getAttemptRatePerc()};
                 dm.addRow(row);
                 i++;
             }
@@ -142,7 +139,7 @@ public class PanBestScorer extends javax.swing.JPanel {
         dm = new DefaultTableModel();
 
         dm.setDataVector(new Object[][]{},
-                new Object[]{"SNo.", "Player Name", "<html>Team<br> Name</html>", "<html>Matches<br> Played</html>", "Service", "Attack", "Block", "Set", "Reception", "Defend", "Total"});
+                new Object[]{"SNo.", "Team Name", "<html>Matches<br> Played</html>", "Service", "Attack", "Block", "Set", "Reception", "Defend", "Total"});
 
         tbReport = new JTable(dm) {
             protected JTableHeader createDefaultTableHeader() {
@@ -153,13 +150,13 @@ public class PanBestScorer extends javax.swing.JPanel {
         tbReport.setFont(new java.awt.Font("Times New Roman", 0, 14));
         TableColumnModel cm = tbReport.getColumnModel();
         ColumnGroup g_name = new ColumnGroup("SuccessRate");
+        g_name.add(cm.getColumn(3));
         g_name.add(cm.getColumn(4));
         g_name.add(cm.getColumn(5));
         g_name.add(cm.getColumn(6));
         g_name.add(cm.getColumn(7));
         g_name.add(cm.getColumn(8));
         g_name.add(cm.getColumn(9));
-        g_name.add(cm.getColumn(10));
 
         GroupableTableHeader header = (GroupableTableHeader) tbReport.getTableHeader();
         header.addColumnGroup(g_name);
@@ -187,7 +184,6 @@ public class PanBestScorer extends javax.swing.JPanel {
         tbReport.getColumnModel().getColumn(7).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(8).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(9).setCellRenderer(centerRenderer);
-        tbReport.getColumnModel().getColumn(10).setCellRenderer(centerRenderer);
 
         Color ivory = new Color(255, 255, 255);
         tbReport.setOpaque(true);
@@ -198,7 +194,7 @@ public class PanBestScorer extends javax.swing.JPanel {
         resizeColumns();
         panReport.add(scroll, BorderLayout.CENTER);
     }
-    float[] columnWidthPercentage = {5.0f, 23.0f, 9.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f};
+    float[] columnWidthPercentage = {5.0f, 23.0f, 9.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f};
 
     private void resizeColumns() {
         int tW = tbReport.getPreferredSize().width;
@@ -269,9 +265,9 @@ public class PanBestScorer extends javax.swing.JPanel {
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap(400, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblReportHeading)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cmbPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -305,7 +301,7 @@ public class PanBestScorer extends javax.swing.JPanel {
             .addGroup(panSkillReportsLayout.createSequentialGroup()
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(panReport, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
+                .addComponent(panReport, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
                 .addGap(12, 12, 12))
         );
 
@@ -313,13 +309,13 @@ public class PanBestScorer extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 976, Short.MAX_VALUE)
+            .addGap(0, 458, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(panSkillReports, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 628, Short.MAX_VALUE)
+            .addGap(0, 300, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(panSkillReports, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -329,7 +325,7 @@ public class PanBestScorer extends javax.swing.JPanel {
 
     private void lblSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSearchMouseClicked
         // TODO add your handling code here:
-        setRow(playerNameMap.get(cmbPlayer.getSelectedItem()));
+        setRow(playerTeamMap.get(cmbPlayer.getSelectedItem()));
     }//GEN-LAST:event_lblSearchMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

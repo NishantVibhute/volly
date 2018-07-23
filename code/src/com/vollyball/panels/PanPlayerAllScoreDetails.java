@@ -354,7 +354,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         );
         panPrintLayout.setVerticalGroup(
             panPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblPrint, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+            .addComponent(lblPrint, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
         );
 
         jLabel50.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
