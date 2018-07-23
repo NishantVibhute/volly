@@ -6,7 +6,7 @@
 package com.vollyball.panels;
 
 import com.vollyball.bean.PlayerSkillScore;
-import com.vollyball.chart.PieChart;
+import com.vollyball.chart.BarChart;
 import com.vollyball.dao.ReportDao;
 import com.vollyball.enums.Skill;
 import java.awt.BorderLayout;
@@ -20,7 +20,7 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -48,13 +48,13 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         threeService.setText("" + pservice.getThree());
         fourService.setText("" + pservice.getFour());
         fiveService.setText("" + pservice.getFive());
-        DefaultPieDataset datasetService = new DefaultPieDataset();
-        datasetService.setValue("One", pservice.getOne());
-        datasetService.setValue("Two", pservice.getTwo());
-        datasetService.setValue("Three", pservice.getThree());
-        datasetService.setValue("Four", pservice.getFour());
-        datasetService.setValue("Five", pservice.getFive());
-        JFreeChart chartFreeService = PieChart.createChart(datasetService);
+        DefaultCategoryDataset datasetService = new DefaultCategoryDataset();
+        datasetService.addValue(pservice.getOne(), "Attempt", "One");
+        datasetService.addValue(pservice.getTwo(), "Attempt", "Two");
+        datasetService.addValue(pservice.getThree(), "Attempt", "Three");
+        datasetService.addValue(pservice.getFour(), "Attempt", "Four");
+        datasetService.addValue(pservice.getFive(), "Attempt", "Five");
+        JFreeChart chartFreeService = BarChart.createChart(datasetService);
         ChartPanel CPService = new ChartPanel(chartFreeService);
         chartService.add(CPService, BorderLayout.CENTER);
 
@@ -65,13 +65,13 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         threeAttack.setText("" + pattack.getThree());
         fourAttack.setText("" + pattack.getFour());
         fiveAttack.setText("" + pattack.getFive());
-        DefaultPieDataset datasetAttack = new DefaultPieDataset();
-        datasetAttack.setValue("One", pattack.getOne());
-        datasetAttack.setValue("Two", pattack.getTwo());
-        datasetAttack.setValue("Three", pattack.getThree());
-        datasetAttack.setValue("Four", pattack.getFour());
-        datasetAttack.setValue("Five", pattack.getFive());
-        JFreeChart chartFreeAttack = PieChart.createChart(datasetAttack);
+        DefaultCategoryDataset datasetAttack = new DefaultCategoryDataset();
+        datasetAttack.addValue(pattack.getOne(), "Attempt", "One");
+        datasetAttack.addValue(pattack.getTwo(), "Attempt", "Two");
+        datasetAttack.addValue(pattack.getThree(), "Attempt", "Three");
+        datasetAttack.addValue(pattack.getFour(), "Attempt", "Four");
+        datasetAttack.addValue(pattack.getFive(), "Attempt", "Five");
+        JFreeChart chartFreeAttack = BarChart.createChart(datasetAttack);
         ChartPanel CPAttack = new ChartPanel(chartFreeAttack);
         chartAttack.add(CPAttack, BorderLayout.CENTER);
 
@@ -82,13 +82,13 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         threeBlock.setText("" + pBlock.getThree());
         fourBlock.setText("" + pBlock.getFour());
         fiveBlock.setText("" + pBlock.getFive());
-        DefaultPieDataset datasetBlock = new DefaultPieDataset();
-        datasetBlock.setValue("One", pBlock.getOne());
-        datasetBlock.setValue("Two", pBlock.getTwo());
-        datasetBlock.setValue("Three", pBlock.getThree());
-        datasetBlock.setValue("Four", pBlock.getFour());
-        datasetBlock.setValue("Five", pBlock.getFive());
-        JFreeChart chartFreeBlock = PieChart.createChart(datasetBlock);
+        DefaultCategoryDataset datasetBlock = new DefaultCategoryDataset();
+        datasetBlock.addValue(pBlock.getOne(), "Attempt", "One");
+        datasetBlock.addValue(pBlock.getTwo(), "Attempt", "Two");
+        datasetBlock.addValue(pBlock.getThree(), "Attempt", "Three");
+        datasetBlock.addValue(pBlock.getFour(), "Attempt", "Four");
+        datasetBlock.addValue(pBlock.getFive(), "Attempt", "Five");
+        JFreeChart chartFreeBlock = BarChart.createChart(datasetBlock);
         ChartPanel CPBlock = new ChartPanel(chartFreeBlock);
         chartBlock.add(CPBlock, BorderLayout.CENTER);
 
@@ -99,13 +99,13 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         threeSet.setText("" + pSet.getThree());
         fourSet.setText("" + pSet.getFour());
         fiveSet.setText("" + pSet.getFive());
-        DefaultPieDataset datasetSet = new DefaultPieDataset();
-        datasetSet.setValue("One", pSet.getOne());
-        datasetSet.setValue("Two", pSet.getTwo());
-        datasetSet.setValue("Three", pSet.getThree());
-        datasetSet.setValue("Four", pSet.getFour());
-        datasetSet.setValue("Five", pSet.getFive());
-        JFreeChart chartFreeSet = PieChart.createChart(datasetSet);
+        DefaultCategoryDataset datasetSet = new DefaultCategoryDataset();
+        datasetSet.addValue(pSet.getOne(), "Attempt", "One");
+        datasetSet.addValue(pSet.getTwo(), "Attempt", "Two");
+        datasetSet.addValue(pSet.getThree(), "Attempt", "Three");
+        datasetSet.addValue(pSet.getFour(), "Attempt", "Four");
+        datasetSet.addValue(pSet.getFive(), "Attempt", "Five");
+        JFreeChart chartFreeSet = BarChart.createChart(datasetSet);
         ChartPanel CPSet = new ChartPanel(chartFreeSet);
         chartSet.add(CPSet, BorderLayout.CENTER);
 
@@ -116,13 +116,13 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         threeReception.setText("" + pReception.getThree());
         fourReception.setText("" + pReception.getFour());
         fiveReception.setText("" + pReception.getFive());
-        DefaultPieDataset datasetReception = new DefaultPieDataset();
-        datasetReception.setValue("One", pReception.getOne());
-        datasetReception.setValue("Two", pReception.getTwo());
-        datasetReception.setValue("Three", pReception.getThree());
-        datasetReception.setValue("Four", pReception.getFour());
-        datasetReception.setValue("Five", pReception.getFive());
-        JFreeChart chartFreeReception = PieChart.createChart(datasetReception);
+        DefaultCategoryDataset datasetReception = new DefaultCategoryDataset();
+        datasetReception.addValue(pReception.getOne(), "Attempt", "One");
+        datasetReception.addValue(pReception.getTwo(), "Attempt", "Two");
+        datasetReception.addValue(pReception.getThree(), "Attempt", "Three");
+        datasetReception.addValue(pReception.getFour(), "Attempt", "Four");
+        datasetReception.addValue(pReception.getFive(), "Attempt", "Five");
+        JFreeChart chartFreeReception = BarChart.createChart(datasetReception);
         ChartPanel CPReception = new ChartPanel(chartFreeReception);
         chartReception.add(CPReception, BorderLayout.CENTER);
 
@@ -133,13 +133,13 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         threeDefence.setText("" + pDefence.getThree());
         fourDefence.setText("" + pDefence.getFour());
         fiveDefence.setText("" + pDefence.getFive());
-        DefaultPieDataset datasetDefence = new DefaultPieDataset();
-        datasetDefence.setValue("One", pDefence.getOne());
-        datasetDefence.setValue("Two", pDefence.getTwo());
-        datasetDefence.setValue("Three", pDefence.getThree());
-        datasetDefence.setValue("Four", pDefence.getFour());
-        datasetDefence.setValue("Five", pDefence.getFive());
-        JFreeChart chartFreeDefence = PieChart.createChart(datasetDefence);
+        DefaultCategoryDataset datasetDefence = new DefaultCategoryDataset();
+        datasetDefence.addValue(pDefence.getOne(), "Attempt", "One");
+        datasetDefence.addValue(pDefence.getTwo(), "Attempt", "Two");
+        datasetDefence.addValue(pDefence.getThree(), "Attempt", "Three");
+        datasetDefence.addValue(pDefence.getFour(), "Attempt", "Four");
+        datasetDefence.addValue(pDefence.getFive(), "Attempt", "Five");
+        JFreeChart chartFreeDefence = BarChart.createChart(datasetDefence);
         ChartPanel CPDefence = new ChartPanel(chartFreeDefence);
         chartDefence.add(CPDefence, BorderLayout.CENTER);
 

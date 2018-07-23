@@ -12,6 +12,7 @@ import com.vollyball.dialog.DialogPanMatchReportDetails;
 import com.vollyball.renderer.TableHeaderRenderer;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.LinkedHashMap;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.event.ListSelectionEvent;
@@ -30,6 +31,7 @@ public class PanMatchReport extends javax.swing.JPanel {
 
     MatchDao matchDao = new MatchDao();
     DefaultTableModel model;
+    LinkedHashMap<Integer, Integer> matchIdmap = new LinkedHashMap<>();
 
     /**
      * Creates new form PanMatchReport
@@ -69,8 +71,11 @@ public class PanMatchReport extends javax.swing.JPanel {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
+                    int id = 0;
+                    int selectedRow = tbMatch.getSelectedRow();
+                    id = matchIdmap.get((int) tbMatch.getValueAt(selectedRow, 0));
                     DialogPanMatchReportDetails obj = new DialogPanMatchReportDetails();
-                    obj.init();
+                    obj.init(id);
                     obj.show();
                 }
             }
@@ -83,6 +88,7 @@ public class PanMatchReport extends javax.swing.JPanel {
 
         for (MatchBean match : matchList) {
             i++;
+            matchIdmap.put(i, match.getId());
             Object[] row = {i, match.getMatch(), "", match.getDate(), match.getTime(), match.getPhase(), match.getPlace(), match.getDayNumber(), match.getMatchNumber()};
             model.addRow(row);
         }

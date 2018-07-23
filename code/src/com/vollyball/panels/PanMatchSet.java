@@ -1884,7 +1884,7 @@ public class PanMatchSet extends javax.swing.JPanel {
                 break;
             case "START":
                 if (txtEvaluator.getText().equals("")) {
-                    JOptionPane.showMessageDialog(this, "Please Evaluator Name", "Error", 2);
+                    JOptionPane.showMessageDialog(this, "Please Enter Evaluator Name", "Error", 2);
                 } else if (initialPositionMap.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Please Set Rotation Order", "Error", 2);
                 } else {
@@ -2591,7 +2591,7 @@ public class PanMatchSet extends javax.swing.JPanel {
     }
 
     private void registerLibrary() {
-        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "E:\\VLC\\VLC64");
+        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "H:\\vollyball\\volly new\\volly\\VLC\\VLC64");
         Native
                 .loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class
                 );

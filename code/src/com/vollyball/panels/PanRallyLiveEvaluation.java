@@ -81,7 +81,7 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
             Logger.getLogger(PanRallyLiveEvaluation.class.getName()).log(Level.SEVERE, null, ex);
         }
         panCompListValue = new PanCompListValue();
-        RallyEvaluation re = rallyDao.getRally(rallyNum, matchEvaluationId);
+        RallyEvaluation re = rallyDao.getRally(rallyNum, matchEvaluationId, 0);
         if (re.getId() != 0) {
             isInserted = true;
             panCompListValue.addRallyList();
@@ -209,7 +209,7 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
         }
 
         public void addRallyList() {
-            RallyEvaluation re = rallyDao.getRally(rallyNum, matchEvaluationId);
+            RallyEvaluation re = rallyDao.getRally(rallyNum, matchEvaluationId, 0);
             lblResult.setText(re.getHomeScore() + " - " + re.getOpponentScore());
             homeScore = re.getHomeScore();
             opponentScore = re.getOpponentScore();
@@ -530,7 +530,7 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
         // TODO add your handling code here:
         RallyDao rd = new RallyDao();
         List<VollyCourtCoordinateBean> listCCB = new ArrayList<>();
-        RallyEvaluation re = rallyDao.getRally(rallyNum, matchEvaluationId);
+        RallyEvaluation re = rallyDao.getRally(rallyNum, matchEvaluationId, 0);
         int home = 0, opp = 0;
         String type = null;
 

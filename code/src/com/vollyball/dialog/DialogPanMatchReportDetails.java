@@ -22,9 +22,11 @@ public class DialogPanMatchReportDetails {
 
     private JFrame parentFrame;
     private JDialog dialog;
+    int matchId;
 
-    public void init() {
+    public void init(int matchId) {
         try {
+            this.matchId = matchId;
 
 //            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             this.dialog = new JDialog(this.parentFrame, "New Match", true);
@@ -44,14 +46,14 @@ public class DialogPanMatchReportDetails {
     }
 
     protected Container createPane() {
-        PanMatchReportDetail panMatch = new PanMatchReportDetail();
+        PanMatchReportDetail panMatch = new PanMatchReportDetail(matchId);
 
         return panMatch;
     }
 
     public void show() {
         if (this.dialog == null) {
-            init();
+            init(matchId);
         }
         this.dialog.setVisible(true);
     }

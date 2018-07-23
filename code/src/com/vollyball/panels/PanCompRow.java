@@ -204,6 +204,7 @@ public class PanCompRow extends javax.swing.JPanel {
     private void lblReportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblReportMouseClicked
         // TODO add your handling code here:
         Controller.panCompetitionReportHome = new PanCompetitionReportHome(cb);
+        Controller.competitionId = cb.getId();
         Dimension dim = Controller.frmDashBoard.panContent.getSize();
         Controller.panCompetitionList.setVisible(false);
         Controller.frmDashBoard.panContent.removeAll();
