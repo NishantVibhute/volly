@@ -15,8 +15,10 @@ public class MatchBean {
     String match;
     int team1;
     String team1name;
+    String team1ShortCode;
     int team2;
     String team2name;
+    String team2ShortCode;
     int dayNumber;
     int matchNumber;
     String date;
@@ -136,6 +138,22 @@ public class MatchBean {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    public String getTeam1ShortCode() {
+        return team1ShortCode;
+    }
+
+    public void setTeam1ShortCode(String team1ShortCode) {
+        this.team1ShortCode = team1ShortCode;
+    }
+
+    public String getTeam2ShortCode() {
+        return team2ShortCode;
+    }
+
+    public void setTeam2ShortCode(String team2ShortCode) {
+        this.team2ShortCode = team2ShortCode;
     }
 
 }

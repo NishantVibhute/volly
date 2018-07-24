@@ -597,4 +597,24 @@ public class RallyDao {
         return v;
     }
 
+    public int getRallyCountByEvaluationId(int evalId) {
+        int count = 0;
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.rally.count"));
+            ps.setInt(1, evalId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return count;
+    }
+
 }

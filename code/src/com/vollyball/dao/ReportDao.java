@@ -94,6 +94,40 @@ public class ReportDao {
         return playerReportList;
     }
 
+    public PlayerReportBean getMatchWisePlayerReportByMatchList(int skill, int compId, int playerId, int evalId) {
+        PlayerReportBean cb = new PlayerReportBean();
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = null;
+
+            ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.player.match.skillwisereport.by.match"));
+
+            ps.setInt(1, skill);
+
+            ps.setInt(2, playerId);
+            ps.setInt(3, evalId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                cb.setId(rs.getInt(1));
+                cb.setName(rs.getString(2));
+                cb.setTeamName(rs.getString(3));
+                cb.setTotal(rs.getInt(4));
+                cb.setSuccess(rs.getInt(5));
+                cb.setSuccessr(CommonUtil.round((double) rs.getInt(5) / (double) rs.getInt(4) * 100, 2));
+                cb.setSuccessrate(df.format(((double) rs.getInt(5) / (double) rs.getInt(4))));
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return cb;
+    }
+
     public List<PlayerReportBean> getTeamReportList(int skill) {
         List<PlayerReportBean> playerReportList = new ArrayList<>();
         try {
@@ -242,6 +276,13 @@ public class ReportDao {
             p.setAttemptRate(p.getTotalAttempt() == 0 ? 0 : (double) p.getBestAttempt() / (double) p.getTotalAttempt());
             p.setAttemptRatePerc(p.getAttemptRate() == 0 ? "0%" : df.format(p.getAttemptRate()));
 
+            PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.player.matches.played"));
+            ps1.setInt(1, p.getId());
+            ResultSet rs1 = ps1.executeQuery();
+            while (rs1.next()) {
+                p.setMatchesPlayed(rs1.getInt(1));
+            }
+
             db.closeConnection(con);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -385,8 +426,8 @@ public class ReportDao {
         return id;
     }
 
-    public List<Integer> getTeamEvaluationIdBYMatch(int teamId, int matchId) {
-        List<Integer> id = new ArrayList<>();
+    public int getTeamEvaluationIdBYMatch(int teamId, int matchId) {
+        int id = 0;
         try {
             this.con = db.getConnection();
             PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.match.evaluationId.bymatch"));
@@ -395,7 +436,7 @@ public class ReportDao {
 
             ResultSet rs1 = ps1.executeQuery();
             while (rs1.next()) {
-                id.add(rs1.getInt(1));
+                id = rs1.getInt(1);
 
             }
             db.closeConnection(con);
@@ -412,9 +453,7 @@ public class ReportDao {
             this.con = db.getConnection();
             PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.team.match.details"));
             ps.setInt(1, id);
-
             ResultSet rs = ps.executeQuery();
-
             while (rs.next()) {
                 p.setId(rs.getInt(1));
                 p.setPlayerName(rs.getString(2));
@@ -431,7 +470,6 @@ public class ReportDao {
                 p.setBestReception(rs.getInt(13));
                 p.setTotalDefence(rs.getInt(14));
                 p.setBestDefence(rs.getInt(15));
-
             }
 
             p.setServiceRate(p.getTotalService() == 0 ? 0 : (double) p.getBestService() / (double) p.getTotalService());

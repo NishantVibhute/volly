@@ -8,7 +8,7 @@ package com.vollyball.panels;
 import com.vollyball.bean.CompetitionBean;
 import com.vollyball.bean.MatchBean;
 import com.vollyball.dao.MatchDao;
-import com.vollyball.dialog.DialogPanMatchReportDetails;
+import com.vollyball.dialog.DialogMatchDetails;
 import com.vollyball.renderer.TableHeaderRenderer;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -36,7 +36,7 @@ public class PanMatchReport extends javax.swing.JPanel {
     /**
      * Creates new form PanMatchReport
      */
-    public PanMatchReport(CompetitionBean cb) {
+    public PanMatchReport(final CompetitionBean cb) {
         initComponents();
 
         model = (DefaultTableModel) tbMatch.getModel();
@@ -74,9 +74,9 @@ public class PanMatchReport extends javax.swing.JPanel {
                     int id = 0;
                     int selectedRow = tbMatch.getSelectedRow();
                     id = matchIdmap.get((int) tbMatch.getValueAt(selectedRow, 0));
-                    DialogPanMatchReportDetails obj = new DialogPanMatchReportDetails();
-                    obj.init(id);
-                    obj.show();
+                    DialogMatchDetails createDialogPanMatchWiseReport = new DialogMatchDetails();
+                    createDialogPanMatchWiseReport.init(cb.getId(), id);
+                    createDialogPanMatchWiseReport.show();
                 }
             }
         });

@@ -63,6 +63,7 @@ public class PanTeamBestScorer extends javax.swing.JPanel {
         for (Team t : teamList) {
 
             playerTeamMap.put(t.getName(), t);
+            cmbPlayer.addItem(t.getName());
 
         }
         setRow(null);

@@ -18,6 +18,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -34,21 +35,25 @@ import javax.swing.table.TableColumnModel;
  */
 public class PanMatchBestTeamScorer extends javax.swing.JPanel {
 
-    List<Integer> evaluationteamId = new ArrayList<>();
+    LinkedHashMap<Integer, Integer> evalId;
     ReportDao reportDao = new ReportDao();
     JTable tbReport;
     TeamDao td = new TeamDao();
     DefaultTableModel dm;
     List<Player> playerList;
     int cb;
+    int team1, team2;
 
     /**
      * Creates new form PanMatchBestTeamScorer
      */
-    public PanMatchBestTeamScorer(final int cb, List<Player> playerList, List<Integer> evaluationId) {
+    public PanMatchBestTeamScorer(final int cb, List<Player> playerList, LinkedHashMap<Integer, Integer> evalId, int team1, int team2) {
         initComponents();
         this.playerList = playerList;
-        this.evaluationteamId = evaluationId;
+        this.evalId = evalId;
+        this.team1 = team1;
+        this.team2 = team2;
+
         this.cb = cb;
         createTable();
         setRow(null);
@@ -62,11 +67,25 @@ public class PanMatchBestTeamScorer extends javax.swing.JPanel {
         }
 
         if (player == null) {
-            for (int e : evaluationteamId) {
-                for (Player p : playerList) {
-                    PlayerScores playerScore = reportDao.getPlayerScores(cb, p, e);
-                    playerScoresList.add(playerScore);
+            PlayerScores playerScore = null;
+
+            for (Player p : playerList) {
+
+                if (team1 != 0) {
+                    if (p.getTeamId() == team1) {
+                        int eve = evalId.get(team1);
+                        playerScore = reportDao.getPlayerScores(cb, p, eve);
+                        playerScoresList.add(playerScore);
+                    }
                 }
+                if (team2 != 0) {
+                    if (p.getTeamId() == team2) {
+                        int eve = evalId.get(team2);
+                        playerScore = reportDao.getPlayerScores(cb, p, eve);
+                        playerScoresList.add(playerScore);
+                    }
+                }
+
             }
 
             Collections.sort(playerScoresList, new Comparator<PlayerScores>() {

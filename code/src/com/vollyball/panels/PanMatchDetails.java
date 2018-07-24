@@ -6,16 +6,26 @@
 package com.vollyball.panels;
 
 import com.vollyball.bean.MatchBean;
+import com.vollyball.bean.MatchSet;
 import com.vollyball.bean.Player;
 import com.vollyball.bean.PlayerReportBean;
 import com.vollyball.controller.Controller;
 import com.vollyball.dao.MatchDao;
+import com.vollyball.dao.RallyDao;
 import com.vollyball.dao.ReportDao;
 import com.vollyball.dao.TeamDao;
 import com.vollyball.enums.Skill;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ItemEvent;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,19 +42,27 @@ public class PanMatchDetails extends javax.swing.JPanel {
     LinkedHashMap<Integer, PlayerReportBean> playerId = new LinkedHashMap<Integer, PlayerReportBean>();
     String skillName;
     int skillId;
-    List<Integer> evaluationteamId = new ArrayList<>();
-    List<Integer> evaluationteamId2 = new ArrayList<>();
+    int evaluationteamId, evaluationteamId2;
     PanTableSkillWiseReport panTableSkillWiseReport = new PanTableSkillWiseReport();
     PanMatchBestTeamScorer panMatchBestTeamScorer;
     TeamDao td = new TeamDao();
     MatchDao matchDao = new MatchDao();
     ReportDao reportDao = new ReportDao();
     int team1id, team2id;
-    PanTableTeamSkillWiseReport panTableTeamSkillWiseReport = new PanTableTeamSkillWiseReport();
+    PanMatchSkillWisePlayerReport panMatchSkillWisePlayerReport = new PanMatchSkillWisePlayerReport();
     List<JPanel> panMenuList = new ArrayList<>();
     LinkedHashMap<String, List<Integer>> teamEval = new LinkedHashMap<>();
     List<Player> playerList;
     int cb;
+    String team1Name, team2Name, team1SC, team2SC;
+    LinkedHashMap<Integer, Integer> evalId = new LinkedHashMap<>();
+
+    List<MatchSet> lstMatchSetTeam1 = new ArrayList<>();
+    List<MatchSet> lstMatchSetTeam2 = new ArrayList<>();
+    int team1wonBy = 0, team2wonBy = 0;
+    RallyDao rd = new RallyDao();
+    int matchId;
+    String selecteditem = "Both";
 
     /**
      * Creates new form PanMatchDetails
@@ -53,6 +71,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
         initComponents();
         ((JLabel) cmbTeams.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         this.cb = cb;
+        this.matchId = matchId;
         panMenuList.add(panScorer);
         panMenuList.add(panServer);
         panMenuList.add(panAttacker);
@@ -65,22 +84,139 @@ public class PanMatchDetails extends javax.swing.JPanel {
 
         team1id = team.getTeam1();
         team2id = team.getTeam2();
+        team1Name = team.getTeam1name();
+        team2Name = team.getTeam2name();
+        team1SC = team.getTeam1ShortCode();
+        team2SC = team.getTeam2ShortCode();
+        lblDate.setText("Date : " + team.getDate());
 
         playerList = td.getTeamPlayers(team1id);
         playerList.addAll(td.getTeamPlayers(team2id));
 
-        evaluationteamId = reportDao.getTeamEvaluationId(team1id);
-        teamEval.put(team.getTeam1name(), evaluationteamId);
-        evaluationteamId2 = reportDao.getTeamEvaluationId(team2id);
-        evaluationteamId.addAll(evaluationteamId2);
-        teamEval.put(team.getTeam2name(), evaluationteamId2);
+        evaluationteamId = reportDao.getTeamEvaluationIdBYMatch(team1id, matchId);
+        evalId.put(team.getTeam1(), evaluationteamId);
+        evaluationteamId2 = reportDao.getTeamEvaluationIdBYMatch(team2id, matchId);
+        evalId.put(team.getTeam2(), evaluationteamId2);
 
+        for (int i = 1; i <= 5; i++) {
+            MatchSet ms1 = matchDao.getMatchSet(i, evaluationteamId);
+            if (ms1.getId() != 0) {
+                lstMatchSetTeam1.add(ms1);
+            }
+            MatchSet ms2 = matchDao.getMatchSet(i, evaluationteamId2);
+            if (ms2.getId() != 0) {
+                lstMatchSetTeam2.add(ms2);
+            }
+        }
+
+        if (lstMatchSetTeam1.size() > lstMatchSetTeam2.size()) {
+            showScoreBoard(lstMatchSetTeam1, 1);
+        } else if (lstMatchSetTeam1.size() < lstMatchSetTeam2.size()) {
+            showScoreBoard(lstMatchSetTeam2, 2);
+        } else {
+            showScoreBoard(lstMatchSetTeam1, 1);
+        }
+
+        lblMatch.setText("Match : " + team1Name + " (" + team.getTeam1ShortCode() + ") vs " + team2Name + " (" + team.getTeam2ShortCode() + ")");
+        lblPhase.setText("Phase : " + team.getPhase());
         cmbTeams.addItem(team.getTeam1name());
         cmbTeams.addItem(team.getTeam2name());
-        panMatchBestTeamScorer = new PanMatchBestTeamScorer(cb, playerList, evaluationteamId);
+        panMatchBestTeamScorer = new PanMatchBestTeamScorer(cb, playerList, evalId, team1id, team2id);
+
+        team1NameSet1.setText(team.getTeam1ShortCode());
+        team2NameSet1.setText(team.getTeam2ShortCode());
+        team1NameSet2.setText(team.getTeam1ShortCode());
+        team2NameSet2.setText(team.getTeam2ShortCode());
+        team1NameSet3.setText(team.getTeam1ShortCode());
+        team2NameSet3.setText(team.getTeam2ShortCode());
+        team1NameSet4.setText(team.getTeam1ShortCode());
+        team2NameSet4.setText(team.getTeam2ShortCode());
+        team1NameSet5.setText(team.getTeam1ShortCode());
+        team2NameSet5.setText(team.getTeam2ShortCode());
+
+        scoreTeam1.setText(team1Name + " (" + team.getTeam1ShortCode() + ")  : ");
+        scoreTeam2.setText(team2Name + " (" + team.getTeam2ShortCode() + ")  : ");
 
         panSkillReports.add(panMatchBestTeamScorer, BorderLayout.CENTER);
         changeColor(panScorer);
+    }
+
+    public void showScoreBoard(List<MatchSet> lstMatchSetTeam, int team) {
+
+        int i = 0;
+        for (MatchSet ms : lstMatchSetTeam) {
+            i++;
+            String homeScore, oppScore;
+            if (team == 1) {
+                homeScore = "" + ms.getHomeScore();
+                oppScore = "" + ms.getOpponentScore();
+            } else {
+                homeScore = "" + ms.getOpponentScore();
+                oppScore = "" + ms.getHomeScore();
+            }
+
+            int countRally = rd.getRallyCountByEvaluationId(ms.getId());
+
+            if (i == 1) {
+                rallySet1.setText("Total Rallies : " + countRally);
+                team1Set1.setText(homeScore);
+                team2Set1.setText(oppScore);
+
+                if (ms.getWon_by() == team1id) {
+                    team1wonBy++;
+                } else if (ms.getWon_by() == team2id) {
+                    team2wonBy++;
+                }
+
+            } else if (i == 2) {
+                rallySet2.setText("Total Rallies : " + countRally);
+                team1Set2.setText(homeScore);
+                team2Set2.setText(oppScore);
+                if (ms.getWon_by() == team1id) {
+                    team1wonBy++;
+                } else if (ms.getWon_by() == team2id) {
+                    team2wonBy++;
+                }
+            } else if (i == 3) {
+                rallySet3.setText("Total Rallies : " + countRally);
+                team1Set3.setText(homeScore);
+                team2Set3.setText(oppScore);
+                if (ms.getWon_by() == team1id) {
+                    team1wonBy++;
+                } else if (ms.getWon_by() == team2id) {
+                    team2wonBy++;
+                }
+            } else if (i == 4) {
+                rallySet4.setText("Total Rallies : " + countRally);
+                team1Set4.setText(homeScore);
+                team2Set4.setText(oppScore);
+                if (ms.getWon_by() == team1id) {
+                    team1wonBy++;
+                } else if (ms.getWon_by() == team2id) {
+                    team2wonBy++;
+                }
+            } else if (i == 5) {
+                rallySet5.setText("Total Rallies : " + countRally);
+                team1Set5.setText(homeScore);
+                team2Set5.setText(oppScore);
+                if (ms.getWon_by() == team1id) {
+                    team1wonBy++;
+                } else if (ms.getWon_by() == team2id) {
+                    team2wonBy++;
+                }
+            }
+
+        }
+
+        scoreTeam1.setText(team1Name + " (" + team1SC + ")  : " + team1wonBy);
+        scoreTeam2.setText(team2Name + " (" + team2SC + ")  : " + team2wonBy);
+
+        if (team1wonBy > team2wonBy) {
+            wonBy.setText("Won By : " + team1Name);
+        } else if (team1wonBy < team2wonBy) {
+            wonBy.setText("Won By : " + team2Name);
+        }
+
     }
 
     /**
@@ -93,8 +229,13 @@ public class PanMatchDetails extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
+        lblMatch = new javax.swing.JLabel();
+        lblPhase = new javax.swing.JLabel();
+        lblDate = new javax.swing.JLabel();
+        panDataSheet = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        panPrint1 = new javax.swing.JPanel();
+        lblPrint1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         scoreTeam1 = new javax.swing.JLabel();
         scoreTeam2 = new javax.swing.JLabel();
@@ -106,9 +247,9 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jPanel5 = new javax.swing.JPanel();
         rallySet1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
+        team2NameSet1 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        team1NameSet1 = new javax.swing.JLabel();
         team1Set1 = new javax.swing.JLabel();
         team2Set1 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
@@ -117,9 +258,9 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jPanel11 = new javax.swing.JPanel();
         rallySet2 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
+        team2NameSet2 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
+        team1NameSet2 = new javax.swing.JLabel();
         team1Set2 = new javax.swing.JLabel();
         team2Set2 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
@@ -128,9 +269,9 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jPanel16 = new javax.swing.JPanel();
         rallySet3 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
+        team2NameSet3 = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
+        team1NameSet3 = new javax.swing.JLabel();
         team1Set3 = new javax.swing.JLabel();
         team2Set3 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
@@ -139,9 +280,9 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jPanel21 = new javax.swing.JPanel();
         rallySet4 = new javax.swing.JLabel();
         jPanel22 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
+        team2NameSet4 = new javax.swing.JLabel();
         jPanel23 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
+        team1NameSet4 = new javax.swing.JLabel();
         team1Set4 = new javax.swing.JLabel();
         team2Set4 = new javax.swing.JLabel();
         jPanel24 = new javax.swing.JPanel();
@@ -150,9 +291,9 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jPanel26 = new javax.swing.JPanel();
         rallySet5 = new javax.swing.JLabel();
         jPanel27 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
+        team2NameSet5 = new javax.swing.JLabel();
         jPanel28 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
+        team1NameSet5 = new javax.swing.JLabel();
         team1Set5 = new javax.swing.JLabel();
         team2Set5 = new javax.swing.JLabel();
         jPanel31 = new javax.swing.JPanel();
@@ -170,7 +311,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
         panSetter = new javax.swing.JPanel();
         lblSetter = new javax.swing.JLabel();
         jPanel33 = new javax.swing.JPanel();
-        cmbTeams = new javax.swing.JComboBox<>();
+        cmbTeams = new javax.swing.JComboBox<String>();
         panScorer = new javax.swing.JPanel();
         lblScorer = new javax.swing.JLabel();
         jPanel34 = new javax.swing.JPanel();
@@ -178,13 +319,59 @@ public class PanMatchDetails extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(57, 74, 108));
 
-        jLabel16.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setText("Match : ");
+        lblMatch.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblMatch.setForeground(new java.awt.Color(255, 255, 255));
+        lblMatch.setText("Match : ");
 
-        jLabel17.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel17.setText("Phase : ");
+        lblPhase.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblPhase.setForeground(new java.awt.Color(255, 255, 255));
+        lblPhase.setText("Phase : ");
+
+        lblDate.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblDate.setForeground(new java.awt.Color(255, 255, 255));
+        lblDate.setText("Date : ");
+
+        panDataSheet.setBackground(new java.awt.Color(153, 153, 153));
+        panDataSheet.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("DATA SHEET");
+
+        javax.swing.GroupLayout panDataSheetLayout = new javax.swing.GroupLayout(panDataSheet);
+        panDataSheet.setLayout(panDataSheetLayout);
+        panDataSheetLayout.setHorizontalGroup(
+            panDataSheetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+        );
+        panDataSheetLayout.setVerticalGroup(
+            panDataSheetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        panPrint1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        lblPrint1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        lblPrint1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblPrint1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vollyball/images/printer.png"))); // NOI18N
+        lblPrint1.setToolTipText("Print This Page");
+        lblPrint1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblPrint1MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panPrint1Layout = new javax.swing.GroupLayout(panPrint1);
+        panPrint1.setLayout(panPrint1Layout);
+        panPrint1Layout.setHorizontalGroup(
+            panPrint1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblPrint1, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+        );
+        panPrint1Layout.setVerticalGroup(
+            panPrint1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblPrint1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -192,22 +379,39 @@ public class PanMatchDetails extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblMatch, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblDate, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(panDataSheet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(panPrint1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(panDataSheet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panPrint1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblMatch, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         scoreTeam1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         scoreTeam1.setText("Team 1:");
@@ -236,9 +440,9 @@ public class PanMatchDetails extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(scoreTeam1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(scoreTeam2, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(wonBy, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
+                    .addComponent(wonBy, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(scoreTeam1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(5, 5, 5))
         );
 
@@ -247,7 +451,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
 
         jPanel4.setBackground(new java.awt.Color(57, 74, 108));
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("SET 1");
@@ -260,7 +464,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
@@ -268,16 +472,14 @@ public class PanMatchDetails extends javax.swing.JPanel {
 
         rallySet1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         rallySet1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        rallySet1.setText("Rallies");
+        rallySet1.setText("Total Rallies : 0");
+        rallySet1.setToolTipText("");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(rallySet1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(rallySet1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,39 +489,39 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jPanel6.setBackground(new java.awt.Color(57, 74, 108));
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Team 2");
+        team2NameSet1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        team2NameSet1.setForeground(new java.awt.Color(255, 255, 255));
+        team2NameSet1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        team2NameSet1.setText("Team 2");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+            .addComponent(team2NameSet1, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addComponent(team2NameSet1, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         jPanel7.setBackground(new java.awt.Color(57, 74, 108));
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Team 1");
+        team1NameSet1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        team1NameSet1.setForeground(new java.awt.Color(255, 255, 255));
+        team1NameSet1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        team1NameSet1.setText("Team 1");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addComponent(team1NameSet1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addComponent(team1NameSet1, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         team1Set1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -336,15 +538,15 @@ public class PanMatchDetails extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(team1Set1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(team2Set1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(team2Set1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -371,10 +573,10 @@ public class PanMatchDetails extends javax.swing.JPanel {
 
         jPanel10.setBackground(new java.awt.Color(57, 74, 108));
 
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("SET 1");
+        jLabel2.setText("SET 2");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -384,7 +586,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
@@ -392,16 +594,13 @@ public class PanMatchDetails extends javax.swing.JPanel {
 
         rallySet2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         rallySet2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        rallySet2.setText("Rallies");
+        rallySet2.setText("Total Rallies : 0");
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(rallySet2, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(rallySet2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -411,39 +610,39 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jPanel12.setBackground(new java.awt.Color(57, 74, 108));
         jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Team 2");
+        team2NameSet2.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        team2NameSet2.setForeground(new java.awt.Color(255, 255, 255));
+        team2NameSet2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        team2NameSet2.setText("Team 2");
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+            .addComponent(team2NameSet2, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addComponent(team2NameSet2, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         jPanel13.setBackground(new java.awt.Color(57, 74, 108));
         jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Team 1");
+        team1NameSet2.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        team1NameSet2.setForeground(new java.awt.Color(255, 255, 255));
+        team1NameSet2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        team1NameSet2.setText("Team 1");
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addComponent(team1NameSet2, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addComponent(team1NameSet2, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         team1Set2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -460,15 +659,15 @@ public class PanMatchDetails extends javax.swing.JPanel {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(team1Set2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(team2Set2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(team2Set2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
@@ -495,10 +694,10 @@ public class PanMatchDetails extends javax.swing.JPanel {
 
         jPanel15.setBackground(new java.awt.Color(57, 74, 108));
 
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("SET 1");
+        jLabel3.setText("SET 3");
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -508,7 +707,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         jPanel16.setBackground(new java.awt.Color(255, 255, 255));
@@ -516,16 +715,13 @@ public class PanMatchDetails extends javax.swing.JPanel {
 
         rallySet3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         rallySet3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        rallySet3.setText("Rallies");
+        rallySet3.setText("Total Rallies : 0");
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel16Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(rallySet3, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(rallySet3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -535,39 +731,39 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jPanel17.setBackground(new java.awt.Color(57, 74, 108));
         jPanel17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Team 2");
+        team2NameSet3.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        team2NameSet3.setForeground(new java.awt.Color(255, 255, 255));
+        team2NameSet3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        team2NameSet3.setText("Team 2");
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+            .addComponent(team2NameSet3, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addComponent(team2NameSet3, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         jPanel18.setBackground(new java.awt.Color(57, 74, 108));
         jPanel18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Team 1");
+        team1NameSet3.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        team1NameSet3.setForeground(new java.awt.Color(255, 255, 255));
+        team1NameSet3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        team1NameSet3.setText("Team 1");
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addComponent(team1NameSet3, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addComponent(team1NameSet3, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         team1Set3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -584,15 +780,15 @@ public class PanMatchDetails extends javax.swing.JPanel {
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel14Layout.createSequentialGroup()
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel14Layout.createSequentialGroup()
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(team1Set3, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(team2Set3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(team2Set3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
@@ -619,10 +815,10 @@ public class PanMatchDetails extends javax.swing.JPanel {
 
         jPanel20.setBackground(new java.awt.Color(57, 74, 108));
 
-        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("SET 1");
+        jLabel4.setText("SET 4");
 
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
@@ -632,7 +828,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         jPanel21.setBackground(new java.awt.Color(255, 255, 255));
@@ -640,16 +836,13 @@ public class PanMatchDetails extends javax.swing.JPanel {
 
         rallySet4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         rallySet4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        rallySet4.setText("Rallies");
+        rallySet4.setText("Total Rallies : 0");
 
         javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
         jPanel21.setLayout(jPanel21Layout);
         jPanel21Layout.setHorizontalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel21Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(rallySet4, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(rallySet4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel21Layout.setVerticalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -659,39 +852,39 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jPanel22.setBackground(new java.awt.Color(57, 74, 108));
         jPanel22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Team 2");
+        team2NameSet4.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        team2NameSet4.setForeground(new java.awt.Color(255, 255, 255));
+        team2NameSet4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        team2NameSet4.setText("Team 2");
 
         javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
         jPanel22Layout.setHorizontalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+            .addComponent(team2NameSet4, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
         );
         jPanel22Layout.setVerticalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addComponent(team2NameSet4, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         jPanel23.setBackground(new java.awt.Color(57, 74, 108));
         jPanel23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Team 1");
+        team1NameSet4.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        team1NameSet4.setForeground(new java.awt.Color(255, 255, 255));
+        team1NameSet4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        team1NameSet4.setText("Team 1");
 
         javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
         jPanel23.setLayout(jPanel23Layout);
         jPanel23Layout.setHorizontalGroup(
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addComponent(team1NameSet4, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
         jPanel23Layout.setVerticalGroup(
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addComponent(team1NameSet4, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         team1Set4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -708,15 +901,15 @@ public class PanMatchDetails extends javax.swing.JPanel {
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel19Layout.createSequentialGroup()
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel19Layout.createSequentialGroup()
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel21, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel19Layout.createSequentialGroup()
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(team1Set4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(team2Set4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(team2Set4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel19Layout.setVerticalGroup(
@@ -743,10 +936,10 @@ public class PanMatchDetails extends javax.swing.JPanel {
 
         jPanel25.setBackground(new java.awt.Color(57, 74, 108));
 
-        jLabel13.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("SET 1");
+        jLabel13.setText("SET 5");
 
         javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
         jPanel25.setLayout(jPanel25Layout);
@@ -756,7 +949,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
         );
         jPanel25Layout.setVerticalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         jPanel26.setBackground(new java.awt.Color(255, 255, 255));
@@ -764,16 +957,13 @@ public class PanMatchDetails extends javax.swing.JPanel {
 
         rallySet5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         rallySet5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        rallySet5.setText("Rallies");
+        rallySet5.setText("Total Rallies : 0");
 
         javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
         jPanel26.setLayout(jPanel26Layout);
         jPanel26Layout.setHorizontalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel26Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(rallySet5, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(rallySet5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel26Layout.setVerticalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -783,39 +973,39 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jPanel27.setBackground(new java.awt.Color(57, 74, 108));
         jPanel27.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel14.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("Team 2");
+        team2NameSet5.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        team2NameSet5.setForeground(new java.awt.Color(255, 255, 255));
+        team2NameSet5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        team2NameSet5.setText("Team 2");
 
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
         jPanel27Layout.setHorizontalGroup(
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+            .addComponent(team2NameSet5, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
         );
         jPanel27Layout.setVerticalGroup(
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addComponent(team2NameSet5, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         jPanel28.setBackground(new java.awt.Color(57, 74, 108));
         jPanel28.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel15.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setText("Team 1");
+        team1NameSet5.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        team1NameSet5.setForeground(new java.awt.Color(255, 255, 255));
+        team1NameSet5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        team1NameSet5.setText("Team 1");
 
         javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
         jPanel28.setLayout(jPanel28Layout);
         jPanel28Layout.setHorizontalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addComponent(team1NameSet5, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
         jPanel28Layout.setVerticalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addComponent(team1NameSet5, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         team1Set5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -832,15 +1022,15 @@ public class PanMatchDetails extends javax.swing.JPanel {
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel24Layout.createSequentialGroup()
-                .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel24Layout.createSequentialGroup()
+                .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel26, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel24Layout.createSequentialGroup()
                         .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(team1Set5, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(team2Set5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(team2Set5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel24Layout.setVerticalGroup(
@@ -1038,7 +1228,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jPanel33.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         cmbTeams.setBackground(new java.awt.Color(0, 0, 0));
-        cmbTeams.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BOTH" }));
+        cmbTeams.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "BOTH" }));
         cmbTeams.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbTeamsItemStateChanged(evt);
@@ -1088,11 +1278,11 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jPanel34.setLayout(jPanel34Layout);
         jPanel34Layout.setHorizontalGroup(
             jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 200, Short.MAX_VALUE)
         );
         jPanel34Layout.setVerticalGroup(
             jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 255, Short.MAX_VALUE)
+            .addGap(0, 260, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel32Layout = new javax.swing.GroupLayout(jPanel32);
@@ -1162,7 +1352,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -1175,7 +1365,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
     private void lblServerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblServerMouseClicked
         // TODO add your handling code here:
         setPlayerReport(Skill.Service.getId());
-        panTableTeamSkillWiseReport.lblReportHeading.setText(lblServer.getText());
+        panMatchSkillWisePlayerReport.lblReportHeading.setText(lblServer.getText());
         skillName = lblServer.getText();
         changeColor(panServer);
     }//GEN-LAST:event_lblServerMouseClicked
@@ -1183,7 +1373,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
     private void lblAttackerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAttackerMouseClicked
         // TODO add your handling code here:
         setPlayerReport(Skill.Attack.getId());
-        panTableTeamSkillWiseReport.lblReportHeading.setText(lblAttacker.getText());
+        panMatchSkillWisePlayerReport.lblReportHeading.setText(lblAttacker.getText());
         skillName = lblAttacker.getText();
         changeColor(panAttacker);
     }//GEN-LAST:event_lblAttackerMouseClicked
@@ -1191,7 +1381,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
     private void lblBlockerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBlockerMouseClicked
         // TODO add your handling code here:
         setPlayerReport(Skill.Block.getId());
-        panTableTeamSkillWiseReport.lblReportHeading.setText(lblBlocker.getText());
+        panMatchSkillWisePlayerReport.lblReportHeading.setText(lblBlocker.getText());
         skillName = lblBlocker.getText();
         changeColor(panBlocker);
     }//GEN-LAST:event_lblBlockerMouseClicked
@@ -1199,7 +1389,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
     private void lblDefenderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDefenderMouseClicked
         // TODO add your handling code here:
         setPlayerReport(Skill.Defence.getId());
-        panTableTeamSkillWiseReport.lblReportHeading.setText(lblDefender.getText());
+        panMatchSkillWisePlayerReport.lblReportHeading.setText(lblDefender.getText());
         skillName = lblDefender.getText();
         changeColor(panDefender);
     }//GEN-LAST:event_lblDefenderMouseClicked
@@ -1207,7 +1397,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
     private void lblReceiverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblReceiverMouseClicked
         // TODO add your handling code here:
         setPlayerReport(Skill.Reception.getId());
-        panTableTeamSkillWiseReport.lblReportHeading.setText(lblReceiver.getText());
+        panMatchSkillWisePlayerReport.lblReportHeading.setText(lblReceiver.getText());
         skillName = lblReceiver.getText();
         changeColor(panReceiver);
     }//GEN-LAST:event_lblReceiverMouseClicked
@@ -1215,7 +1405,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
     private void lblSetterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSetterMouseClicked
         // TODO add your handling code here:
         setPlayerReport(Skill.Set.getId());
-        panTableTeamSkillWiseReport.lblReportHeading.setText(lblSetter.getText());
+        panMatchSkillWisePlayerReport.lblReportHeading.setText(lblSetter.getText());
         skillName = lblSetter.getText();
         changeColor(panSetter);
     }//GEN-LAST:event_lblSetterMouseClicked
@@ -1224,7 +1414,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
         // TODO add your handling code here:
 
         changeColor(panScorer);
-        panSkillReports.remove(panTableTeamSkillWiseReport);
+        panSkillReports.remove(panMatchSkillWisePlayerReport);
         panSkillReports.add(panMatchBestTeamScorer, BorderLayout.CENTER);
         this.validate();
         this.repaint();
@@ -1234,8 +1424,20 @@ public class PanMatchDetails extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             panSkillReports.remove(panMatchBestTeamScorer);
-            String item = String.valueOf(evt.getItem());
-            panMatchBestTeamScorer = new PanMatchBestTeamScorer(cb, playerList, teamEval.get(item));
+            selecteditem = String.valueOf(evt.getItem());
+            int t1, t2;
+            if (selecteditem.equalsIgnoreCase(team1Name)) {
+                t1 = team1id;
+                t2 = 0;
+            } else if (selecteditem.equalsIgnoreCase(team2Name)) {
+                t1 = 0;
+                t2 = team2id;
+            } else {
+                t1 = team1id;
+                t2 = team2id;
+            }
+            panSkillReports.remove(panMatchSkillWisePlayerReport);
+            panMatchBestTeamScorer = new PanMatchBestTeamScorer(cb, playerList, evalId, t1, t2);
             panSkillReports.add(panMatchBestTeamScorer, BorderLayout.CENTER);
             changeColor(panScorer);
             this.validate();
@@ -1243,13 +1445,34 @@ public class PanMatchDetails extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_cmbTeamsItemStateChanged
 
+    private void lblPrint1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPrint1MouseClicked
+        // TODO add your handling code here:
+        panPrint1.setVisible(false);
+        panDataSheet.setVisible(false);
+
+        printComponenet(this);
+        panPrint1.setVisible(true);
+        panDataSheet.setVisible(true);
+    }//GEN-LAST:event_lblPrint1MouseClicked
+
     public void setPlayerReport(int skillid) {
         panSkillReports.remove(panMatchBestTeamScorer);
-        panSkillReports.add(panTableTeamSkillWiseReport, BorderLayout.CENTER);
+        panSkillReports.add(panMatchSkillWisePlayerReport, BorderLayout.CENTER);
         this.validate();
         this.repaint();
 
-//        panTableTeamSkillWiseReport.setTeamReport(skillid, skillName, cb, playerId);
+        int t1, t2;
+        if (selecteditem.equalsIgnoreCase(team1Name)) {
+            t1 = team1id;
+            t2 = 0;
+        } else if (selecteditem.equalsIgnoreCase(team2Name)) {
+            t1 = 0;
+            t2 = team2id;
+        } else {
+            t1 = team1id;
+            t2 = team2id;
+        }
+        panMatchSkillWisePlayerReport.setTeamReport(skillid, skillName, cb, playerList, evalId, t1, t2);
     }
 
     public void changeColor(JPanel panIn) {
@@ -1261,25 +1484,64 @@ public class PanMatchDetails extends javax.swing.JPanel {
             }
         }
     }
+
+    public void printComponenet(final Component comp) {
+
+        PageFormat documentPageFormat = new PageFormat();
+        documentPageFormat.setOrientation(PageFormat.LANDSCAPE);
+
+        PrinterJob pj = PrinterJob.getPrinterJob();
+        pj.setJobName("Score Report_-_" + lblMatch.getText());
+
+        pj.setPrintable(new Printable() {
+            public int print(Graphics g, PageFormat format, int page_index)
+                    throws PrinterException {
+                if (page_index > 0) {
+                    return Printable.NO_SUCH_PAGE;
+                }
+
+                format.setOrientation(PageFormat.LANDSCAPE);
+                // get the bounds of the component
+                Dimension dim = comp.getSize();
+                double cHeight = dim.getHeight();
+                double cWidth = dim.getWidth();
+
+                // get the bounds of the printable area
+                double pHeight = format.getImageableHeight();
+                double pWidth = format.getImageableWidth();
+
+                double pXStart = format.getImageableX();
+                double pYStart = format.getImageableY();
+
+                double xRatio = pWidth / cWidth;
+                double yRatio = pHeight / cHeight;
+
+                Graphics2D g2 = (Graphics2D) g;
+                g2.translate(pXStart, pYStart);
+                g2.scale(xRatio, yRatio);
+                comp.printAll(g2);
+
+                return Printable.PAGE_EXISTS;
+            }
+        }, documentPageFormat);
+        if (pj.printDialog() == false) {
+            return;
+        }
+
+        try {
+            pj.print();
+        } catch (PrinterException ex) {
+            // handle exception
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cmbTeams;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1314,14 +1576,22 @@ public class PanMatchDetails extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblAttacker;
     private javax.swing.JLabel lblBlocker;
+    private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblDefender;
+    private javax.swing.JLabel lblMatch;
+    private javax.swing.JLabel lblPhase;
+    private javax.swing.JLabel lblPrint;
+    private javax.swing.JLabel lblPrint1;
     private javax.swing.JLabel lblReceiver;
     private javax.swing.JLabel lblScorer;
     private javax.swing.JLabel lblServer;
     private javax.swing.JLabel lblSetter;
     private javax.swing.JPanel panAttacker;
     private javax.swing.JPanel panBlocker;
+    private javax.swing.JPanel panDataSheet;
     private javax.swing.JPanel panDefender;
+    private javax.swing.JPanel panPrint;
+    private javax.swing.JPanel panPrint1;
     private javax.swing.JPanel panReceiver;
     private javax.swing.JPanel panScorer;
     private javax.swing.JPanel panServer;
@@ -1334,11 +1604,21 @@ public class PanMatchDetails extends javax.swing.JPanel {
     private javax.swing.JLabel rallySet5;
     private javax.swing.JLabel scoreTeam1;
     private javax.swing.JLabel scoreTeam2;
+    private javax.swing.JLabel team1NameSet1;
+    private javax.swing.JLabel team1NameSet2;
+    private javax.swing.JLabel team1NameSet3;
+    private javax.swing.JLabel team1NameSet4;
+    private javax.swing.JLabel team1NameSet5;
     private javax.swing.JLabel team1Set1;
     private javax.swing.JLabel team1Set2;
     private javax.swing.JLabel team1Set3;
     private javax.swing.JLabel team1Set4;
     private javax.swing.JLabel team1Set5;
+    private javax.swing.JLabel team2NameSet1;
+    private javax.swing.JLabel team2NameSet2;
+    private javax.swing.JLabel team2NameSet3;
+    private javax.swing.JLabel team2NameSet4;
+    private javax.swing.JLabel team2NameSet5;
     private javax.swing.JLabel team2Set1;
     private javax.swing.JLabel team2Set2;
     private javax.swing.JLabel team2Set3;

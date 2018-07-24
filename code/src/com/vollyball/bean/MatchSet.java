@@ -28,6 +28,7 @@ public class MatchSet {
     String date;
     int op;
     int tf;
+    int rallyCount;
 
     List<SetRotationOrder> rotationOrder = new ArrayList<>();
     List<SetSubstitution> setSubstitutions = new ArrayList<>();
@@ -167,6 +168,14 @@ public class MatchSet {
 
     public void setSetTimeout(List<SetTimeout> setTimeout) {
         this.setTimeout = setTimeout;
+    }
+
+    public int getRallyCount() {
+        return rallyCount;
+    }
+
+    public void setRallyCount(int rallyCount) {
+        this.rallyCount = rallyCount;
     }
 
 }

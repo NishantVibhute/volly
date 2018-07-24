@@ -135,6 +135,9 @@ public class MatchDao {
                 mb.setTeam1(rs.getInt(4));
                 mb.setTeam2(rs.getInt(5));
                 mb.setId(rs.getInt(6));
+                mb.setTeam1ShortCode(rs.getString(7));
+                mb.setTeam2ShortCode(rs.getString(8));
+                mb.setPhase(rs.getString(9));
 
             }
 
