@@ -105,7 +105,7 @@ public class PanBestScorer extends javax.swing.JPanel {
 
         if (player == null) {
             for (Player p : playerList) {
-                PlayerScores playerScore = reportDao.getPlayerScores(cb.getId(), p);
+                PlayerScores playerScore = reportDao.getPlayerScores(cb.getId(), p, 0);
                 playerScoresList.add(playerScore);
             }
 
@@ -125,7 +125,7 @@ public class PanBestScorer extends javax.swing.JPanel {
             }
         } else {
 
-            PlayerScores playerScore = reportDao.getPlayerScores(cb.getId(), player);
+            PlayerScores playerScore = reportDao.getPlayerScores(cb.getId(), player, 0);
             playerScoresList.add(playerScore);
 
             int i = 0;

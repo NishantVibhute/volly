@@ -10,6 +10,8 @@ import com.vollyball.bean.PlayerScores;
 import com.vollyball.bean.Team;
 import com.vollyball.dao.ReportDao;
 import com.vollyball.dao.TeamDao;
+import com.vollyball.dialog.DialogMatchDetails;
+import com.vollyball.dialog.DialogPlayerScoreGraph;
 import com.vollyball.renderer.ColumnGroup;
 import com.vollyball.renderer.GroupableTableHeader;
 import com.vollyball.renderer.TableHeaderRenderer;
@@ -26,10 +28,14 @@ import java.awt.print.PrinterJob;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -50,11 +56,13 @@ public class PanTeamDetail extends javax.swing.JPanel {
     TeamDao td = new TeamDao();
     Team t;
     int cb;
+    Map<String, Player> playerNameMap = new HashMap<String, Player>();
+    Map<String, PlayerScores> matchNameMap = new HashMap<String, PlayerScores>();
 
     /**
      * Creates new form PanTeamDetail
      */
-    public PanTeamDetail(int cb, int teamId) {
+    public PanTeamDetail(final int cb, int teamId) {
         initComponents();
         this.cb = cb;
 
@@ -76,6 +84,66 @@ public class PanTeamDetail extends javax.swing.JPanel {
         setRow();
         setMatchRow();
         setTeamRow(t);
+
+        for (Player p : playerList) {
+
+            playerNameMap.put(p.getName(), p);
+
+        }
+
+        tbReport.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+
+                    String selectedName = null, teamName = "";
+
+                    int matchesPlayed = 0;
+
+                    int selectedRow = tbReport.getSelectedRow();
+                    for (int i = 0; i <= selectedRow; i++) {
+
+                        selectedName = (String) tbReport.getValueAt(selectedRow, 0);
+                        teamName = t.getName();
+                        matchesPlayed = (int) tbReport.getValueAt(selectedRow, 1);
+
+                    }
+                    if (selectedName != null) {
+                        DialogPlayerScoreGraph createDialogPanMatchWiseReport = new DialogPlayerScoreGraph();
+                        createDialogPanMatchWiseReport.init(cb, playerNameMap.get(selectedName).getId(), selectedName, matchesPlayed, teamName);
+                        createDialogPanMatchWiseReport.show();
+                    }
+
+                }
+            }
+        });
+
+        tbMatch.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+
+                    String selectedName = null, phase = "";
+
+                    int matchesPlayed = 0;
+
+                    int selectedRow = tbMatch.getSelectedRow();
+                    for (int i = 0; i <= selectedRow; i++) {
+
+                        selectedName = (String) tbMatch.getValueAt(selectedRow, 0);
+                        phase = (String) tbMatch.getValueAt(selectedRow, 1);
+
+                    }
+                    if (selectedName != null) {
+                        int id = matchNameMap.get(selectedName + "-" + phase).getId();
+                        DialogMatchDetails createDialogPanMatchWiseReport = new DialogMatchDetails();
+                        createDialogPanMatchWiseReport.init(cb, id);
+                        createDialogPanMatchWiseReport.show();
+                    }
+
+                }
+            }
+        });
     }
 
     public void setTeamRow(Team Team) {
@@ -90,6 +158,7 @@ public class PanTeamDetail extends javax.swing.JPanel {
 
         int i = 0;
         for (PlayerScores p : playerScoresList) {
+
             Object[] row = {i + 1, p.getPlayerName(), p.getMatchesPlayed(), p.getServiceRatePerc(), p.getAttackRatePerc(), p.getBlockRatePerc(), p.getSetRatePerc(), p.getReceptionRatePerc(), p.getDefenceRatePerc(), p.getAttemptRatePerc()};
             dmOverall.addRow(row);
             i++;
@@ -105,7 +174,7 @@ public class PanTeamDetail extends javax.swing.JPanel {
         }
 
         for (Player p : playerList) {
-            PlayerScores playerScore = reportDao.getPlayerScores(cb, p);
+            PlayerScores playerScore = reportDao.getPlayerScores(cb, p, 0);
             playerScoresList.add(playerScore);
         }
 
@@ -148,6 +217,7 @@ public class PanTeamDetail extends javax.swing.JPanel {
 
         int i = 0;
         for (PlayerScores p : playerScoresList) {
+            matchNameMap.put(p.getPlayerName() + "-" + p.getMatchPhase(), p);
             Object[] row = {p.getPlayerName(), p.getMatchPhase(), p.getServiceRatePerc(), p.getAttackRatePerc(), p.getBlockRatePerc(), p.getSetRatePerc(), p.getReceptionRatePerc(), p.getDefenceRatePerc(), p.getAttemptRatePerc()};
             dmMatch.addRow(row);
             i++;

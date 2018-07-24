@@ -150,15 +150,23 @@ public class ReportDao {
         return playerReportList;
     }
 
-    public PlayerScores getPlayerScores(int competationId, Player player) {
+    public PlayerScores getPlayerScores(int competationId, Player player, int evId) {
         PlayerScores p = new PlayerScores();
 
         try {
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.player.scores"));
-            ps.setInt(1, competationId);
-            ps.setInt(2, player.getId());
+            PreparedStatement ps;
+            if (evId == 0) {
+                ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.player.scores"));
+                ps.setInt(1, competationId);
+                ps.setInt(2, player.getId());
+            } else {
+                ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.player.matchScore"));
+                ps.setInt(1, competationId);
+                ps.setInt(2, player.getId());
+                ps.setInt(3, evId);
 
+            }
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -364,6 +372,26 @@ public class ReportDao {
             this.con = db.getConnection();
             PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.match.evaluationId"));
             ps1.setInt(1, teamId);
+
+            ResultSet rs1 = ps1.executeQuery();
+            while (rs1.next()) {
+                id.add(rs1.getInt(1));
+
+            }
+            db.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(ReportDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+
+    public List<Integer> getTeamEvaluationIdBYMatch(int teamId, int matchId) {
+        List<Integer> id = new ArrayList<>();
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.match.evaluationId.bymatch"));
+            ps1.setInt(1, teamId);
+            ps1.setInt(2, matchId);
 
             ResultSet rs1 = ps1.executeQuery();
             while (rs1.next()) {

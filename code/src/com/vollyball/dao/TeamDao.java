@@ -24,10 +24,10 @@ import java.util.logging.Logger;
  * @author nishant.vibhute
  */
 public class TeamDao {
-
+    
     DbUtil db = new DbUtil();
     Connection con;
-
+    
     public int insertTeam(Team team) {
         int count = 0;
         int id = 0;
@@ -43,15 +43,15 @@ public class TeamDao {
             ps.setInt(7, team.getCompId());
             ps.setString(8, team.getShortCode());
             count = ps.executeUpdate();
-
+            
             if (count != 0) {
                 PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.latest.team.id"));
                 ResultSet rs = ps1.executeQuery();
-
+                
                 while (rs.next()) {
                     id = rs.getInt(1);
                 }
-
+                
                 if (id != 0) {
                     for (Player p : team.getPlayerList()) {
                         if (p.getName() != null && !p.getName().equals("")) {
@@ -65,97 +65,97 @@ public class TeamDao {
                         }
                     }
                 }
-
+                
             }
-
+            
             db.closeConnection(con);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         return count;
-
+        
     }
-
+    
     public List<Team> getTeams(int id) {
         List<Team> teamList = new ArrayList<>();
         try {
-
+            
             this.con = db.getConnection();
             PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.teams"));
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Team t = new Team();
                 t.setId(rs.getInt(1));
                 t.setName(rs.getString(2));
                 teamList.add(t);
-
+                
             }
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return teamList;
     }
-
+    
     public List<Player> getTeamPlayers(int id) {
         List<Player> playerList = new ArrayList<>();
         try {
-
+            
             this.con = db.getConnection();
             PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.players"));
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Player t = new Player();
                 t.setId(rs.getInt(1));
                 t.setName(rs.getString(2));
                 t.setChestNo(rs.getString(3));
                 t.setPosition(rs.getInt(4));
+                t.setTeamName(rs.getString(5));
                 playerList.add(t);
-
             }
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return playerList;
     }
-
+    
     public List<Integer> getMatchPlayers(int id, int teamId) {
         List<Integer> playerList = new ArrayList<>();
         try {
-
+            
             this.con = db.getConnection();
             PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.matchplayers"));
             ps.setInt(1, teamId);
             ps.setInt(2, id);
             ResultSet rs = ps.executeQuery();
-
+            
             while (rs.next()) {
-
+                
                 playerList.add(rs.getInt(1));
-
+                
             }
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return playerList;
     }
-
+    
     public List<Player> getAlPlayers(int compId) {
         List<Player> playerList = new ArrayList<>();
-
+        
         try {
-
+            
             this.con = db.getConnection();
             PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.all.players"));
             ps.setInt(1, compId);
             ResultSet rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Player p = new Player();
                 p.setId(rs.getInt(1));
@@ -164,23 +164,23 @@ public class TeamDao {
                 p.setTeamName(rs.getString(5));
                 playerList.add(p);
             }
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return playerList;
-
+        
     }
-
+    
     public Team getteamDetail(int teamId) {
         Team t = new Team();
         try {
-
+            
             this.con = db.getConnection();
             PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.team.detail"));
             ps.setInt(1, teamId);
             ResultSet rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 t.setId(rs.getInt(1));
                 t.setName(rs.getString(2));
@@ -192,7 +192,7 @@ public class TeamDao {
                 t.setMedicalOffice(rs.getString(8));
                 t.setAnalyzer(rs.getString(9));
             }
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
         }
