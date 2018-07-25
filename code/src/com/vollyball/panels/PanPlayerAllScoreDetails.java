@@ -5,9 +5,14 @@
  */
 package com.vollyball.panels;
 
+import com.vollyball.bean.MatchBean;
+import com.vollyball.bean.Player;
 import com.vollyball.bean.PlayerSkillScore;
 import com.vollyball.chart.BarChart;
 import com.vollyball.dao.ReportDao;
+import com.vollyball.dao.TeamDao;
+import com.vollyball.dialog.DialogAllScoreGraph;
+import com.vollyball.dialog.DialogPlayerMatchAllScores;
 import com.vollyball.enums.Skill;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -30,18 +35,43 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
 
     ReportDao reportDao = new ReportDao();
     String playerName;
+    int compId, playerId;
+    String teamName;
+    TeamDao td = new TeamDao();
+    int matchId;
+    String phase;
+    String matchName;
 
     /**
      * Creates new form PanPlayerAllScoreDetails
      */
-    public PanPlayerAllScoreDetails(int compId, int playerId, String playerName, int matchesPlayed, String teamName) {
+    public PanPlayerAllScoreDetails(int compId, int playerId, String playerName, int matchesPlayed, String teamName, int matchId) {
         initComponents();
         this.playerName = playerName;
+        this.compId = compId;
+        this.playerId = playerId;
+        this.teamName = teamName;
         lblPlayerName.setText(playerName);
         lblMatchesPlayed.setText("" + matchesPlayed);
         lblTeamName.setText(teamName);
+        this.matchId = matchId;
 
-        PlayerSkillScore pservice = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Service.getId());
+        Player p = td.getPlayerById(playerId);
+        lblChestNo.setText(p.getChestNo());
+
+        if (matchId != 0) {
+            MatchBean mb = reportDao.getMatchNamePhaseById(matchId);
+            lblMatch.setText(mb.getMatch());
+            lblPhase.setText(mb.getPhase());
+            lblMatches.setVisible(false);
+            lblMatchesPlayed.setVisible(false);
+            this.phase = mb.getPhase();
+            this.matchName = mb.getMatch();
+        } else {
+            lblMatch.setText("All");
+            lblPhase.setText("All");
+        }
+        PlayerSkillScore pservice = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Service.getId(), matchId);
         attemptService.setText("" + pservice.getTotalAttempt());
         oneService.setText("" + pservice.getOne());
         twoService.setText("" + pservice.getTwo());
@@ -54,11 +84,11 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         datasetService.addValue(pservice.getThree(), "Attempt", "Three");
         datasetService.addValue(pservice.getFour(), "Attempt", "Four");
         datasetService.addValue(pservice.getFive(), "Attempt", "Five");
-        JFreeChart chartFreeService = BarChart.createChart(datasetService);
+        JFreeChart chartFreeService = BarChart.createChart(datasetService, "Score", false);
         ChartPanel CPService = new ChartPanel(chartFreeService);
         chartService.add(CPService, BorderLayout.CENTER);
 
-        PlayerSkillScore pattack = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Attack.getId());
+        PlayerSkillScore pattack = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Attack.getId(), matchId);
         attemptAttack.setText("" + pattack.getTotalAttempt());
         oneAttack.setText("" + pattack.getOne());
         twoAttack.setText("" + pattack.getTwo());
@@ -71,11 +101,11 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         datasetAttack.addValue(pattack.getThree(), "Attempt", "Three");
         datasetAttack.addValue(pattack.getFour(), "Attempt", "Four");
         datasetAttack.addValue(pattack.getFive(), "Attempt", "Five");
-        JFreeChart chartFreeAttack = BarChart.createChart(datasetAttack);
+        JFreeChart chartFreeAttack = BarChart.createChart(datasetAttack, "Score", false);
         ChartPanel CPAttack = new ChartPanel(chartFreeAttack);
         chartAttack.add(CPAttack, BorderLayout.CENTER);
 
-        PlayerSkillScore pBlock = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Block.getId());
+        PlayerSkillScore pBlock = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Block.getId(), matchId);
         attemptBlock.setText("" + pBlock.getTotalAttempt());
         oneBlock.setText("" + pBlock.getOne());
         twoBlock.setText("" + pBlock.getTwo());
@@ -88,11 +118,11 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         datasetBlock.addValue(pBlock.getThree(), "Attempt", "Three");
         datasetBlock.addValue(pBlock.getFour(), "Attempt", "Four");
         datasetBlock.addValue(pBlock.getFive(), "Attempt", "Five");
-        JFreeChart chartFreeBlock = BarChart.createChart(datasetBlock);
+        JFreeChart chartFreeBlock = BarChart.createChart(datasetBlock, "Score", false);
         ChartPanel CPBlock = new ChartPanel(chartFreeBlock);
         chartBlock.add(CPBlock, BorderLayout.CENTER);
 
-        PlayerSkillScore pSet = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Set.getId());
+        PlayerSkillScore pSet = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Set.getId(), matchId);
         attemptSet.setText("" + pSet.getTotalAttempt());
         oneSet.setText("" + pSet.getOne());
         twoSet.setText("" + pSet.getTwo());
@@ -105,11 +135,11 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         datasetSet.addValue(pSet.getThree(), "Attempt", "Three");
         datasetSet.addValue(pSet.getFour(), "Attempt", "Four");
         datasetSet.addValue(pSet.getFive(), "Attempt", "Five");
-        JFreeChart chartFreeSet = BarChart.createChart(datasetSet);
+        JFreeChart chartFreeSet = BarChart.createChart(datasetSet, "Score", false);
         ChartPanel CPSet = new ChartPanel(chartFreeSet);
         chartSet.add(CPSet, BorderLayout.CENTER);
 
-        PlayerSkillScore pReception = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Reception.getId());
+        PlayerSkillScore pReception = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Reception.getId(), matchId);
         attemptReception.setText("" + pReception.getTotalAttempt());
         oneReception.setText("" + pReception.getOne());
         twoReception.setText("" + pReception.getTwo());
@@ -122,11 +152,11 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         datasetReception.addValue(pReception.getThree(), "Attempt", "Three");
         datasetReception.addValue(pReception.getFour(), "Attempt", "Four");
         datasetReception.addValue(pReception.getFive(), "Attempt", "Five");
-        JFreeChart chartFreeReception = BarChart.createChart(datasetReception);
+        JFreeChart chartFreeReception = BarChart.createChart(datasetReception, "Score", false);
         ChartPanel CPReception = new ChartPanel(chartFreeReception);
         chartReception.add(CPReception, BorderLayout.CENTER);
 
-        PlayerSkillScore pDefence = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Defence.getId());
+        PlayerSkillScore pDefence = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Defence.getId(), matchId);
         attemptDefence.setText("" + pDefence.getTotalAttempt());
         oneDefence.setText("" + pDefence.getOne());
         twoDefence.setText("" + pDefence.getTwo());
@@ -139,7 +169,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         datasetDefence.addValue(pDefence.getThree(), "Attempt", "Three");
         datasetDefence.addValue(pDefence.getFour(), "Attempt", "Four");
         datasetDefence.addValue(pDefence.getFive(), "Attempt", "Five");
-        JFreeChart chartFreeDefence = BarChart.createChart(datasetDefence);
+        JFreeChart chartFreeDefence = BarChart.createChart(datasetDefence, "Score", false);
         ChartPanel CPDefence = new ChartPanel(chartFreeDefence);
         chartDefence.add(CPDefence, BorderLayout.CENTER);
 
@@ -206,13 +236,19 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         lblPlayerName = new javax.swing.JLabel();
-        jLabel49 = new javax.swing.JLabel();
+        lblMatches = new javax.swing.JLabel();
         lblMatchesPlayed = new javax.swing.JLabel();
         panPrint = new javax.swing.JPanel();
         lblPrint = new javax.swing.JLabel();
         jLabel50 = new javax.swing.JLabel();
         jLabel51 = new javax.swing.JLabel();
         lblTeamName = new javax.swing.JLabel();
+        jLabel52 = new javax.swing.JLabel();
+        lblChestNo = new javax.swing.JLabel();
+        jLabel53 = new javax.swing.JLabel();
+        lblMatch = new javax.swing.JLabel();
+        jLabel54 = new javax.swing.JLabel();
+        lblPhase = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -230,6 +266,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         threeService = new javax.swing.JLabel();
         fourService = new javax.swing.JLabel();
         fiveService = new javax.swing.JLabel();
+        lblService = new javax.swing.JLabel();
         chartService = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -248,6 +285,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         threeAttack = new javax.swing.JLabel();
         fourAttack = new javax.swing.JLabel();
         fiveAttack = new javax.swing.JLabel();
+        lblAttack = new javax.swing.JLabel();
         chartAttack = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -266,6 +304,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         threeBlock = new javax.swing.JLabel();
         fourBlock = new javax.swing.JLabel();
         fiveBlock = new javax.swing.JLabel();
+        lblBlock = new javax.swing.JLabel();
         chartBlock = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
@@ -284,6 +323,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         threeSet = new javax.swing.JLabel();
         fourSet = new javax.swing.JLabel();
         fiveSet = new javax.swing.JLabel();
+        lblSet = new javax.swing.JLabel();
         chartSet = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
@@ -302,6 +342,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         threeReception = new javax.swing.JLabel();
         fourReception = new javax.swing.JLabel();
         fiveReception = new javax.swing.JLabel();
+        lblReception = new javax.swing.JLabel();
         chartReception = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
@@ -320,6 +361,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         threeDefence = new javax.swing.JLabel();
         fourDefence = new javax.swing.JLabel();
         fiveDefence = new javax.swing.JLabel();
+        lblDefence = new javax.swing.JLabel();
         chartDefence = new javax.swing.JPanel();
 
         jPanel1.setBackground(new java.awt.Color(57, 74, 108));
@@ -327,9 +369,9 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         lblPlayerName.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lblPlayerName.setForeground(new java.awt.Color(255, 255, 255));
 
-        jLabel49.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel49.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel49.setText("Matches Played :");
+        lblMatches.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblMatches.setForeground(new java.awt.Color(255, 255, 255));
+        lblMatches.setText("Matches Played :");
 
         lblMatchesPlayed.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lblMatchesPlayed.setForeground(new java.awt.Color(255, 255, 255));
@@ -354,19 +396,40 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         );
         panPrintLayout.setVerticalGroup(
             panPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblPrint, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+            .addComponent(lblPrint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jLabel50.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel50.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel50.setText("NAME : ");
+        jLabel50.setText("Player Name : ");
 
         jLabel51.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel51.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel51.setText("TEAM : ");
+        jLabel51.setText("Team Name  : ");
 
         lblTeamName.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lblTeamName.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel52.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel52.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel52.setText("Chest No      : ");
+
+        lblChestNo.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblChestNo.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel53.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel53.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel53.setText("Match               :");
+
+        lblMatch.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblMatch.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel54.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel54.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel54.setText("Phase                :");
+
+        lblPhase.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblPhase.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -374,37 +437,68 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel50)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblPlayerName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel51)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTeamName, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jLabel49)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblMatchesPlayed, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel50)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblPlayerName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel53, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblMatch, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel52)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblChestNo, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel51)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblTeamName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(42, 42, 42)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblMatches, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel54))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblMatchesPlayed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblPhase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(118, 118, 118)
                 .addComponent(panPrint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panPrint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblPlayerName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel50)
+                            .addComponent(lblPlayerName, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel53)
+                            .addComponent(lblMatch, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel52)
+                            .addComponent(lblChestNo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel51, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblTeamName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(lblMatchesPlayed, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel49, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel54)
+                            .addComponent(lblPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblMatches)
+                            .addComponent(lblMatchesPlayed, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(11, 11, 11))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -417,7 +511,6 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("SERVICE");
-        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -545,17 +638,35 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
                 .addGap(0, 0, 0))
         );
 
+        lblService.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblService.setForeground(new java.awt.Color(251, 205, 1));
+        lblService.setText("<HTML><U>Details</U></HTML>");
+        lblService.setToolTipText("");
+        lblService.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblService.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblServiceMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(69, 69, 69)
+                .addComponent(lblService, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblService, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -590,7 +701,6 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("ATTACK");
-        jLabel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -718,17 +828,35 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
                 .addGap(0, 0, 0))
         );
 
+        lblAttack.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblAttack.setForeground(new java.awt.Color(251, 205, 1));
+        lblAttack.setText("<HTML><U>Details</U></HTML>");
+        lblAttack.setToolTipText("");
+        lblAttack.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblAttack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAttackMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(119, 119, 119)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblAttack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAttack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -763,7 +891,6 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel17.setText("BLOCK");
-        jLabel17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -891,23 +1018,42 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
                 .addGap(0, 0, 0))
         );
 
+        lblBlock.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblBlock.setForeground(new java.awt.Color(251, 205, 1));
+        lblBlock.setText("<HTML><U>Details</U></HTML>");
+        lblBlock.setToolTipText("");
+        lblBlock.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblBlock.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblBlockMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel17)
+                .addGap(78, 78, 78)
+                .addComponent(lblBlock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
-                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblBlock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         chartBlock.setBackground(new java.awt.Color(255, 255, 255));
         chartBlock.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        chartBlock.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         chartBlock.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -936,7 +1082,6 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         jLabel25.setForeground(new java.awt.Color(255, 255, 255));
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel25.setText("SET");
-        jLabel25.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jPanel15.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1064,17 +1209,35 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
                 .addGap(0, 0, 0))
         );
 
+        lblSet.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblSet.setForeground(new java.awt.Color(251, 205, 1));
+        lblSet.setText("<HTML><U>Details</U></HTML>");
+        lblSet.setToolTipText("");
+        lblSet.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblSet.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSetMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel25)
+                .addGap(86, 86, 86)
+                .addComponent(lblSet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
-                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1109,7 +1272,6 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         jLabel33.setForeground(new java.awt.Color(255, 255, 255));
         jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel33.setText("RECEPTION");
-        jLabel33.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jPanel17.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1237,17 +1399,35 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
                 .addGap(0, 0, 0))
         );
 
+        lblReception.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblReception.setForeground(new java.awt.Color(251, 205, 1));
+        lblReception.setText("<HTML><U>Details</U></HTML>");
+        lblReception.setToolTipText("");
+        lblReception.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblReception.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblReceptionMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel33)
+                .addGap(50, 50, 50)
+                .addComponent(lblReception, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
-                .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblReception, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1282,7 +1462,6 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         jLabel41.setForeground(new java.awt.Color(255, 255, 255));
         jLabel41.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel41.setText("DEFENCE");
-        jLabel41.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jPanel19.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1410,17 +1589,35 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
                 .addGap(0, 0, 0))
         );
 
+        lblDefence.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblDefence.setForeground(new java.awt.Color(251, 205, 1));
+        lblDefence.setText("<HTML><U>Details</U></HTML>");
+        lblDefence.setToolTipText("");
+        lblDefence.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblDefence.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblDefenceMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel41)
+                .addGap(69, 69, 69)
+                .addComponent(lblDefence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel18Layout.createSequentialGroup()
-                .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDefence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1492,6 +1689,51 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         panPrint.setVisible(true);
     }//GEN-LAST:event_lblPrintMouseClicked
 
+    private void lblServiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblServiceMouseClicked
+        // TODO add your handling code here:
+
+        showDialog(Skill.Service);
+
+    }//GEN-LAST:event_lblServiceMouseClicked
+
+    private void lblAttackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAttackMouseClicked
+        // TODO add your handling code here:
+        showDialog(Skill.Attack);
+    }//GEN-LAST:event_lblAttackMouseClicked
+
+    private void lblBlockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBlockMouseClicked
+        // TODO add your handling code here:
+        showDialog(Skill.Block);
+    }//GEN-LAST:event_lblBlockMouseClicked
+
+    private void lblSetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSetMouseClicked
+        // TODO add your handling code here:
+        showDialog(Skill.Set);
+    }//GEN-LAST:event_lblSetMouseClicked
+
+    private void lblReceptionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblReceptionMouseClicked
+        // TODO add your handling code here:
+        showDialog(Skill.Reception);
+    }//GEN-LAST:event_lblReceptionMouseClicked
+
+    private void lblDefenceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDefenceMouseClicked
+        // TODO add your handling code here:
+        showDialog(Skill.Defence);
+    }//GEN-LAST:event_lblDefenceMouseClicked
+
+    public void showDialog(Skill sk) {
+        if (this.matchId == 0) {
+            DialogPlayerMatchAllScores obj = new DialogPlayerMatchAllScores();
+            obj.init(compId, playerName, playerId, teamName, sk);
+            obj.show();
+        } else {
+            DialogAllScoreGraph obj = new DialogAllScoreGraph();
+            obj.init(playerId, sk, playerName, phase, matchId, matchName, phase);
+            obj.show();
+        }
+
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel attemptAttack;
     private javax.swing.JLabel attemptBlock;
@@ -1560,10 +1802,12 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
-    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1587,9 +1831,19 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel lblAttack;
+    private javax.swing.JLabel lblBlock;
+    private javax.swing.JLabel lblChestNo;
+    private javax.swing.JLabel lblDefence;
+    private javax.swing.JLabel lblMatch;
+    private javax.swing.JLabel lblMatches;
     private javax.swing.JLabel lblMatchesPlayed;
+    private javax.swing.JLabel lblPhase;
     private javax.swing.JLabel lblPlayerName;
     private javax.swing.JLabel lblPrint;
+    private javax.swing.JLabel lblReception;
+    private javax.swing.JLabel lblService;
+    private javax.swing.JLabel lblSet;
     private javax.swing.JLabel lblTeamName;
     private javax.swing.JLabel oneAttack;
     private javax.swing.JLabel oneBlock;

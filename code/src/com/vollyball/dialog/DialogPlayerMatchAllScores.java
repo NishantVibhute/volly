@@ -5,7 +5,8 @@
  */
 package com.vollyball.dialog;
 
-import com.vollyball.panels.PanPlayerAllScoreDetails;
+import com.vollyball.enums.Skill;
+import com.vollyball.panels.PanPlayerSkillwiseAllScores;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -18,24 +19,25 @@ import javax.swing.JFrame;
  *
  * @author nishant.vibhute
  */
-public class DialogPlayerScoreGraph {
+public class DialogPlayerMatchAllScores {
 
     private JFrame parentFrame;
     private JDialog dialog;
-    int compId, playerId, matchesPlayed, matchId;
+    int compId;
     String playerName;
+    int playerId;
     String teamName;
+    Skill sk;
 
-    public void init(int compId, int playerId, String playerName, int matchesPlayed, String teamName, int matchId) {
+    public void init(int compId, String playerName, int playerId, String teamName, Skill sk) {
         try {
             this.compId = compId;
-            this.playerId = playerId;
-            this.matchesPlayed = matchesPlayed;
             this.playerName = playerName;
+            this.playerId = playerId;
             this.teamName = teamName;
-            this.matchId = matchId;
-//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            this.sk = sk;
 
+//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             this.dialog = new JDialog(this.parentFrame, "New Match", true);
 
             this.dialog.setResizable(false);
@@ -53,14 +55,14 @@ public class DialogPlayerScoreGraph {
     }
 
     protected Container createPane() {
-        PanPlayerAllScoreDetails panMatch = new PanPlayerAllScoreDetails(compId, playerId, playerName, matchesPlayed, teamName, matchId);
+        PanPlayerSkillwiseAllScores panMatch = new PanPlayerSkillwiseAllScores(compId, playerName, playerId, teamName, sk);
 
         return panMatch;
     }
 
     public void show() {
         if (this.dialog == null) {
-            init(compId, playerId, playerName, matchesPlayed, teamName, matchId);
+            init(compId, playerName, playerId, teamName, sk);
         }
         this.dialog.setVisible(true);
     }

@@ -13,6 +13,9 @@ public class PlayerSkillScore {
 
     int playerId;
     String playerName;
+    int matchId;
+    String matchName;
+    String phase;
     int skillId;
     int totalAttempt;
     int one;
@@ -20,6 +23,30 @@ public class PlayerSkillScore {
     int three;
     int four;
     int five;
+
+    public String getPhase() {
+        return phase;
+    }
+
+    public void setPhase(String phase) {
+        this.phase = phase;
+    }
+
+    public int getMatchId() {
+        return matchId;
+    }
+
+    public void setMatchId(int matchId) {
+        this.matchId = matchId;
+    }
+
+    public String getMatchName() {
+        return matchName;
+    }
+
+    public void setMatchName(String matchName) {
+        this.matchName = matchName;
+    }
 
     public int getPlayerId() {
         return playerId;

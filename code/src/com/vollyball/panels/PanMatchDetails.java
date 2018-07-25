@@ -14,6 +14,7 @@ import com.vollyball.dao.MatchDao;
 import com.vollyball.dao.RallyDao;
 import com.vollyball.dao.ReportDao;
 import com.vollyball.dao.TeamDao;
+import com.vollyball.dialog.DialogPanMatchReportDetails;
 import com.vollyball.enums.Skill;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -121,7 +122,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
         lblPhase.setText("Phase : " + team.getPhase());
         cmbTeams.addItem(team.getTeam1name());
         cmbTeams.addItem(team.getTeam2name());
-        panMatchBestTeamScorer = new PanMatchBestTeamScorer(cb, playerList, evalId, team1id, team2id);
+        panMatchBestTeamScorer = new PanMatchBestTeamScorer(cb, playerList, evalId, team1id, team2id, matchId);
 
         team1NameSet1.setText(team.getTeam1ShortCode());
         team2NameSet1.setText(team.getTeam2ShortCode());
@@ -139,6 +140,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
 
         panSkillReports.add(panMatchBestTeamScorer, BorderLayout.CENTER);
         changeColor(panScorer);
+
     }
 
     public void showScoreBoard(List<MatchSet> lstMatchSetTeam, int team) {
@@ -338,6 +340,11 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jLabel5.setForeground(new java.awt.Color(51, 51, 51));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("DATA SHEET");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout panDataSheetLayout = new javax.swing.GroupLayout(panDataSheet);
         panDataSheet.setLayout(panDataSheetLayout);
@@ -393,20 +400,16 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(panDataSheet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panDataSheet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panPrint1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panPrint1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblMatch, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblMatch, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -1228,6 +1231,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jPanel33.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         cmbTeams.setBackground(new java.awt.Color(0, 0, 0));
+        cmbTeams.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         cmbTeams.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "BOTH" }));
         cmbTeams.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1437,7 +1441,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
                 t2 = team2id;
             }
             panSkillReports.remove(panMatchSkillWisePlayerReport);
-            panMatchBestTeamScorer = new PanMatchBestTeamScorer(cb, playerList, evalId, t1, t2);
+            panMatchBestTeamScorer = new PanMatchBestTeamScorer(cb, playerList, evalId, t1, t2, matchId);
             panSkillReports.add(panMatchBestTeamScorer, BorderLayout.CENTER);
             changeColor(panScorer);
             this.validate();
@@ -1454,6 +1458,14 @@ public class PanMatchDetails extends javax.swing.JPanel {
         panPrint1.setVisible(true);
         panDataSheet.setVisible(true);
     }//GEN-LAST:event_lblPrint1MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        // TODO add your handling code here:
+
+        DialogPanMatchReportDetails createDialogPanMatchWiseReport = new DialogPanMatchReportDetails();
+        createDialogPanMatchWiseReport.init(matchId);
+        createDialogPanMatchWiseReport.show();
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     public void setPlayerReport(int skillid) {
         panSkillReports.remove(panMatchBestTeamScorer);
@@ -1472,7 +1484,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
             t1 = team1id;
             t2 = team2id;
         }
-        panMatchSkillWisePlayerReport.setTeamReport(skillid, skillName, cb, playerList, evalId, t1, t2);
+        panMatchSkillWisePlayerReport.setTeamReport(skillid, skillName, cb, playerList, evalId, t1, t2, matchId);
     }
 
     public void changeColor(JPanel panIn) {
@@ -1580,7 +1592,6 @@ public class PanMatchDetails extends javax.swing.JPanel {
     private javax.swing.JLabel lblDefender;
     private javax.swing.JLabel lblMatch;
     private javax.swing.JLabel lblPhase;
-    private javax.swing.JLabel lblPrint;
     private javax.swing.JLabel lblPrint1;
     private javax.swing.JLabel lblReceiver;
     private javax.swing.JLabel lblScorer;
@@ -1590,7 +1601,6 @@ public class PanMatchDetails extends javax.swing.JPanel {
     private javax.swing.JPanel panBlocker;
     private javax.swing.JPanel panDataSheet;
     private javax.swing.JPanel panDefender;
-    private javax.swing.JPanel panPrint;
     private javax.swing.JPanel panPrint1;
     private javax.swing.JPanel panReceiver;
     private javax.swing.JPanel panScorer;

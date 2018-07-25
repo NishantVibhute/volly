@@ -5,10 +5,12 @@
  */
 package com.vollyball.dialog;
 
-import com.vollyball.panels.PanPlayerAllScoreDetails;
+import com.vollyball.bean.PlayerSkillScore;
+import com.vollyball.panels.PanBarChart;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
@@ -18,24 +20,24 @@ import javax.swing.JFrame;
  *
  * @author nishant.vibhute
  */
-public class DialogPlayerScoreGraph {
+public class DialogBarChart {
 
     private JFrame parentFrame;
     private JDialog dialog;
-    int compId, playerId, matchesPlayed, matchId;
-    String playerName;
-    String teamName;
+    List<PlayerSkillScore> playerDetails;
+    String playerName, teamName;
+    String skillName;
+    int attempt;
 
-    public void init(int compId, int playerId, String playerName, int matchesPlayed, String teamName, int matchId) {
+    public void init(List<PlayerSkillScore> playerDetails, String playerName, String teamName, String Skill, int attempt) {
         try {
-            this.compId = compId;
-            this.playerId = playerId;
-            this.matchesPlayed = matchesPlayed;
+            this.playerDetails = playerDetails;
             this.playerName = playerName;
             this.teamName = teamName;
-            this.matchId = matchId;
-//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            this.skillName = Skill;
+            this.attempt = attempt;
 
+//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             this.dialog = new JDialog(this.parentFrame, "New Match", true);
 
             this.dialog.setResizable(false);
@@ -53,14 +55,14 @@ public class DialogPlayerScoreGraph {
     }
 
     protected Container createPane() {
-        PanPlayerAllScoreDetails panMatch = new PanPlayerAllScoreDetails(compId, playerId, playerName, matchesPlayed, teamName, matchId);
+        PanBarChart panMatch = new PanBarChart(playerDetails, playerName, teamName, skillName, attempt);
 
         return panMatch;
     }
 
     public void show() {
         if (this.dialog == null) {
-            init(compId, playerId, playerName, matchesPlayed, teamName, matchId);
+            init(playerDetails, playerName, teamName, skillName, attempt);
         }
         this.dialog.setVisible(true);
     }

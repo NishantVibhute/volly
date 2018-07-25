@@ -27,7 +27,7 @@ public class CreateDiagram {
     private JDialog dialog;
     String chestNum;
     VollyCourtCoordinateBean v;
-    String type = "";
+    String type = "", from = "";
     List<VollyCourtCoordinateBean> vlist = new ArrayList<VollyCourtCoordinateBean>();
 
     public void init() {
@@ -50,24 +50,26 @@ public class CreateDiagram {
         }
     }
 
-    public void setValues(VollyCourtCoordinateBean v, String chestNum) {
+    public void setValues(VollyCourtCoordinateBean v, String chestNum, String from) {
         this.v = v;
         this.chestNum = chestNum;
+        this.from = from;
         type = "single";
     }
 
-    public void setValues(List<VollyCourtCoordinateBean> v) {
+    public void setValues(List<VollyCourtCoordinateBean> v, String from) {
         this.vlist = v;
         this.chestNum = chestNum;
+        this.from = from;
         type = "multiple";
     }
 
     protected Container createPane() {
         PanVolleyCourt panMatch = new PanVolleyCourt();
         if (type.equalsIgnoreCase("single")) {
-            panMatch.setValues(v, chestNum);
+            panMatch.setValues(v, chestNum, from);
         } else {
-            panMatch.setValues(vlist);
+            panMatch.setValues(vlist, from);
         }
         return panMatch;
     }

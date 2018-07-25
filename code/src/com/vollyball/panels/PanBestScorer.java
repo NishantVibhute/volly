@@ -86,7 +86,7 @@ public class PanBestScorer extends javax.swing.JPanel {
                     }
                     if (selectedName != null) {
                         DialogPlayerScoreGraph createDialogPanMatchWiseReport = new DialogPlayerScoreGraph();
-                        createDialogPanMatchWiseReport.init(cb.getId(), playerNameMap.get(selectedName).getId(), selectedName, matchesPlayed, teamName);
+                        createDialogPanMatchWiseReport.init(cb.getId(), playerNameMap.get(selectedName).getId(), selectedName, matchesPlayed, teamName, 0);
                         createDialogPanMatchWiseReport.show();
                     }
 

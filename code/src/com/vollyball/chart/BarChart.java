@@ -20,15 +20,15 @@ import org.jfree.data.category.CategoryDataset;
  */
 public class BarChart {
 
-    public static JFreeChart createChart(CategoryDataset dataset) {
+    public static JFreeChart createChart(CategoryDataset dataset, String yaxisName, boolean showLegends) {
 
         JFreeChart barChart = ChartFactory.createBarChart(
                 "",
-                "Score",
+                yaxisName,
                 "",
                 dataset,
                 PlotOrientation.VERTICAL,
-                false, false, false);
+                showLegends, false, false);
 
         CategoryPlot plot = (CategoryPlot) barChart.getPlot();
         plot.getRangeAxis().setStandardTickUnits(NumberAxis.createIntegerTickUnits());

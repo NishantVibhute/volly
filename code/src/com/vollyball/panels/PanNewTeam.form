@@ -440,7 +440,7 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jPanel4" alignment="1" pref="0" max="32767" attributes="0"/>
+                      <Component id="jPanel4" alignment="1" pref="676" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
@@ -482,10 +482,7 @@
                       <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="panRowShow" max="32767" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="panRowShow" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -519,7 +516,7 @@
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Component id="jLabel11" min="-2" pref="160" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="lblCaptain" min="-2" pref="109" max="-2" attributes="0"/>
+                          <Component id="lblCaptain" min="-2" pref="105" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -693,7 +690,7 @@
                                                   </Group>
                                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                                       <Component id="jPanel15" max="32767" attributes="0"/>
-                                                      <Component id="jPanel17" pref="0" max="32767" attributes="0"/>
+                                                      <Component id="jPanel17" pref="105" max="32767" attributes="0"/>
                                                   </Group>
                                               </Group>
                                           </Group>
@@ -726,7 +723,7 @@
                                   <Component id="txtChest1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="cmbPositon1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jPanel15" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jPanel15" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -736,7 +733,7 @@
                                   <Component id="txtChest2" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="cmbPositon2" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jPanel17" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jPanel17" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -746,7 +743,7 @@
                                   <Component id="txtChest3" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="cmbPositon3" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jPanel18" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jPanel18" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -756,7 +753,7 @@
                                   <Component id="txtChest4" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="cmbPositon4" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jPanel19" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jPanel19" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -766,7 +763,7 @@
                                   <Component id="txtChest5" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="cmbPositon5" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jPanel20" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jPanel20" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -776,7 +773,7 @@
                                   <Component id="txtChest6" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="cmbPositon6" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jPanel21" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jPanel21" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Component id="trRow7" min="-2" max="-2" attributes="0"/>
@@ -1462,7 +1459,7 @@
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="cmbPositon7" min="-2" pref="160" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jPanel22" min="-2" pref="109" max="-2" attributes="0"/>
+                              <Component id="jPanel22" min="-2" pref="105" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="lblSub" min="-2" pref="32" max="-2" attributes="0"/>
                           </Group>
@@ -1480,7 +1477,7 @@
                                           <Component id="txtChest7" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                           <Component id="cmbPositon7" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="jPanel22" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                                      <Component id="jPanel22" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -1630,7 +1627,7 @@
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="cmbPositon8" min="-2" pref="160" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jPanel23" min="-2" pref="109" max="-2" attributes="0"/>
+                              <Component id="jPanel23" min="-2" pref="105" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="lblSub1" min="-2" pref="32" max="-2" attributes="0"/>
                           </Group>
@@ -1646,7 +1643,7 @@
                                       <Component id="txtChest8" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                       <Component id="cmbPositon8" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jPanel23" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="jPanel23" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -1799,7 +1796,7 @@
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="cmbPositon9" min="-2" pref="160" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jPanel24" min="-2" pref="109" max="-2" attributes="0"/>
+                              <Component id="jPanel24" min="-2" pref="105" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="lblSub2" min="-2" pref="32" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
@@ -1820,7 +1817,7 @@
                                               <Component id="txtChest9" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                               <Component id="cmbPositon9" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="jPanel24" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                                          <Component id="jPanel24" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
@@ -1971,7 +1968,7 @@
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="cmbPositon10" min="-2" pref="160" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jPanel25" min="-2" pref="109" max="-2" attributes="0"/>
+                              <Component id="jPanel25" min="-2" pref="105" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="lblSub3" min="-2" pref="32" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
@@ -1980,15 +1977,13 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                  <Component id="lblSrNo10" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  <Component id="txtPlayerName10" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  <Component id="txtChest10" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  <Component id="cmbPositon10" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="jPanel25" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="lblSrNo10" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="txtPlayerName10" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="txtChest10" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="cmbPositon10" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="jPanel25" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="lblSub3" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
@@ -2135,7 +2130,7 @@
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="cmbPositon11" min="-2" pref="160" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jPanel26" min="-2" pref="109" max="-2" attributes="0"/>
+                              <Component id="jPanel26" min="-2" pref="105" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="lblSub4" min="-2" pref="32" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
@@ -2152,7 +2147,7 @@
                                       <Component id="txtChest11" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                       <Component id="cmbPositon11" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jPanel26" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="jPanel26" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -2302,7 +2297,7 @@
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="cmbPositon12" min="-2" pref="160" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jPanel27" min="-2" pref="109" max="-2" attributes="0"/>
+                              <Component id="jPanel27" min="-2" pref="105" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="lblSub5" min="-2" pref="32" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
@@ -2311,18 +2306,13 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                      <Component id="lblSrNo12" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                      <Component id="txtPlayerName12" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                      <Component id="txtChest12" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                      <Component id="cmbPositon12" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jPanel27" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="lblSrNo12" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="txtPlayerName12" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="txtChest12" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="cmbPositon12" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="jPanel27" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="lblSub5" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
@@ -2469,7 +2459,7 @@
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="cmbPositon13" min="-2" pref="160" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jPanel28" min="-2" pref="109" max="-2" attributes="0"/>
+                              <Component id="jPanel28" min="-2" pref="105" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="lblSub6" min="-2" pref="32" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -2490,7 +2480,7 @@
                                               <Component id="txtChest13" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                               <Component id="cmbPositon13" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="jPanel28" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                                          <Component id="jPanel28" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
@@ -2657,7 +2647,7 @@
                                       <Component id="txtChest14" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                       <Component id="cmbPositon14" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jPanel29" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="jPanel29" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>

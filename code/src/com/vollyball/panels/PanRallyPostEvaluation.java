@@ -372,7 +372,7 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
             v1.setColor(c);
             listCCB.add(v1);
             CreateDiagram cd = new CreateDiagram();
-            cd.setValues(listCCB);
+            cd.setValues(listCCB, "Evaluation");
             cd.init();
             cd.show();
         }
@@ -380,7 +380,7 @@ public class PanRallyPostEvaluation extends javax.swing.JPanel {
         if (skillId != Skill.Block.getId()) {
             VollyCourtCoordinateBean v = rd.getCordinates(type, home, opp);
             CreateDiagram cd = new CreateDiagram();
-            cd.setValues(v, chestNum);
+            cd.setValues(v, chestNum, "Evaluation");
             cd.init();
             cd.show();
         }

@@ -52,6 +52,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
     Color color;
     VollyCourtCoordinateBean vmain;
     private Ellipse2D[] start;
+    String from;
 
     /**
      * Creates new form PanVolleyCourt
@@ -98,18 +99,19 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         }
     }
 
-    public void setValues(List<VollyCourtCoordinateBean> vList) {
+    public void setValues(List<VollyCourtCoordinateBean> vList, String from) {
         this.vList = vList;
         if (vList.size() > 0) {
             VollyCourtCoordinateBean v = vList.get(0);
-            setValues(v, v.getChestNum());
+            setValues(v, v.getChestNum(), from);
         }
     }
 
-    public void setValues(VollyCourtCoordinateBean v, String chestNum) {
+    public void setValues(VollyCourtCoordinateBean v, String chestNum, String from) {
 
+        this.from = from;
         this.vmain = v;
-        LinkedHashMap<Integer, Player> positionMap = Controller.panMatchSet.rallyPositionMap;
+
         panOPos1.setText("1");
         panOPos2.setText("2");
         panOPos3.setText("3");
@@ -117,12 +119,22 @@ public class PanVolleyCourt extends javax.swing.JPanel {
         panOPos5.setText("5");
         panOPos6.setText("6");
 
-        panHPos1.setText(positionMap.get(1).getChestNo());
-        panHPos2.setText(positionMap.get(2).getChestNo());
-        panHPos3.setText(positionMap.get(3).getChestNo());
-        panHPos4.setText(positionMap.get(4).getChestNo());
-        panHPos5.setText(positionMap.get(5).getChestNo());
-        panHPos6.setText(positionMap.get(6).getChestNo());
+        if (from.equalsIgnoreCase("report")) {
+            panHPos1.setText("1");
+            panHPos2.setText("2");
+            panHPos3.setText("3");
+            panHPos4.setText("4");
+            panHPos5.setText("5");
+            panHPos6.setText("6");
+        } else {
+            LinkedHashMap<Integer, Player> positionMap = Controller.panMatchSet.rallyPositionMap;
+            panHPos1.setText(positionMap.get(1).getChestNo());
+            panHPos2.setText(positionMap.get(2).getChestNo());
+            panHPos3.setText(positionMap.get(3).getChestNo());
+            panHPos4.setText(positionMap.get(4).getChestNo());
+            panHPos5.setText(positionMap.get(5).getChestNo());
+            panHPos6.setText(positionMap.get(6).getChestNo());
+        }
 
         if (v.getSkill().equals("Service")) {
             if (v.getFrom() == 1) {
@@ -226,7 +238,7 @@ public class PanVolleyCourt extends javax.swing.JPanel {
             x = tip.x - barb * Math.cos(rho);
             y = tip.y - barb * Math.sin(rho);
             g2.draw(new Line2D.Double(tip.x, tip.y, x, y));
-            g2.setStroke(new BasicStroke(3));
+            g2.setStroke(new BasicStroke(5));
             rho = theta - phi;
         }
     }
@@ -248,14 +260,16 @@ public class PanVolleyCourt extends javax.swing.JPanel {
             g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            g2.setColor(Color.BLACK);
-            for (Shape mark : start) {
-                g2.fill(mark);
-            }
-            g2.setStroke(new BasicStroke(5f));
-            g2.setColor(Color.BLACK);
-            for (Shape mark : start) {
-                g2.draw(mark);
+            if (!from.equalsIgnoreCase("report")) {
+                g2.setColor(Color.BLACK);
+                for (Shape mark : start) {
+                    g2.fill(mark);
+                }
+                g2.setStroke(new BasicStroke(5f));
+                g2.setColor(Color.BLACK);
+                for (Shape mark : start) {
+                    g2.draw(mark);
+                }
             }
 
 //            g2.setStroke(new BasicStroke(0f));
@@ -274,17 +288,28 @@ public class PanVolleyCourt extends javax.swing.JPanel {
             g2.setStroke(new BasicStroke(5f));
             g2.setColor(color);
             g2.draw(path1);
-            g2.setColor(Color.YELLOW);
-            for (Shape mark : marks) {
-                g2.fill(mark);
-            }
-            g2.setStroke(new BasicStroke(5f));
-            g2.setColor(Color.BLUE);
-            for (Shape mark : marks) {
-                g2.draw(mark);
-            }
+
             g2.setStroke(new BasicStroke(.5f));
             g2.setColor(Color.BLACK);
+
+            if (isEnd) {
+                if (from.equalsIgnoreCase("report")) {
+                    g2.setStroke(new BasicStroke(5f));
+                    Point sw = new Point(x3, y3);
+                    Point ne = new Point(x4, y4);
+                    drawArrowHead(g2, ne, sw, color);
+                }
+            } else {
+                g2.setColor(Color.YELLOW);
+                for (Shape mark : marks) {
+                    g2.fill(mark);
+                }
+                g2.setStroke(new BasicStroke(5f));
+                g2.setColor(Color.BLUE);
+                for (Shape mark : marks) {
+                    g2.draw(mark);
+                }
+            }
 
         }
     }
@@ -363,6 +388,8 @@ public class PanVolleyCourt extends javax.swing.JPanel {
                     timer.setDelay(sleepTime);
                     timer.setInitialDelay(0);
                     timer.start();
+                } else {
+                    isEnd = true;
                 }
                 repaint();
             }

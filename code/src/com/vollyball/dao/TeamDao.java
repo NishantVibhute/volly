@@ -199,4 +199,29 @@ public class TeamDao {
         }
         return t;
     }
+
+    public Player getPlayerById(int id) {
+        Player p = new Player();
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.playerDetailById"));
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                p.setId(rs.getInt(1));
+                p.setName(rs.getString(2));
+                p.setPosition(rs.getInt(3));
+                p.setCaptain(rs.getInt(4) == 0 ? false : true);
+                p.setChestNo(rs.getString(5));
+                p.setTeamId(rs.getInt(6));
+                p.setTeamName(rs.getString(7) + " (" + rs.getString(8) + ")");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return p;
+    }
 }

@@ -6,16 +6,20 @@
 package com.vollyball.panels;
 
 import com.vollyball.bean.CompetitionBean;
+import com.vollyball.bean.MatchBean;
 import com.vollyball.bean.Player;
 import com.vollyball.bean.PlayerReportBean;
 import com.vollyball.dao.ReportDao;
-import com.vollyball.dialog.CreateDialogPanMatchWiseReport;
+import com.vollyball.dialog.DialogAllScoreGraph;
+import com.vollyball.enums.Skill;
 import com.vollyball.renderer.TableHeaderRenderer;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -37,6 +41,9 @@ public class PanMatchSkillWisePlayerReport extends javax.swing.JPanel {
     int skillId;
     CompetitionBean cb;
     LinkedHashMap<Integer, PlayerReportBean> playerId;
+    String phase, matchName;
+    int matchId;
+    Map<String, Player> playerNameMap = new HashMap<String, Player>();
 
     /**
      * Creates new form PanTableSkillWiseReport
@@ -72,19 +79,19 @@ public class PanMatchSkillWisePlayerReport extends javax.swing.JPanel {
         tbReport.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 if (!event.getValueIsAdjusting()) {
-                    String selectedName = null;
+                    String playerName = null, teamName = null;
 
                     int row = tbReport.getSelectedRow();
                     for (int i = 0; i <= row; i++) {
-                        selectedName = (String) tbReport.getValueAt(row, 1);
+                        playerName = (String) tbReport.getValueAt(row, 1);
+                        teamName = (String) tbReport.getValueAt(row, 2);
 
                     }
 
-                    if (selectedName != null) {
-                        CreateDialogPanMatchWiseReport createDialogPanMatchWiseReport = new CreateDialogPanMatchWiseReport();
-                        createDialogPanMatchWiseReport.setValues(playerId.get(row), skillName, skillId, cb.getId(), "team");
-                        createDialogPanMatchWiseReport.init();
-                        createDialogPanMatchWiseReport.show();
+                    if (playerName != null) {
+                        DialogAllScoreGraph obj = new DialogAllScoreGraph();
+                        obj.init(playerNameMap.get(playerName + "" + teamName).getId(), Skill.getNameById(skillId), playerName, teamName, matchId, matchName, phase);
+                        obj.show();
                     }
                 }
             }
@@ -110,17 +117,24 @@ public class PanMatchSkillWisePlayerReport extends javax.swing.JPanel {
 
     }
 
-    public void setTeamReport(int skillid, String skillName, int cb, List<Player> playerList, LinkedHashMap<Integer, Integer> evalId, int team1, int team2) {
+    public void setTeamReport(int skillid, String skillName, int cb, List<Player> playerList, LinkedHashMap<Integer, Integer> evalId, int team1, int team2, int matchId) {
         List<PlayerReportBean> pbList = new ArrayList<>();
         this.skillName = skillName;
-        this.playerId = playerId;
+
         this.skillId = skillid;
+        this.matchId = matchId;
+
+        MatchBean mb = reportDao.getMatchNamePhaseById(matchId);
+
+        this.phase = mb.getPhase();
+        this.matchName = mb.getMatch();
 
         for (int i = model.getRowCount() - 1; i >= 0; i--) {
             model.removeRow(i);
         }
 
         for (Player p : playerList) {
+            playerNameMap.put(p.getName() + "" + p.getTeamName(), p);
             if (team1 != 0) {
                 if (p.getTeamId() == team1) {
                     int eve = evalId.get(team1);

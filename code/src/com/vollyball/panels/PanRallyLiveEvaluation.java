@@ -619,7 +619,7 @@ public class PanRallyLiveEvaluation extends javax.swing.JPanel {
         }
 
         CreateDiagram cd = new CreateDiagram();
-        cd.setValues(listCCB);
+        cd.setValues(listCCB, "Evaluation");
         cd.init();
         cd.show();
 

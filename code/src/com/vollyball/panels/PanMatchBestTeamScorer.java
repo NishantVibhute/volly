@@ -9,6 +9,7 @@ import com.vollyball.bean.Player;
 import com.vollyball.bean.PlayerScores;
 import com.vollyball.dao.ReportDao;
 import com.vollyball.dao.TeamDao;
+import com.vollyball.dialog.DialogPlayerScoreGraph;
 import com.vollyball.renderer.ColumnGroup;
 import com.vollyball.renderer.GroupableTableHeader;
 import com.vollyball.renderer.TableHeaderRenderer;
@@ -18,11 +19,15 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -43,11 +48,12 @@ public class PanMatchBestTeamScorer extends javax.swing.JPanel {
     List<Player> playerList;
     int cb;
     int team1, team2;
+    Map<String, Player> playerNameMap = new HashMap<String, Player>();
 
     /**
      * Creates new form PanMatchBestTeamScorer
      */
-    public PanMatchBestTeamScorer(final int cb, List<Player> playerList, LinkedHashMap<Integer, Integer> evalId, int team1, int team2) {
+    public PanMatchBestTeamScorer(final int cb, List<Player> playerList, LinkedHashMap<Integer, Integer> evalId, int team1, int team2, final int matchId) {
         initComponents();
         this.playerList = playerList;
         this.evalId = evalId;
@@ -57,6 +63,38 @@ public class PanMatchBestTeamScorer extends javax.swing.JPanel {
         this.cb = cb;
         createTable();
         setRow(null);
+
+        for (Player p : playerList) {
+            playerNameMap.put(p.getName(), p);
+        }
+
+        tbReport.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+
+                    String selectedName = null, teamName = "";
+
+                    int matchesPlayed = 0;
+
+                    int selectedRow = tbReport.getSelectedRow();
+                    for (int i = 0; i <= selectedRow; i++) {
+
+                        selectedName = (String) tbReport.getValueAt(selectedRow, 1);
+                        teamName = (String) tbReport.getValueAt(selectedRow, 2);
+                        matchesPlayed = 0;
+
+                    }
+                    if (selectedName != null) {
+                        DialogPlayerScoreGraph createDialogPanMatchWiseReport = new DialogPlayerScoreGraph();
+                        createDialogPanMatchWiseReport.init(cb, playerNameMap.get(selectedName).getId(), selectedName, matchesPlayed, teamName, matchId);
+                        createDialogPanMatchWiseReport.show();
+                    }
+
+                }
+            }
+        });
+
     }
 
     public void setRow(Player player) {
@@ -98,7 +136,7 @@ public class PanMatchBestTeamScorer extends javax.swing.JPanel {
 
             int i = 0;
             for (PlayerScores p : playerScoresList) {
-                Object[] row = {i + 1, p.getPlayerName(), p.getTeamName(), p.getMatchesPlayed(), p.getServiceRatePerc(), p.getAttackRatePerc(), p.getBlockRatePerc(), p.getSetRatePerc(), p.getReceptionRatePerc(), p.getDefenceRatePerc(), p.getAttemptRatePerc()};
+                Object[] row = {i + 1, p.getPlayerName(), p.getTeamName(), p.getServiceRatePerc(), p.getAttackRatePerc(), p.getBlockRatePerc(), p.getSetRatePerc(), p.getReceptionRatePerc(), p.getDefenceRatePerc(), p.getAttemptRatePerc()};
                 dm.addRow(row);
                 i++;
             }
@@ -109,7 +147,7 @@ public class PanMatchBestTeamScorer extends javax.swing.JPanel {
 
             int i = 0;
             for (PlayerScores p : playerScoresList) {
-                Object[] row = {i + 1, p.getPlayerName(), p.getTeamName(), p.getMatchesPlayed(), p.getServiceRatePerc(), p.getAttackRatePerc(), p.getBlockRatePerc(), p.getSetRatePerc(), p.getReceptionRatePerc(), p.getDefenceRatePerc(), p.getAttemptRatePerc()};
+                Object[] row = {i + 1, p.getPlayerName(), p.getTeamName(), p.getServiceRatePerc(), p.getAttackRatePerc(), p.getBlockRatePerc(), p.getSetRatePerc(), p.getReceptionRatePerc(), p.getDefenceRatePerc(), p.getAttemptRatePerc()};
                 dm.addRow(row);
                 i++;
             }
@@ -121,7 +159,7 @@ public class PanMatchBestTeamScorer extends javax.swing.JPanel {
         dm = new DefaultTableModel();
 
         dm.setDataVector(new Object[][]{},
-                new Object[]{"SNo.", "Player Name", "<html>Team<br> Name</html>", "<html>Matches<br> Played</html>", "Service", "Attack", "Block", "Set", "Reception", "Defend", "Total"});
+                new Object[]{"SNo.", "Player Name", "<html>Team<br> Name</html>", "Service", "Attack", "Block", "Set", "Reception", "Defend", "Total"});
 
         tbReport = new JTable(dm) {
             protected JTableHeader createDefaultTableHeader() {
@@ -132,13 +170,13 @@ public class PanMatchBestTeamScorer extends javax.swing.JPanel {
         tbReport.setFont(new java.awt.Font("Times New Roman", 0, 12));
         TableColumnModel cm = tbReport.getColumnModel();
         ColumnGroup g_name = new ColumnGroup("SuccessRate");
+        g_name.add(cm.getColumn(3));
         g_name.add(cm.getColumn(4));
         g_name.add(cm.getColumn(5));
         g_name.add(cm.getColumn(6));
         g_name.add(cm.getColumn(7));
         g_name.add(cm.getColumn(8));
         g_name.add(cm.getColumn(9));
-        g_name.add(cm.getColumn(10));
 
         GroupableTableHeader header = (GroupableTableHeader) tbReport.getTableHeader();
         header.addColumnGroup(g_name);
@@ -166,7 +204,6 @@ public class PanMatchBestTeamScorer extends javax.swing.JPanel {
         tbReport.getColumnModel().getColumn(7).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(8).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(9).setCellRenderer(centerRenderer);
-        tbReport.getColumnModel().getColumn(10).setCellRenderer(centerRenderer);
 
         Color ivory = new Color(255, 255, 255);
         tbReport.setOpaque(true);

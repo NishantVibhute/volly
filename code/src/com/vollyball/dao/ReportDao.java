@@ -5,6 +5,7 @@
  */
 package com.vollyball.dao;
 
+import com.vollyball.bean.MatchBean;
 import com.vollyball.bean.Player;
 import com.vollyball.bean.PlayerReportBean;
 import com.vollyball.bean.PlayerScores;
@@ -291,16 +292,23 @@ public class ReportDao {
 
     }
 
-    public PlayerSkillScore getPlayerSkillWiseScoreReport(int compId, int playerId, int skillId) {
+    public PlayerSkillScore getPlayerSkillWiseScoreReport(int compId, int playerId, int skillId, int matchId) {
         PlayerSkillScore skill = new PlayerSkillScore();
         try {
-
+            PreparedStatement ps;
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.plyer.skillWise.score"));
-            ps.setInt(1, compId);
-            ps.setInt(2, playerId);
-            ps.setInt(3, skillId);
-
+            if (matchId == 0) {
+                ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.plyer.skillWise.score"));
+                ps.setInt(1, compId);
+                ps.setInt(2, playerId);
+                ps.setInt(3, skillId);
+            } else {
+                ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.plyer.skillWise.scorebymatch"));
+                ps.setInt(1, compId);
+                ps.setInt(2, playerId);
+                ps.setInt(3, skillId);
+                ps.setInt(4, matchId);
+            }
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -318,6 +326,40 @@ public class ReportDao {
             Logger.getLogger(ReportDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return skill;
+    }
+
+    public List<PlayerSkillScore> getPlayerSkillWiseAllScoreReportbyMatch(int compId, int playerId, int skillId) {
+        List<PlayerSkillScore> list = new ArrayList<>();
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.player.allScoresCountByMatch"));
+            ps.setInt(1, skillId);
+            ps.setInt(2, compId);
+            ps.setInt(3, playerId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                PlayerSkillScore skill = new PlayerSkillScore();
+                skill.setMatchId(rs.getInt(1));
+                skill.setMatchName(rs.getString(2));
+                skill.setTotalAttempt(rs.getInt(3));
+                skill.setFive(rs.getInt(4));
+                skill.setFour(rs.getInt(5));
+                skill.setThree(rs.getInt(6));
+                skill.setTwo(rs.getInt(7));
+
+                skill.setOne(rs.getInt(8));
+
+                skill.setPhase(rs.getString(9));
+                list.add(skill);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReportDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
     }
 
     public PlayerScores getTeamScores(Team team) {
@@ -511,6 +553,25 @@ public class ReportDao {
         }
         return p;
 
+    }
+
+    public MatchBean getMatchNamePhaseById(int id) {
+        MatchBean p = new MatchBean();
+        try {
+
+            this.con = db.getConnection();
+            PreparedStatement ps1 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.match.name"));
+            ps1.setInt(1, id);
+
+            ResultSet rs1 = ps1.executeQuery();
+            while (rs1.next()) {
+                p.setMatch(rs1.getString(1));
+                p.setPhase(rs1.getString(2));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReportDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return p;
     }
 
 }

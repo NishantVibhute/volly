@@ -38,4 +38,13 @@ public enum TrueFalse {
         this.name = name;
     }
 
+    public static TrueFalse getNameById(int id) {
+        for (TrueFalse e : values()) {
+            if (e.id == id) {
+                return e;
+            }
+        }
+        return null;
+    }
+
 }
