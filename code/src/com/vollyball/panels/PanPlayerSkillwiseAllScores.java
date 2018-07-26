@@ -61,7 +61,7 @@ public class PanPlayerSkillwiseAllScores extends javax.swing.JPanel {
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         model = (DefaultTableModel) tbOverall.getModel();
         modelMatch = (DefaultTableModel) tbMatchwise.getModel();
-        PlayerSkillScore pservice = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, sk.getId(), 0);
+        PlayerSkillScore pservice = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, sk.getId(), 0, 0);
         playerDetails = reportDao.getPlayerSkillWiseAllScoreReportbyMatch(compId, playerId, sk.getId());
         this.attempt = pservice.getTotalAttempt();
         Object[] row = {pservice.getMatchId(), pservice.getTotalAttempt(), pservice.getOne(), pservice.getTwo(), pservice.getThree(), pservice.getFour(), pservice.getFive()};

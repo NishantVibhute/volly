@@ -45,7 +45,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
     /**
      * Creates new form PanPlayerAllScoreDetails
      */
-    public PanPlayerAllScoreDetails(int compId, int playerId, String playerName, int matchesPlayed, String teamName, int matchId) {
+    public PanPlayerAllScoreDetails(int compId, int playerId, String playerName, int matchesPlayed, String teamName, int matchId, int teamId) {
         initComponents();
         this.playerName = playerName;
         this.compId = compId;
@@ -71,7 +71,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
             lblMatch.setText("All");
             lblPhase.setText("All");
         }
-        PlayerSkillScore pservice = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Service.getId(), matchId);
+        PlayerSkillScore pservice = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Service.getId(), matchId, teamId);
         attemptService.setText("" + pservice.getTotalAttempt());
         oneService.setText("" + pservice.getOne());
         twoService.setText("" + pservice.getTwo());
@@ -88,7 +88,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         ChartPanel CPService = new ChartPanel(chartFreeService);
         chartService.add(CPService, BorderLayout.CENTER);
 
-        PlayerSkillScore pattack = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Attack.getId(), matchId);
+        PlayerSkillScore pattack = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Attack.getId(), matchId, teamId);
         attemptAttack.setText("" + pattack.getTotalAttempt());
         oneAttack.setText("" + pattack.getOne());
         twoAttack.setText("" + pattack.getTwo());
@@ -105,7 +105,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         ChartPanel CPAttack = new ChartPanel(chartFreeAttack);
         chartAttack.add(CPAttack, BorderLayout.CENTER);
 
-        PlayerSkillScore pBlock = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Block.getId(), matchId);
+        PlayerSkillScore pBlock = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Block.getId(), matchId, teamId);
         attemptBlock.setText("" + pBlock.getTotalAttempt());
         oneBlock.setText("" + pBlock.getOne());
         twoBlock.setText("" + pBlock.getTwo());
@@ -122,7 +122,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         ChartPanel CPBlock = new ChartPanel(chartFreeBlock);
         chartBlock.add(CPBlock, BorderLayout.CENTER);
 
-        PlayerSkillScore pSet = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Set.getId(), matchId);
+        PlayerSkillScore pSet = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Set.getId(), matchId, teamId);
         attemptSet.setText("" + pSet.getTotalAttempt());
         oneSet.setText("" + pSet.getOne());
         twoSet.setText("" + pSet.getTwo());
@@ -139,7 +139,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         ChartPanel CPSet = new ChartPanel(chartFreeSet);
         chartSet.add(CPSet, BorderLayout.CENTER);
 
-        PlayerSkillScore pReception = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Reception.getId(), matchId);
+        PlayerSkillScore pReception = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Reception.getId(), matchId, teamId);
         attemptReception.setText("" + pReception.getTotalAttempt());
         oneReception.setText("" + pReception.getOne());
         twoReception.setText("" + pReception.getTwo());
@@ -156,7 +156,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         ChartPanel CPReception = new ChartPanel(chartFreeReception);
         chartReception.add(CPReception, BorderLayout.CENTER);
 
-        PlayerSkillScore pDefence = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Defence.getId(), matchId);
+        PlayerSkillScore pDefence = reportDao.getPlayerSkillWiseScoreReport(compId, playerId, Skill.Defence.getId(), matchId, teamId);
         attemptDefence.setText("" + pDefence.getTotalAttempt());
         oneDefence.setText("" + pDefence.getOne());
         twoDefence.setText("" + pDefence.getTwo());

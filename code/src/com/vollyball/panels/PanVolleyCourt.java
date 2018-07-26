@@ -248,10 +248,6 @@ public class PanVolleyCourt extends javax.swing.JPanel {
     private Path2D path;
     private Path2D totalCurve;
 
-    {
-
-    }
-
     private void paintBezier(Graphics g) {
         Path2D path1 = this.path;
         if (path1 != null) {
@@ -288,10 +284,8 @@ public class PanVolleyCourt extends javax.swing.JPanel {
             g2.setStroke(new BasicStroke(5f));
             g2.setColor(color);
             g2.draw(path1);
-
             g2.setStroke(new BasicStroke(.5f));
             g2.setColor(Color.BLACK);
-
             if (isEnd) {
                 if (from.equalsIgnoreCase("report")) {
                     g2.setStroke(new BasicStroke(5f));
@@ -397,7 +391,6 @@ public class PanVolleyCourt extends javax.swing.JPanel {
 
         public void init() {
             timer.stop();
-
             if (vList.size() > 0) {
                 size = vList.size();
             }

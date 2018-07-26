@@ -292,12 +292,17 @@ public class ReportDao {
 
     }
 
-    public PlayerSkillScore getPlayerSkillWiseScoreReport(int compId, int playerId, int skillId, int matchId) {
+    public PlayerSkillScore getPlayerSkillWiseScoreReport(int compId, int playerId, int skillId, int matchId, int teamId) {
         PlayerSkillScore skill = new PlayerSkillScore();
         try {
             PreparedStatement ps;
             this.con = db.getConnection();
-            if (matchId == 0) {
+            if (teamId != 0) {
+                ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.team.skillWise.score"));
+                ps.setInt(1, compId);
+                ps.setInt(2, teamId);
+                ps.setInt(3, skillId);
+            } else if (matchId == 0) {
                 ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.plyer.skillWise.score"));
                 ps.setInt(1, compId);
                 ps.setInt(2, playerId);

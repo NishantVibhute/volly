@@ -5,7 +5,7 @@
  */
 package com.vollyball.dialog;
 
-import com.vollyball.panels.PanPlayerAllScoreDetails;
+import com.vollyball.panels.PanAllScoreDetials;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -18,7 +18,7 @@ import javax.swing.JFrame;
  *
  * @author nishant.vibhute
  */
-public class DialogPlayerScoreGraph {
+public class DialogAllScoreChart {
 
     private JFrame parentFrame;
     private JDialog dialog;
@@ -55,7 +55,7 @@ public class DialogPlayerScoreGraph {
     }
 
     protected Container createPane() {
-        PanPlayerAllScoreDetails panMatch = new PanPlayerAllScoreDetails(compId, playerId, playerName, matchesPlayed, teamName, matchId, teamId);
+        PanAllScoreDetials panMatch = new PanAllScoreDetials(compId, playerId, playerName, matchesPlayed, teamName, matchId, teamId);
 
         return panMatch;
     }
