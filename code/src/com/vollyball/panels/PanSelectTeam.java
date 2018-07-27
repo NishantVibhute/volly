@@ -194,7 +194,7 @@ public class PanSelectTeam extends javax.swing.JPanel {
         // TODO add your handling code here:
         int matchEvaluationTeamId = matchDao.getMatchEvaluationTeamId(matchId, team2id);
         CreateMatchEvaluationDialog obj = new CreateMatchEvaluationDialog();
-        obj.setMatchId(team2id, team1id, evaluationType, homeTeam, oppteam, matchId, matchEvaluationTeamId);
+        obj.setMatchId(team2id, team1id, evaluationType, oppteam, homeTeam, matchId, matchEvaluationTeamId);
         obj.init();
         obj.show();
 

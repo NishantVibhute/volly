@@ -16,7 +16,8 @@ public enum PlayerPosition {
     LIBERO(2, "Libero"),
     UNIVERSAL(3, "Universal"),
     OUTSIDEHITTER(4, "Outside Hitter"),
-    MIDDLEBLOCKER(5, "Middle Blocker");
+    MIDDLEBLOCKER(5, "Middle Blocker"),
+    SETTER(6, "Setter");
 
     int id;
     String name;

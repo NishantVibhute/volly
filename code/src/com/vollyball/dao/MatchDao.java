@@ -591,4 +591,50 @@ public class MatchDao {
         }
         return re;
     }
+
+    public List<MatchBean> searchMatches(int id, int team1, int team2, String phase) {
+        List<MatchBean> matchList = new ArrayList<>();
+        try {
+
+            this.con = db.getConnection();
+
+            String query = CommonUtil.getResourceProperty("search.matches");
+            if (team1 != 0) {
+                query = query + " and team1=" + team1;
+            }
+            if (team2 != 0) {
+                query = query + " and team2=" + team2;
+            }
+            if (!phase.equalsIgnoreCase("Select")) {
+                query = query + " and phase='" + phase + "'";
+            }
+            query = query + " order by date asc; ";
+            PreparedStatement ps = this.con.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                MatchBean mb = new MatchBean();
+                mb.setTeam1name(rs.getString(1));
+                mb.setTeam2name(rs.getString(2));
+                mb.setDate(rs.getString(3));
+                mb.setTeam1(rs.getInt(4));
+                mb.setTeam2(rs.getInt(5));
+                mb.setId(rs.getInt(6));
+                mb.setMatch(mb.getTeam1name() + " vs " + mb.getTeam2name());
+
+                mb.setTime(rs.getString(7));
+                mb.setDayNumber(rs.getInt(8));
+                mb.setMatchNumber(rs.getInt(9));
+                mb.setPhase(rs.getString(10));
+                mb.setPlace(rs.getString(11));
+                matchList.add(mb);
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return matchList;
+    }
 }

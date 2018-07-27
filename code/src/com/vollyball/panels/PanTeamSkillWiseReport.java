@@ -8,6 +8,7 @@ package com.vollyball.panels;
 import com.vollyball.bean.CompetitionBean;
 import com.vollyball.bean.PlayerReportBean;
 import com.vollyball.bean.Team;
+import com.vollyball.controller.Controller;
 import com.vollyball.dao.ReportDao;
 import com.vollyball.dao.TeamDao;
 import com.vollyball.enums.Skill;
@@ -35,7 +36,6 @@ public class PanTeamSkillWiseReport extends javax.swing.JPanel {
     String skillName;
     int skillId;
     PanTableTeamSkillWiseReport panTableTeamSkillWiseReport = new PanTableTeamSkillWiseReport();
-    PanTeamBestScorer panTeamBestScorer;
 
     /**
      * Creates new form PanPlayerSkillWiseReport
@@ -53,9 +53,9 @@ public class PanTeamSkillWiseReport extends javax.swing.JPanel {
         panMenuList.add(panDefender);
 
         List<Team> teamList = td.getTeams(cb.getId());
-        panTeamBestScorer = new PanTeamBestScorer(cb, teamList);
+        Controller.panTeamBestScorer = new PanTeamBestScorer(cb, teamList);
 
-        panSkillReports.add(panTeamBestScorer, BorderLayout.CENTER);
+        panSkillReports.add(Controller.panTeamBestScorer, BorderLayout.CENTER);
         changeColor(panScorer);
 
     }
@@ -131,7 +131,7 @@ public class PanTeamSkillWiseReport extends javax.swing.JPanel {
         panAttacker.setLayout(panAttackerLayout);
         panAttackerLayout.setHorizontalGroup(
             panAttackerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblAttacker, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+            .addComponent(lblAttacker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panAttackerLayout.setVerticalGroup(
             panAttackerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,15 +236,13 @@ public class PanTeamSkillWiseReport extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("SKILLS");
+        jLabel7.setText("TEAM");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,7 +254,7 @@ public class PanTeamSkillWiseReport extends javax.swing.JPanel {
 
         lblScorer.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         lblScorer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblScorer.setText("BEST SCORER");
+        lblScorer.setText("SCORES");
         lblScorer.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblScorerMouseClicked(evt);
@@ -274,13 +272,14 @@ public class PanTeamSkillWiseReport extends javax.swing.JPanel {
             .addComponent(lblScorer, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
         );
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 236, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -298,8 +297,8 @@ public class PanTeamSkillWiseReport extends javax.swing.JPanel {
             .addComponent(panDefender, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panReceiver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panScorer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -334,7 +333,7 @@ public class PanTeamSkillWiseReport extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(panSkillReports, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
+                .addComponent(panSkillReports, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -399,7 +398,7 @@ public class PanTeamSkillWiseReport extends javax.swing.JPanel {
 
         changeColor(panScorer);
         panSkillReports.remove(panTableTeamSkillWiseReport);
-        panSkillReports.add(panTeamBestScorer, BorderLayout.CENTER);
+        panSkillReports.add(Controller.panTeamBestScorer, BorderLayout.CENTER);
         this.validate();
         this.repaint();
 
@@ -416,7 +415,7 @@ public class PanTeamSkillWiseReport extends javax.swing.JPanel {
     }
 
     public void setPlayerReport(int skillid) {
-        panSkillReports.remove(panTeamBestScorer);
+        panSkillReports.remove(Controller.panTeamBestScorer);
         panSkillReports.add(panTableTeamSkillWiseReport, BorderLayout.CENTER);
         this.validate();
         this.repaint();

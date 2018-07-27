@@ -1963,6 +1963,7 @@ public class PanNewTeam extends javax.swing.JPanel {
         lblSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSave.setText("SAVE");
         lblSave.setToolTipText("");
+        lblSave.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblSaveMouseClicked(evt);
@@ -1988,6 +1989,7 @@ public class PanNewTeam extends javax.swing.JPanel {
         lblCancel.setForeground(new java.awt.Color(255, 255, 255));
         lblCancel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCancel.setText("CANCEL");
+        lblCancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblCancel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblCancelMouseClicked(evt);
@@ -2126,6 +2128,8 @@ public class PanNewTeam extends javax.swing.JPanel {
                 int id = teamDao.insertTeam(team);
 
                 if (id != 0) {
+                    Controller.teamDialog.close();
+                    Controller.panTeamBestScorer.setRow(null);
                     JOptionPane.showMessageDialog(this, "Team '" + txtTeamName.getText() + "' Created Successfully");
                 } else {
                     JOptionPane.showMessageDialog(this, "Failed to add team");
@@ -2267,7 +2271,7 @@ public class PanNewTeam extends javax.swing.JPanel {
     }
 
     private void lblCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelMouseClicked
-        Controller.panComptitionHome.teamDialog.close();
+        Controller.teamDialog.close();
     }//GEN-LAST:event_lblCancelMouseClicked
 
     private void txtrainerNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrainerNameKeyTyped

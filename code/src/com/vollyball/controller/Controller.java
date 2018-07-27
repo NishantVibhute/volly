@@ -6,6 +6,9 @@
 package com.vollyball.controller;
 
 import com.vollyball.bean.UserBean;
+import com.vollyball.dialog.CreateCompetitionDialog;
+import com.vollyball.dialog.CreateMatchDialog;
+import com.vollyball.dialog.CreateTeamDialog;
 import com.vollyball.frames.FrmDashboard;
 import com.vollyball.frames.FrmLogin;
 import com.vollyball.frames.FrmRegister;
@@ -14,9 +17,11 @@ import com.vollyball.panels.PanCompetitionList;
 import com.vollyball.panels.PanCompetitionReportHome;
 import com.vollyball.panels.PanComptitionHome;
 import com.vollyball.panels.PanMatchEvaluationHome;
+import com.vollyball.panels.PanMatchReport;
 import com.vollyball.panels.PanMatchSet;
 import com.vollyball.panels.PanMatches;
 import com.vollyball.panels.PanNewCompetition;
+import com.vollyball.panels.PanTeamBestScorer;
 import com.vollyball.panels.PanTeams;
 import com.vollyball.panels.PanUserDetails;
 import com.vollyball.panels.panLoading;
@@ -33,7 +38,6 @@ public class Controller {
 
     public static FrmRegister frmMain;
     public static FrmDashboard frmDashBoard;
-
     public static PanActivate panActivate;
     public static PanUserDetails panUserDetails;
     public static JPanel panDetails;
@@ -49,6 +53,11 @@ public class Controller {
     public static UserBean userBean = new UserBean();
     public static int competitionId;
     public static PanCompetitionList panCompetitionList;
+    public static CreateMatchDialog matchDialog;
+    public static PanMatchReport panMatchReport;
+    public static CreateTeamDialog teamDialog;
+    public static PanTeamBestScorer panTeamBestScorer;
+    public static CreateCompetitionDialog createCompetitionDialog;
 
     public static void main(String args[]) {
 

@@ -244,11 +244,10 @@ public class PanNewCompetition extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbAgeGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(cmbAgeGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -278,10 +277,10 @@ public class PanNewCompetition extends javax.swing.JPanel {
                     .addComponent(txtCompName)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
                     .addComponent(panEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35))
         );
         layout.setVerticalGroup(
@@ -364,11 +363,12 @@ public class PanNewCompetition extends javax.swing.JPanel {
         int count = competitionDao.insertCompetition(cb);
 
         if (count != 0) {
-            JOptionPane.showMessageDialog(this, "Inserted");
-            this.setVisible(false);
-            Controller.panCompetitionList.panCompListValue.setVisible(true);
+
+            Controller.createCompetitionDialog.close();
+
             Controller.panCompetitionList.refresh();
-            Controller.panCompetitionList.createCompetitionDialog.close();
+            JOptionPane.showMessageDialog(this, "Inserted");
+
         } else {
             JOptionPane.showMessageDialog(this, "Failed");
         }
@@ -376,7 +376,7 @@ public class PanNewCompetition extends javax.swing.JPanel {
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
         // TODO add your handling code here:
-        Controller.panCompetitionList.createCompetitionDialog.close();
+        Controller.createCompetitionDialog.close();
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void txtCompNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCompNameKeyReleased
