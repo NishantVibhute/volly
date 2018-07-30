@@ -9,7 +9,7 @@ import com.vollyball.bean.Player;
 import com.vollyball.bean.PlayerScores;
 import com.vollyball.dao.ReportDao;
 import com.vollyball.dao.TeamDao;
-import com.vollyball.dialog.DialogPlayerScoreGraph;
+import com.vollyball.dialog.DialogAllScoreChart;
 import com.vollyball.renderer.ColumnGroup;
 import com.vollyball.renderer.GroupableTableHeader;
 import com.vollyball.renderer.TableHeaderRenderer;
@@ -86,7 +86,7 @@ public class PanMatchBestTeamScorer extends javax.swing.JPanel {
 
                     }
                     if (selectedName != null) {
-                        DialogPlayerScoreGraph createDialogPanMatchWiseReport = new DialogPlayerScoreGraph();
+                        DialogAllScoreChart createDialogPanMatchWiseReport = new DialogAllScoreChart();
                         createDialogPanMatchWiseReport.init(cb, playerNameMap.get(selectedName).getId(), selectedName, matchesPlayed, teamName, matchId, 0);
                         createDialogPanMatchWiseReport.show();
                     }

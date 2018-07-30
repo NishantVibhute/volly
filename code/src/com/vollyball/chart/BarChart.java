@@ -20,12 +20,12 @@ import org.jfree.data.category.CategoryDataset;
  */
 public class BarChart {
 
-    public static JFreeChart createChart(CategoryDataset dataset, String yaxisName, boolean showLegends) {
+    public static JFreeChart createChart(CategoryDataset dataset, String xaxisName, String yaxisName, boolean showLegends) {
 
         JFreeChart barChart = ChartFactory.createBarChart(
                 "",
                 yaxisName,
-                "",
+                xaxisName,
                 dataset,
                 PlotOrientation.VERTICAL,
                 showLegends, false, false);

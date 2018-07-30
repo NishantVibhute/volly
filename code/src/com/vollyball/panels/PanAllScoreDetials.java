@@ -65,32 +65,37 @@ public class PanAllScoreDetials extends javax.swing.JPanel {
         dataset.addValue(pBlock.getOne(), "One", "Block");
         dataset.addValue(pSet.getOne(), "One", "Set");
         dataset.addValue(pReception.getOne(), "One", "Reception");
+        dataset.addValue(pDefence.getOne(), "One", "Defence");
 
         dataset.addValue(pservice.getTwo(), "Two", "Service");
         dataset.addValue(pAttack.getTwo(), "Two", "Attack");
         dataset.addValue(pBlock.getTwo(), "Two", "Block");
         dataset.addValue(pSet.getTwo(), "Two", "Set");
         dataset.addValue(pReception.getTwo(), "Two", "Reception");
+        dataset.addValue(pDefence.getTwo(), "Two", "Defence");
 
         dataset.addValue(pservice.getThree(), "Three", "Service");
         dataset.addValue(pAttack.getThree(), "Three", "Attack");
         dataset.addValue(pBlock.getThree(), "Three", "Block");
         dataset.addValue(pSet.getThree(), "Three", "Set");
         dataset.addValue(pReception.getThree(), "Three", "Reception");
+        dataset.addValue(pDefence.getThree(), "Three", "Defence");
 
         dataset.addValue(pservice.getFour(), "Four", "Service");
         dataset.addValue(pAttack.getFour(), "Four", "Attack");
         dataset.addValue(pBlock.getFour(), "Four", "Block");
         dataset.addValue(pSet.getFour(), "Four", "Set");
         dataset.addValue(pReception.getFour(), "Four", "Reception");
+        dataset.addValue(pDefence.getFour(), "Four", "Defence");
 
         dataset.addValue(pservice.getFive(), "Five", "Service");
         dataset.addValue(pAttack.getFive(), "Five", "Attack");
         dataset.addValue(pBlock.getFive(), "Five", "Block");
         dataset.addValue(pSet.getFive(), "Five", "Set");
         dataset.addValue(pReception.getFive(), "Five", "Reception");
+        dataset.addValue(pDefence.getFive(), "Five", "Defence");
 
-        JFreeChart chartFreeService = BarChart.createChart(dataset, "Skill", true);
+        JFreeChart chartFreeService = BarChart.createChart(dataset, "", "Skill", true);
 
         BarRenderer r = (BarRenderer) chartFreeService.getCategoryPlot().getRenderer();
         r.setSeriesPaint(0, Color.RED);
@@ -366,7 +371,7 @@ public class PanAllScoreDetials extends javax.swing.JPanel {
     private void lblPrint1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPrint1MouseClicked
         // TODO add your handling code here:
         DialogPlayerScoreGraph createDialogPanMatchWiseReport = new DialogPlayerScoreGraph();
-        createDialogPanMatchWiseReport.init(compId, playerId, teamName, matchesPlayed, teamName, 0, teamId);
+        createDialogPanMatchWiseReport.init(compId, playerId, teamName, matchesPlayed, teamName, matchId, teamId);
         createDialogPanMatchWiseReport.show();
     }//GEN-LAST:event_lblPrint1MouseClicked
 

@@ -18,10 +18,10 @@ import com.vollyball.enums.EvaluationType;
 import com.vollyball.enums.Phase;
 import com.vollyball.renderer.ColumnGroup;
 import com.vollyball.renderer.EditButtonRenderer;
-import com.vollyball.renderer.ReportButtonRenderer;
 import com.vollyball.renderer.GroupableTableHeader;
 import com.vollyball.renderer.LiveButtonRenderer;
 import com.vollyball.renderer.PostButtonRenderer;
+import com.vollyball.renderer.ReportButtonRenderer;
 import com.vollyball.renderer.TableHeaderRenderer;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -32,6 +32,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.LinkedHashMap;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -74,12 +75,13 @@ public class PanMatchReport extends javax.swing.JPanel {
                 new Object[]{"SR No.", "Match", "Won By", "Date", "Time", "Phase", "Place", "Day Number", "Match Number", "Report", "LIVE", "POST", "Action"});
 
         tbMatch = new JTable(model) {
+
             protected JTableHeader createDefaultTableHeader() {
                 return new GroupableTableHeader(columnModel);
             }
         };
 
-        tbMatch.setFont(new java.awt.Font("Times New Roman", 0, 12));
+        tbMatch.setFont(new java.awt.Font("Times New Roman", 0, 14));
         TableColumnModel cm = tbMatch.getColumnModel();
         ColumnGroup g_name = new ColumnGroup("EVALUATION");
 
@@ -91,13 +93,17 @@ public class PanMatchReport extends javax.swing.JPanel {
 
         JScrollPane scroll = new JScrollPane(tbMatch);
 
-        Color heading = new Color(204, 204, 204);
+        Color heading = new Color(57, 74, 108);
         Color ivory = new Color(255, 255, 255);
         JTableHeader header = tbMatch.getTableHeader();
         header.setDefaultRenderer(new TableHeaderRenderer(tbMatch));
         header.setOpaque(false);
         header.setPreferredSize(new Dimension(100, 45));
         header.setBackground(heading);
+        header1.setBackground(heading);
+
+        tbMatch.setBorder(BorderFactory.createLineBorder(new Color(57, 74, 108), 1));
+
 //        header.setDefaultRenderer(new TableHeaderRenderer(tbAllPlayers));
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 
@@ -127,7 +133,7 @@ public class PanMatchReport extends javax.swing.JPanel {
         EditButtonRenderer editButtonRenderer = new EditButtonRenderer();
         tbMatch.getColumnModel().getColumn(12).setCellRenderer(editButtonRenderer);
 
-        tbMatch.setRowHeight(30);
+        tbMatch.setRowHeight(35);
 
         tbMatch.setOpaque(true);
         tbMatch.setFillsViewportHeight(true);

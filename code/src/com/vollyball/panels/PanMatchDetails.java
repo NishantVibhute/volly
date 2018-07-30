@@ -14,6 +14,7 @@ import com.vollyball.dao.MatchDao;
 import com.vollyball.dao.RallyDao;
 import com.vollyball.dao.ReportDao;
 import com.vollyball.dao.TeamDao;
+import com.vollyball.dialog.DialogMatchChart;
 import com.vollyball.dialog.DialogPanMatchReportDetails;
 import com.vollyball.enums.Skill;
 import java.awt.BorderLayout;
@@ -238,6 +239,8 @@ public class PanMatchDetails extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         panPrint1 = new javax.swing.JPanel();
         lblPrint1 = new javax.swing.JLabel();
+        panDataSheet1 = new javax.swing.JPanel();
+        lblChart = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         scoreTeam1 = new javax.swing.JLabel();
         scoreTeam2 = new javax.swing.JLabel();
@@ -313,7 +316,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
         panSetter = new javax.swing.JPanel();
         lblSetter = new javax.swing.JLabel();
         jPanel33 = new javax.swing.JPanel();
-        cmbTeams = new javax.swing.JComboBox<String>();
+        cmbTeams = new javax.swing.JComboBox<>();
         panScorer = new javax.swing.JPanel();
         lblScorer = new javax.swing.JLabel();
         jPanel34 = new javax.swing.JPanel();
@@ -350,7 +353,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
         panDataSheet.setLayout(panDataSheetLayout);
         panDataSheetLayout.setHorizontalGroup(
             panDataSheetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panDataSheetLayout.setVerticalGroup(
             panDataSheetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -380,36 +383,61 @@ public class PanMatchDetails extends javax.swing.JPanel {
             .addComponent(lblPrint1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        panDataSheet1.setBackground(new java.awt.Color(153, 153, 153));
+        panDataSheet1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        lblChart.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        lblChart.setForeground(new java.awt.Color(51, 51, 51));
+        lblChart.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblChart.setText("CHART");
+        lblChart.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblChartMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panDataSheet1Layout = new javax.swing.GroupLayout(panDataSheet1);
+        panDataSheet1.setLayout(panDataSheet1Layout);
+        panDataSheet1Layout.setHorizontalGroup(
+            panDataSheet1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblChart, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+        );
+        panDataSheet1Layout.setVerticalGroup(
+            panDataSheet1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblMatch, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblMatch, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblDate, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panDataSheet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(panDataSheet1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panPrint1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panDataSheet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panPrint1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblMatch, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panDataSheet1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panDataSheet, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panPrint1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblMatch, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -1232,7 +1260,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
 
         cmbTeams.setBackground(new java.awt.Color(0, 0, 0));
         cmbTeams.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        cmbTeams.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "BOTH" }));
+        cmbTeams.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BOTH" }));
         cmbTeams.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbTeamsItemStateChanged(evt);
@@ -1467,6 +1495,13 @@ public class PanMatchDetails extends javax.swing.JPanel {
         createDialogPanMatchWiseReport.show();
     }//GEN-LAST:event_jLabel5MouseClicked
 
+    private void lblChartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblChartMouseClicked
+        // TODO add your handling code here:
+        DialogMatchChart createDialogPanMatchWiseReport = new DialogMatchChart();
+        createDialogPanMatchWiseReport.init(cb, matchId);
+        createDialogPanMatchWiseReport.show();
+    }//GEN-LAST:event_lblChartMouseClicked
+
     public void setPlayerReport(int skillid) {
         panSkillReports.remove(panMatchBestTeamScorer);
         panSkillReports.add(panMatchSkillWisePlayerReport, BorderLayout.CENTER);
@@ -1588,6 +1623,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblAttacker;
     private javax.swing.JLabel lblBlocker;
+    private javax.swing.JLabel lblChart;
     private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblDefender;
     private javax.swing.JLabel lblMatch;
@@ -1600,6 +1636,7 @@ public class PanMatchDetails extends javax.swing.JPanel {
     private javax.swing.JPanel panAttacker;
     private javax.swing.JPanel panBlocker;
     private javax.swing.JPanel panDataSheet;
+    private javax.swing.JPanel panDataSheet1;
     private javax.swing.JPanel panDefender;
     private javax.swing.JPanel panPrint1;
     private javax.swing.JPanel panReceiver;

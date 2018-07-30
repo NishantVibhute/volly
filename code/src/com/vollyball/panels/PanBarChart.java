@@ -40,7 +40,7 @@ public class PanBarChart extends javax.swing.JPanel {
             datasetBlock.addValue(p.getFour(), "Four", p.getMatchName());
             datasetBlock.addValue(p.getFive(), "Five", p.getMatchName());
         }
-        JFreeChart chartFreeBlock = BarChart.createChart(datasetBlock, "Match", true);
+        JFreeChart chartFreeBlock = BarChart.createChart(datasetBlock, "", "Match", true);
         BarRenderer r = (BarRenderer) chartFreeBlock.getCategoryPlot().getRenderer();
         r.setSeriesPaint(0, Color.RED);
         r.setSeriesPaint(1, Color.YELLOW);

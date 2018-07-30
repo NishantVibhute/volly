@@ -84,7 +84,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         datasetService.addValue(pservice.getThree(), "Attempt", "Three");
         datasetService.addValue(pservice.getFour(), "Attempt", "Four");
         datasetService.addValue(pservice.getFive(), "Attempt", "Five");
-        JFreeChart chartFreeService = BarChart.createChart(datasetService, "Score", false);
+        JFreeChart chartFreeService = BarChart.createChart(datasetService, "", "Score", false);
         ChartPanel CPService = new ChartPanel(chartFreeService);
         chartService.add(CPService, BorderLayout.CENTER);
 
@@ -101,7 +101,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         datasetAttack.addValue(pattack.getThree(), "Attempt", "Three");
         datasetAttack.addValue(pattack.getFour(), "Attempt", "Four");
         datasetAttack.addValue(pattack.getFive(), "Attempt", "Five");
-        JFreeChart chartFreeAttack = BarChart.createChart(datasetAttack, "Score", false);
+        JFreeChart chartFreeAttack = BarChart.createChart(datasetAttack, "", "Score", false);
         ChartPanel CPAttack = new ChartPanel(chartFreeAttack);
         chartAttack.add(CPAttack, BorderLayout.CENTER);
 
@@ -118,7 +118,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         datasetBlock.addValue(pBlock.getThree(), "Attempt", "Three");
         datasetBlock.addValue(pBlock.getFour(), "Attempt", "Four");
         datasetBlock.addValue(pBlock.getFive(), "Attempt", "Five");
-        JFreeChart chartFreeBlock = BarChart.createChart(datasetBlock, "Score", false);
+        JFreeChart chartFreeBlock = BarChart.createChart(datasetBlock, "", "Score", false);
         ChartPanel CPBlock = new ChartPanel(chartFreeBlock);
         chartBlock.add(CPBlock, BorderLayout.CENTER);
 
@@ -135,7 +135,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         datasetSet.addValue(pSet.getThree(), "Attempt", "Three");
         datasetSet.addValue(pSet.getFour(), "Attempt", "Four");
         datasetSet.addValue(pSet.getFive(), "Attempt", "Five");
-        JFreeChart chartFreeSet = BarChart.createChart(datasetSet, "Score", false);
+        JFreeChart chartFreeSet = BarChart.createChart(datasetSet, "", "Score", false);
         ChartPanel CPSet = new ChartPanel(chartFreeSet);
         chartSet.add(CPSet, BorderLayout.CENTER);
 
@@ -152,7 +152,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         datasetReception.addValue(pReception.getThree(), "Attempt", "Three");
         datasetReception.addValue(pReception.getFour(), "Attempt", "Four");
         datasetReception.addValue(pReception.getFive(), "Attempt", "Five");
-        JFreeChart chartFreeReception = BarChart.createChart(datasetReception, "Score", false);
+        JFreeChart chartFreeReception = BarChart.createChart(datasetReception, "", "Score", false);
         ChartPanel CPReception = new ChartPanel(chartFreeReception);
         chartReception.add(CPReception, BorderLayout.CENTER);
 
@@ -169,7 +169,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         datasetDefence.addValue(pDefence.getThree(), "Attempt", "Three");
         datasetDefence.addValue(pDefence.getFour(), "Attempt", "Four");
         datasetDefence.addValue(pDefence.getFive(), "Attempt", "Five");
-        JFreeChart chartFreeDefence = BarChart.createChart(datasetDefence, "Score", false);
+        JFreeChart chartFreeDefence = BarChart.createChart(datasetDefence, "", "Score", false);
         ChartPanel CPDefence = new ChartPanel(chartFreeDefence);
         chartDefence.add(CPDefence, BorderLayout.CENTER);
 
@@ -466,7 +466,7 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
                             .addComponent(lblPhase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(118, 118, 118)
                 .addComponent(panPrint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(6, 6, 6))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1646,9 +1646,8 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
@@ -1660,8 +1659,9 @@ public class PanPlayerAllScoreDetails extends javax.swing.JPanel {
                         .addGap(0, 0, 0)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

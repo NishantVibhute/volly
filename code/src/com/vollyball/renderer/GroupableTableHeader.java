@@ -60,6 +60,7 @@ public class GroupableTableHeader extends JTableHeader {
         int columnMargin = getColumnModel().getColumnMargin();
         for (ColumnGroup group : columnGroups) {
             group.setColumnMargin(columnMargin);
+
         }
     }
 

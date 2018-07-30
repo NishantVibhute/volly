@@ -579,4 +579,202 @@ public class ReportDao {
         return p;
     }
 
+    public List<PlayerScores> getMatchChart(int competationId, int matchid) {
+        List<PlayerScores> list = new ArrayList<>();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps;
+
+            ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.match.teamDetails"));
+            ps.setInt(1, competationId);
+            ps.setInt(2, matchid);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                PlayerScores p = new PlayerScores();
+                p.setId(rs.getInt(1));
+                p.setTeamName(rs.getString(2));
+
+                p.setTotalService(rs.getInt(3));
+                p.setBestService(rs.getInt(4));
+
+                p.setTotalAttack(rs.getInt(5));
+                p.setBestAttack(rs.getInt(6));
+
+                p.setTotalBlock(rs.getInt(7));
+                p.setBestBlock(rs.getInt(8));
+
+                p.setTotalSet(rs.getInt(9));
+                p.setBestSet(rs.getInt(10));
+
+                p.setTotalReception(rs.getInt(11));
+                p.setBestReception(rs.getInt(12));
+
+                p.setTotalDefence(rs.getInt(13));
+                p.setBestDefence(rs.getInt(14));
+
+                p.setServiceRate(p.getTotalService() == 0 ? 0 : (CommonUtil.round((double) p.getBestService() / (double) p.getTotalService() * 100, 2)));
+                p.setServiceRatePerc(p.getServiceRate() == 0 ? "0%" : df.format(p.getServiceRate()));
+
+                p.setAttackRate(p.getTotalAttack() == 0 ? 0 : (CommonUtil.round((double) p.getBestAttack() / (double) p.getTotalAttack() * 100, 2)));
+                p.setAttackRatePerc(p.getAttackRate() == 0 ? "0%" : df.format(p.getAttackRate()));
+
+                p.setBlockRate(p.getTotalBlock() == 0 ? 0 : (CommonUtil.round((double) p.getBestBlock() / (double) p.getTotalBlock() * 100, 2)));
+                p.setBlockRatePerc(p.getBlockRate() == 0 ? "0%" : df.format(p.getBlockRate()));
+
+                p.setSetRate(p.getTotalSet() == 0 ? 0 : (CommonUtil.round((double) p.getBestSet() / (double) p.getTotalSet() * 100, 2)));
+                p.setSetRatePerc(p.getSetRate() == 0 ? "0%" : df.format(p.getSetRate()));
+
+                p.setReceptionRate(p.getTotalReception() == 0 ? 0 : (CommonUtil.round((double) p.getBestReception() / (double) p.getTotalReception() * 100, 2)));
+                p.setReceptionRatePerc(p.getReceptionRate() == 0 ? "0%" : df.format(p.getReceptionRate()));
+
+                p.setDefenceRate(p.getTotalDefence() == 0 ? 0 : (CommonUtil.round((double) p.getBestDefence() / (double) p.getTotalDefence() * 100, 2)));
+                p.setDefenceRatePerc(p.getDefenceRate() == 0 ? "0%" : df.format(p.getDefenceRate()));
+
+                p.setTotalAttempt(p.getTotalService() + p.getTotalAttack() + p.getTotalBlock() + p.getTotalSet() + p.getTotalReception() + p.getTotalDefence());
+                p.setBestAttempt(p.getBestService() + p.getBestAttack() + p.getBestBlock() + p.getBestSet() + p.getBestReception() + p.getBestDefence());
+
+                p.setAttemptRate(p.getTotalAttempt() == 0 ? 0 : (double) p.getBestAttempt() / (double) p.getTotalAttempt());
+                p.setAttemptRatePerc(p.getAttemptRate() == 0 ? "0%" : df.format(p.getAttemptRate()));
+                list.add(p);
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return list;
+
+    }
+
+    public PlayerSkillScore getTeamSkillWiseScoreReport(int compId, int skillId, int matchId, int teamId) {
+        PlayerSkillScore skill = new PlayerSkillScore();
+        try {
+            PreparedStatement ps;
+            this.con = db.getConnection();
+
+            ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.team.skillwisescore.ofmatch"));
+            ps.setInt(1, compId);
+            ps.setInt(2, teamId);
+            ps.setInt(3, matchId);
+            ps.setInt(4, skillId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                skill.setPlayerId(rs.getInt(1));
+                skill.setPlayerName(rs.getString(2));
+                skill.setTotalAttempt(rs.getInt(3));
+                skill.setOne(rs.getInt(4));
+                skill.setTwo(rs.getInt(5));
+                skill.setThree(rs.getInt(6));
+                skill.setFour(rs.getInt(7));
+                skill.setFive(rs.getInt(8));
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReportDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return skill;
+    }
+
+    public List<PlayerScores> getMatchChartForPlayer(List<Player> playerList, int competationId, int matchid, int teamId) {
+        List<PlayerScores> list = new ArrayList<>();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps;
+
+            for (Player p1 : playerList) {
+                ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.match.teamDetails.byplayer"));
+                ps.setInt(1, competationId);
+                ps.setInt(2, matchid);
+                ps.setInt(3, teamId);
+                ps.setInt(4, p1.getId());
+
+                ResultSet rs = ps.executeQuery();
+                PlayerScores p = new PlayerScores();
+                while (rs.next()) {
+                    p.setId(rs.getInt(1));
+                    p.setTeamName(rs.getString(2));
+
+                    p.setTotalService(rs.getInt(3));
+                    p.setBestService(rs.getInt(4));
+
+                    p.setTotalAttack(rs.getInt(5));
+                    p.setBestAttack(rs.getInt(6));
+
+                    p.setTotalBlock(rs.getInt(7));
+                    p.setBestBlock(rs.getInt(8));
+
+                    p.setTotalSet(rs.getInt(9));
+                    p.setBestSet(rs.getInt(10));
+
+                    p.setTotalReception(rs.getInt(11));
+                    p.setBestReception(rs.getInt(12));
+
+                    p.setTotalDefence(rs.getInt(13));
+                    p.setBestDefence(rs.getInt(14));
+
+                }
+
+                if (p.getId() == 0) {
+                    p.setId(p1.getId());
+                    p.setTeamName(p1.getName());
+
+                    p.setTotalService(0);
+                    p.setBestService(0);
+
+                    p.setTotalAttack(0);
+                    p.setBestAttack(0);
+
+                    p.setTotalBlock(0);
+                    p.setBestBlock(0);
+
+                    p.setTotalSet(0);
+                    p.setBestSet(0);
+
+                    p.setTotalReception(0);
+                    p.setBestReception(0);
+
+                    p.setTotalDefence(0);
+                    p.setBestDefence(0);
+                }
+                p.setServiceRate(p.getTotalService() == 0 ? 0 : (CommonUtil.round((double) p.getBestService() / (double) p.getTotalService() * 100, 2)));
+                p.setServiceRatePerc(p.getServiceRate() == 0 ? "0%" : df.format(p.getServiceRate()));
+
+                p.setAttackRate(p.getTotalAttack() == 0 ? 0 : (CommonUtil.round((double) p.getBestAttack() / (double) p.getTotalAttack() * 100, 2)));
+                p.setAttackRatePerc(p.getAttackRate() == 0 ? "0%" : df.format(p.getAttackRate()));
+
+                p.setBlockRate(p.getTotalBlock() == 0 ? 0 : (CommonUtil.round((double) p.getBestBlock() / (double) p.getTotalBlock() * 100, 2)));
+                p.setBlockRatePerc(p.getBlockRate() == 0 ? "0%" : df.format(p.getBlockRate()));
+
+                p.setSetRate(p.getTotalSet() == 0 ? 0 : (CommonUtil.round((double) p.getBestSet() / (double) p.getTotalSet() * 100, 2)));
+                p.setSetRatePerc(p.getSetRate() == 0 ? "0%" : df.format(p.getSetRate()));
+
+                p.setReceptionRate(p.getTotalReception() == 0 ? 0 : (CommonUtil.round((double) p.getBestReception() / (double) p.getTotalReception() * 100, 2)));
+                p.setReceptionRatePerc(p.getReceptionRate() == 0 ? "0%" : df.format(p.getReceptionRate()));
+
+                p.setDefenceRate(p.getTotalDefence() == 0 ? 0 : (CommonUtil.round((double) p.getBestDefence() / (double) p.getTotalDefence() * 100, 2)));
+                p.setDefenceRatePerc(p.getDefenceRate() == 0 ? "0%" : df.format(p.getDefenceRate()));
+
+                p.setTotalAttempt(p.getTotalService() + p.getTotalAttack() + p.getTotalBlock() + p.getTotalSet() + p.getTotalReception() + p.getTotalDefence());
+                p.setBestAttempt(p.getBestService() + p.getBestAttack() + p.getBestBlock() + p.getBestSet() + p.getBestReception() + p.getBestDefence());
+
+                p.setAttemptRate(p.getTotalAttempt() == 0 ? 0 : (double) p.getBestAttempt() / (double) p.getTotalAttempt());
+                p.setAttemptRatePerc(p.getAttemptRate() == 0 ? "0%" : df.format(p.getAttemptRate()));
+                list.add(p);
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return list;
+
+    }
+
 }

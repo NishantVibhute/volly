@@ -964,7 +964,7 @@ public class PanMatchSet extends javax.swing.JPanel {
 
         jTextField17.setEditable(false);
         jTextField17.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField17.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jTextField17.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jTextField17.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField17.setText("TM");
         jTextField17.setDisabledTextColor(new java.awt.Color(0, 0, 0));
@@ -972,36 +972,42 @@ public class PanMatchSet extends javax.swing.JPanel {
 
         tm1.setEditable(false);
         tm1.setBackground(new java.awt.Color(255, 255, 255));
+        tm1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         tm1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tm1.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         tm1.setEnabled(false);
 
         tm2.setEditable(false);
         tm2.setBackground(new java.awt.Color(255, 255, 255));
+        tm2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         tm2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tm2.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         tm2.setEnabled(false);
 
         tm3.setEditable(false);
         tm3.setBackground(new java.awt.Color(255, 255, 255));
+        tm3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         tm3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tm3.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         tm3.setEnabled(false);
 
         tm4.setEditable(false);
         tm4.setBackground(new java.awt.Color(255, 255, 255));
+        tm4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         tm4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tm4.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         tm4.setEnabled(false);
 
         tm5.setEditable(false);
         tm5.setBackground(new java.awt.Color(255, 255, 255));
+        tm5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         tm5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tm5.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         tm5.setEnabled(false);
 
         tm6.setEditable(false);
         tm6.setBackground(new java.awt.Color(255, 255, 255));
+        tm6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         tm6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tm6.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         tm6.setEnabled(false);
@@ -1013,7 +1019,7 @@ public class PanMatchSet extends javax.swing.JPanel {
 
         jTextField51.setEditable(false);
         jTextField51.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField51.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jTextField51.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jTextField51.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField51.setText("A");
         jTextField51.setDisabledTextColor(new java.awt.Color(0, 0, 0));
@@ -1021,43 +1027,49 @@ public class PanMatchSet extends javax.swing.JPanel {
 
         ScoreA1.setEditable(false);
         ScoreA1.setBackground(new java.awt.Color(255, 255, 255));
+        ScoreA1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ScoreA1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ScoreA1.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ScoreA1.setEnabled(false);
 
         ScoreA2.setEditable(false);
         ScoreA2.setBackground(new java.awt.Color(255, 255, 255));
+        ScoreA2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ScoreA2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ScoreA2.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ScoreA2.setEnabled(false);
 
         ScoreA3.setEditable(false);
         ScoreA3.setBackground(new java.awt.Color(255, 255, 255));
+        ScoreA3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ScoreA3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ScoreA3.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ScoreA3.setEnabled(false);
 
         ScoreA4.setEditable(false);
         ScoreA4.setBackground(new java.awt.Color(255, 255, 255));
+        ScoreA4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ScoreA4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ScoreA4.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ScoreA4.setEnabled(false);
 
         ScoreA5.setEditable(false);
         ScoreA5.setBackground(new java.awt.Color(255, 255, 255));
+        ScoreA5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ScoreA5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ScoreA5.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ScoreA5.setEnabled(false);
 
         ScoreA6.setEditable(false);
         ScoreA6.setBackground(new java.awt.Color(255, 255, 255));
+        ScoreA6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ScoreA6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ScoreA6.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ScoreA6.setEnabled(false);
 
         jTextField58.setEditable(false);
         jTextField58.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField58.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jTextField58.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jTextField58.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField58.setText("B");
         jTextField58.setDisabledTextColor(new java.awt.Color(0, 0, 0));
@@ -1065,36 +1077,42 @@ public class PanMatchSet extends javax.swing.JPanel {
 
         ScoreB1.setEditable(false);
         ScoreB1.setBackground(new java.awt.Color(255, 255, 255));
+        ScoreB1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ScoreB1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ScoreB1.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ScoreB1.setEnabled(false);
 
         ScoreB2.setEditable(false);
         ScoreB2.setBackground(new java.awt.Color(255, 255, 255));
+        ScoreB2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ScoreB2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ScoreB2.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ScoreB2.setEnabled(false);
 
         ScoreB3.setEditable(false);
         ScoreB3.setBackground(new java.awt.Color(255, 255, 255));
+        ScoreB3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ScoreB3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ScoreB3.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ScoreB3.setEnabled(false);
 
         ScoreB4.setEditable(false);
         ScoreB4.setBackground(new java.awt.Color(255, 255, 255));
+        ScoreB4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ScoreB4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ScoreB4.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ScoreB4.setEnabled(false);
 
         ScoreB5.setEditable(false);
         ScoreB5.setBackground(new java.awt.Color(255, 255, 255));
+        ScoreB5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ScoreB5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ScoreB5.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ScoreB5.setEnabled(false);
 
         ScoreB6.setEditable(false);
         ScoreB6.setBackground(new java.awt.Color(255, 255, 255));
+        ScoreB6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         ScoreB6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ScoreB6.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         ScoreB6.setEnabled(false);
@@ -1546,7 +1564,7 @@ public class PanMatchSet extends javax.swing.JPanel {
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
@@ -2240,6 +2258,26 @@ public class PanMatchSet extends javax.swing.JPanel {
                                 }
                                 setScore();
                                 JOptionPane.showMessageDialog(Controller.panMatchSet, "Set Won By : " + lblWonBy.getText() + "\n Score is := " + homeScore + " : " + opponentScore);
+
+                                List<Integer> wonBy = matchDao.getSetNadWonBy(matchId);
+
+                                int team1WonBy = Collections.frequency(wonBy, teamEvaluateId);
+                                int team2wonBy = Collections.frequency(wonBy, opponentId);
+
+                                if (team1WonBy == 0 && team2wonBy >= 3) {
+                                    matchDao.updateMatchWonBy(opponentId, matchId);
+                                } else if (team2wonBy == 0 && team1WonBy >= 3) {
+                                    matchDao.updateMatchWonBy(teamEvaluateId, matchId);
+                                } else {
+                                    if (team2wonBy != 0 && team1WonBy != 0) {
+                                        if (team2wonBy >= 3) {
+                                            matchDao.updateMatchWonBy(opponentId, matchId);
+                                        } else if (team1WonBy >= 3) {
+                                            matchDao.updateMatchWonBy(teamEvaluateId, matchId);
+                                        }
+                                    }
+                                }
+
                                 Controller.panMatchSet.validate();
                                 Controller.panMatchSet.repaint();
                             } else {
