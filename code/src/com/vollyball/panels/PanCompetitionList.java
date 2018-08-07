@@ -37,9 +37,9 @@ import javax.swing.table.TableColumnModel;
  * @author Supriya
  */
 public class PanCompetitionList extends javax.swing.JPanel {
-
+    
     public PanCompListValue panCompListValue;
-
+    
     JTable tbComp;
     DefaultTableModel model;
     CompetitionDao competitionDao = new CompetitionDao();
@@ -59,18 +59,18 @@ public class PanCompetitionList extends javax.swing.JPanel {
 ////        }
 ////        panCompListValue.setBounds(0, 0, dim.width, dim.height);
 //        panListContent.add(panCompListValue, BorderLayout.CENTER);
-
+        lblSearch.setVisible(false);
         model = new DefaultTableModel();
-
+        
         model.setDataVector(new Object[][]{},
                 new Object[]{"SR No.", "Competition Name ", "Venue", "Start Date", "End Date", "Age Group", "View", "Action"});
-
+        
         tbComp = new JTable(model);
-
+        
         tbComp.setFont(new java.awt.Font("Times New Roman", 0, 13));
-
+        
         JScrollPane scroll = new JScrollPane(tbComp);
-
+        
         Color heading = new Color(204, 204, 204);
         Color ivory = new Color(255, 255, 255);
         JTableHeader header = tbComp.getTableHeader();
@@ -81,24 +81,24 @@ public class PanCompetitionList extends javax.swing.JPanel {
         header.setFont(new java.awt.Font("Times New Roman", Font.BOLD, 14));
 //        header.setDefaultRenderer(new TableHeaderRenderer(tbAllPlayers));
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-
+        
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tbComp.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tbComp.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-
+        
         tbComp.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tbComp.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         tbComp.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
-
+        
         tbComp.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
         ViewButtonRenderer viewButtonRenderer = new ViewButtonRenderer();
         tbComp.getColumnModel().getColumn(6).setCellRenderer(viewButtonRenderer);
-
+        
         EditButtonRenderer editButtonRenderer = new EditButtonRenderer();
         tbComp.getColumnModel().getColumn(7).setCellRenderer(editButtonRenderer);
-
+        
         tbComp.setRowHeight(40);
-
+        
         tbComp.setOpaque(true);
         tbComp.setFillsViewportHeight(true);
         tbComp.setBackground(ivory);
@@ -108,7 +108,7 @@ public class PanCompetitionList extends javax.swing.JPanel {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-
+                    
                     int selectedRow = tbComp.getSelectedRow();
                     if (selectedRow >= 0) {
                         CompetitionBean comp = compMap.get(tbComp.getValueAt(selectedRow, 1));
@@ -120,13 +120,13 @@ public class PanCompetitionList extends javax.swing.JPanel {
                         Controller.frmDashBoard.panContent.removeAll();
 //        Controller.panComptitionHome.setBounds(0, 0, 800, 686);
                         Controller.frmDashBoard.panContent.add(Controller.panCompetitionReportHome, BorderLayout.CENTER);
-
+                        
                     }
                 }
             }
         });
         resizeColumns();
-
+        
         List<CompetitionBean> competitionList = competitionDao.getCompetitionList();
         int i = 0;
         for (CompetitionBean comp : competitionList) {
@@ -138,11 +138,11 @@ public class PanCompetitionList extends javax.swing.JPanel {
         panListContent.add(scroll, BorderLayout.CENTER);
         validate();
         repaint();
-
+        
     }
-
+    
     float[] columnWidthPercentage = {5.0f, 25.0f, 25.0f, 10.0f, 10.0f, 10.0f, 10.0f, 10.0f};
-
+    
     private void resizeColumns() {
         int tW = tbComp.getPreferredSize().width;
         TableColumn column;
@@ -154,7 +154,7 @@ public class PanCompetitionList extends javax.swing.JPanel {
             column.setPreferredWidth(pWidth);
         }
     }
-
+    
     public void refresh() {
         for (int i = model.getRowCount() - 1; i >= 0; i--) {
             model.removeRow(i);
@@ -167,16 +167,16 @@ public class PanCompetitionList extends javax.swing.JPanel {
             Object[] row = {i, comp.getName(), comp.getVenue(), comp.getStartDate(), comp.getEndDate(), comp.getAgeGroup(), new JPanel(), new JPanel()};
             model.addRow(row);
         }
-
+        
         validate();
         repaint();
     }
-
+    
     public class PanCompListValue extends JPanel {
-
+        
         CompetitionDao competitionDao = new CompetitionDao();
         private JPanel mainList;
-
+        
         public PanCompListValue() {
             setLayout(new BorderLayout());
             mainList = new JPanel(new GridBagLayout());
@@ -186,7 +186,7 @@ public class PanCompetitionList extends javax.swing.JPanel {
             gbc.weighty = 1;
             mainList.add(new JPanel(), gbc);
             add(new JScrollPane(mainList));
-
+            
             List<CompetitionBean> competitionList = competitionDao.getCompetitionList();
             for (CompetitionBean cb : competitionList) {
                 JPanel panel = new PanCompRow(cb);
@@ -197,11 +197,11 @@ public class PanCompetitionList extends javax.swing.JPanel {
                 gbcRow.gridheight = 2;
                 gbcRow.fill = GridBagConstraints.HORIZONTAL;
                 mainList.add(panel, gbcRow, 0);
-
+                
             }
-
+            
         }
-
+        
         public void add() {
             mainList.removeAll();
             List<CompetitionBean> competitionList = competitionDao.getCompetitionList();
@@ -215,10 +215,10 @@ public class PanCompetitionList extends javax.swing.JPanel {
                 mainList.add(panel, gbcRow, 0);
                 Controller.frmDashBoard.validate();
                 Controller.frmDashBoard.repaint();
-
+                
             }
         }
-
+        
     }
 
     /**
@@ -237,7 +237,7 @@ public class PanCompetitionList extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
+        lblSearch = new javax.swing.JPanel();
         cmbTeam1 = new javax.swing.JComboBox();
         cmbTeam2 = new javax.swing.JComboBox();
         cmbPhase = new javax.swing.JComboBox();
@@ -320,7 +320,7 @@ public class PanCompetitionList extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        lblSearch.setBackground(new java.awt.Color(255, 255, 255));
 
         cmbTeam1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         cmbTeam1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select" }));
@@ -375,24 +375,24 @@ public class PanCompetitionList extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         jLabel8.setText("VS");
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+        javax.swing.GroupLayout lblSearchLayout = new javax.swing.GroupLayout(lblSearch);
+        lblSearch.setLayout(lblSearchLayout);
+        lblSearchLayout.setHorizontalGroup(
+            lblSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lblSearchLayout.createSequentialGroup()
                 .addContainerGap(353, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(lblSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(cmbTeam1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(lblSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(lblSearchLayout.createSequentialGroup()
                         .addComponent(cmbTeam2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addGroup(lblSearchLayout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -400,16 +400,16 @@ public class PanCompetitionList extends javax.swing.JPanel {
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+        lblSearchLayout.setVerticalGroup(
+            lblSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lblSearchLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(lblSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(lblSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cmbTeam2, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(cmbPhase, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -425,14 +425,14 @@ public class PanCompetitionList extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -462,11 +462,11 @@ public class PanCompetitionList extends javax.swing.JPanel {
         Controller.createCompetitionDialog.init();
         Controller.createCompetitionDialog.show();
     }//GEN-LAST:event_jLabel1MouseClicked
-
+    
     private void cmbTeam2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTeam2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbTeam2ActionPerformed
-
+    
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         // TODO add your handling code here:
 
@@ -487,8 +487,8 @@ public class PanCompetitionList extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel lblSearch;
     private javax.swing.JPanel panListContent;
     // End of variables declaration//GEN-END:variables
 }

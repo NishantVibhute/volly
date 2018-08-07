@@ -69,7 +69,11 @@ public class PanMatchReport extends javax.swing.JPanel {
         ((JLabel) cmbTeam1.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         ((JLabel) cmbTeam2.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         ((JLabel) cmbPhase.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        model = new DefaultTableModel();
+        model = new DefaultTableModel() {
+            public boolean isCellEditable(int row, int column) {
+                return false;//This causes all cells to be not editable
+            }
+        };
 
         model.setDataVector(new Object[][]{},
                 new Object[]{"SR No.", "Match", "Won By", "Date", "Time", "Phase", "Place", "Day Number", "Match Number", "Report", "LIVE", "POST", "Action"});
@@ -163,6 +167,7 @@ public class PanMatchReport extends javax.swing.JPanel {
 
                     int selectedRow = tbMatch.getSelectedRow();
                     int selectedCol = tbMatch.getSelectedColumn();
+                    tbMatch.clearSelection();
                     if (selectedRow >= 0) {
                         if (selectedCol == 9) {
                             id = matchIdmap.get((int) tbMatch.getValueAt(selectedRow, 0));
@@ -487,6 +492,9 @@ public class PanMatchReport extends javax.swing.JPanel {
             model.addRow(row);
         }
 
+//        cmbTeam1.setSelectedItem("Select");
+//        cmbTeam2.setSelectedItem("Select");
+//        cmbPhase.setSelectedItem("Select");
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked

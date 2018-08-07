@@ -16,6 +16,8 @@ import com.vollyball.renderer.TableHeaderRenderer;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -155,6 +157,13 @@ public class PanMatchSkillWisePlayerReport extends javax.swing.JPanel {
             }
         }
 
+        Collections.sort(pbList, new Comparator<PlayerReportBean>() {
+            @Override
+            public int compare(PlayerReportBean c1, PlayerReportBean c2) {
+
+                return Double.compare(c2.getSuccessr(), c1.getSuccessr());
+            }
+        });
         int i = 0;
         for (PlayerReportBean pb : pbList) {
 

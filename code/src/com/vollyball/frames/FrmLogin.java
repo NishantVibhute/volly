@@ -271,7 +271,7 @@ public class FrmLogin extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(this, "Success");
             this.dispose();
             Controller.frmDashBoard = new FrmDashboard();
-            Controller.frmDashBoard.lblName.setText("Nishant Vibhute");
+            Controller.frmDashBoard.lblName.setText(user);
 
         } else {
             JOptionPane.showMessageDialog(this, "Failed");

@@ -595,15 +595,11 @@ public class PanTeamDetail extends javax.swing.JPanel {
         panPrint.setLayout(panPrintLayout);
         panPrintLayout.setHorizontalGroup(
             panPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panPrintLayout.createSequentialGroup()
-                .addComponent(lblPrint, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(lblPrint, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
         );
         panPrintLayout.setVerticalGroup(
             panPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panPrintLayout.createSequentialGroup()
-                .addComponent(lblPrint)
-                .addGap(0, 11, Short.MAX_VALUE))
+            .addComponent(lblPrint, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);

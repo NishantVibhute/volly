@@ -16,7 +16,15 @@ import com.vollyball.dao.TeamDao;
 import com.vollyball.enums.Skill;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ItemEvent;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.util.List;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -72,6 +80,8 @@ public class PanMatchChart extends javax.swing.JPanel {
         panPlayer = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         cmbPlayer = new javax.swing.JComboBox<>();
+        panPrint2 = new javax.swing.JPanel();
+        lblPrint2 = new javax.swing.JLabel();
         panChart = new javax.swing.JPanel();
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -103,7 +113,10 @@ public class PanMatchChart extends javax.swing.JPanel {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,6 +143,29 @@ public class PanMatchChart extends javax.swing.JPanel {
             .addComponent(cmbPlayer)
         );
 
+        panPrint2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        lblPrint2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        lblPrint2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblPrint2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vollyball/images/printer.png"))); // NOI18N
+        lblPrint2.setToolTipText("Print This Page");
+        lblPrint2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblPrint2MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panPrint2Layout = new javax.swing.GroupLayout(panPrint2);
+        panPrint2.setLayout(panPrint2Layout);
+        panPrint2Layout.setHorizontalGroup(
+            panPrint2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblPrint2, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+        );
+        panPrint2Layout.setVerticalGroup(
+            panPrint2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblPrint2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -141,9 +177,11 @@ public class PanMatchChart extends javax.swing.JPanel {
                 .addComponent(cmbTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(panPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(476, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panPrint2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,7 +191,8 @@ public class PanMatchChart extends javax.swing.JPanel {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cmbTeam, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panPlayer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panPlayer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panPrint2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -163,8 +202,11 @@ public class PanMatchChart extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(panChart, javax.swing.GroupLayout.PREFERRED_SIZE, 1024, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panChart, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,6 +259,65 @@ public class PanMatchChart extends javax.swing.JPanel {
             this.repaint();
         }
     }//GEN-LAST:event_cmbTeamItemStateChanged
+
+    private void lblPrint2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPrint2MouseClicked
+        // TODO add your handling code here:
+        panPrint2.setVisible(false);
+
+        printComponenet(this);
+        panPrint2.setVisible(true);
+
+    }//GEN-LAST:event_lblPrint2MouseClicked
+
+    public void printComponenet(final Component comp) {
+
+        PageFormat documentPageFormat = new PageFormat();
+        documentPageFormat.setOrientation(PageFormat.LANDSCAPE);
+
+        PrinterJob pj = PrinterJob.getPrinterJob();
+        pj.setJobName("Score Report");
+
+        pj.setPrintable(new Printable() {
+            public int print(Graphics g, PageFormat format, int page_index)
+                    throws PrinterException {
+                if (page_index > 0) {
+                    return Printable.NO_SUCH_PAGE;
+                }
+
+                format.setOrientation(PageFormat.LANDSCAPE);
+                // get the bounds of the component
+                Dimension dim = comp.getSize();
+                double cHeight = dim.getHeight();
+                double cWidth = dim.getWidth();
+
+                // get the bounds of the printable area
+                double pHeight = format.getImageableHeight();
+                double pWidth = format.getImageableWidth();
+
+                double pXStart = format.getImageableX();
+                double pYStart = format.getImageableY();
+
+                double xRatio = pWidth / cWidth;
+                double yRatio = pHeight / cHeight;
+
+                Graphics2D g2 = (Graphics2D) g;
+                g2.translate(pXStart, pYStart);
+                g2.scale(xRatio, yRatio);
+                comp.printAll(g2);
+
+                return Printable.PAGE_EXISTS;
+            }
+        }, documentPageFormat);
+        if (pj.printDialog() == false) {
+            return;
+        }
+
+        try {
+            pj.print();
+        } catch (PrinterException ex) {
+            // handle exception
+        }
+    }
 
     public void createBothTeamChart() {
         List<PlayerScores> list = rd.getMatchChart(compId, matchId);
@@ -332,7 +433,11 @@ public class PanMatchChart extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblPrint1;
+    private javax.swing.JLabel lblPrint2;
     private javax.swing.JPanel panChart;
     private javax.swing.JPanel panPlayer;
+    private javax.swing.JPanel panPrint1;
+    private javax.swing.JPanel panPrint2;
     // End of variables declaration//GEN-END:variables
 }

@@ -133,7 +133,7 @@ public class ReportDao {
         List<PlayerReportBean> playerReportList = new ArrayList<>();
         try {
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.skillwiseteamreport"));
+            PreparedStatement ps = this.con.prepareStatement(CommonUtil.getResourceProperty("get.skillwiseteammatchreport"));
 
             ps.setInt(1, skill);
             ResultSet rs = ps.executeQuery();

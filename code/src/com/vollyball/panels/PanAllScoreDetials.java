@@ -14,6 +14,14 @@ import com.vollyball.dialog.DialogPlayerScoreGraph;
 import com.vollyball.enums.Skill;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.category.BarRenderer;
@@ -364,9 +372,59 @@ public class PanAllScoreDetials extends javax.swing.JPanel {
         // TODO add your handling code here:
         panPrint.setVisible(false);
 
-//        printComponenet(this);
+        printComponenet(this);
         panPrint.setVisible(true);
     }//GEN-LAST:event_lblPrintMouseClicked
+
+    public void printComponenet(final Component comp) {
+
+        PageFormat documentPageFormat = new PageFormat();
+        documentPageFormat.setOrientation(PageFormat.LANDSCAPE);
+
+        PrinterJob pj = PrinterJob.getPrinterJob();
+        pj.setJobName("Score Report");
+
+        pj.setPrintable(new Printable() {
+            public int print(Graphics g, PageFormat format, int page_index)
+                    throws PrinterException {
+                if (page_index > 0) {
+                    return Printable.NO_SUCH_PAGE;
+                }
+
+                format.setOrientation(PageFormat.LANDSCAPE);
+                // get the bounds of the component
+                Dimension dim = comp.getSize();
+                double cHeight = dim.getHeight();
+                double cWidth = dim.getWidth();
+
+                // get the bounds of the printable area
+                double pHeight = format.getImageableHeight();
+                double pWidth = format.getImageableWidth();
+
+                double pXStart = format.getImageableX();
+                double pYStart = format.getImageableY();
+
+                double xRatio = pWidth / cWidth;
+                double yRatio = pHeight / cHeight;
+
+                Graphics2D g2 = (Graphics2D) g;
+                g2.translate(pXStart, pYStart);
+                g2.scale(xRatio, yRatio);
+                comp.printAll(g2);
+
+                return Printable.PAGE_EXISTS;
+            }
+        }, documentPageFormat);
+        if (pj.printDialog() == false) {
+            return;
+        }
+
+        try {
+            pj.print();
+        } catch (PrinterException ex) {
+            // handle exception
+        }
+    }
 
     private void lblPrint1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPrint1MouseClicked
         // TODO add your handling code here:

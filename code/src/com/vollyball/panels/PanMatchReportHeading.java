@@ -324,6 +324,7 @@ public class PanMatchReportHeading extends javax.swing.JPanel {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(pos5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -332,7 +333,6 @@ public class PanMatchReportHeading extends javax.swing.JPanel {
                         .addGap(0, 0, 0)
                         .addComponent(pos1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(pos4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(pos3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -421,42 +421,42 @@ public class PanMatchReportHeading extends javax.swing.JPanel {
         jTextField29.setEnabled(false);
         jTextField29.setOpaque(false);
 
-        pt11.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        pt11.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         pt11.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pt11.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt11.setEnabled(false);
         pt11.setOpaque(false);
 
-        pt12.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        pt12.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         pt12.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pt12.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt12.setEnabled(false);
         pt12.setOpaque(false);
 
-        pt13.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        pt13.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         pt13.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pt13.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt13.setEnabled(false);
         pt13.setOpaque(false);
 
-        pt14.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        pt14.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         pt14.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pt14.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt14.setEnabled(false);
         pt14.setOpaque(false);
 
-        pt15.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        pt15.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         pt15.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pt15.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt15.setEnabled(false);
         pt15.setOpaque(false);
 
-        pt16.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        pt16.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         pt16.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pt16.setDisabledTextColor(new java.awt.Color(0, 0, 0));
@@ -471,42 +471,42 @@ public class PanMatchReportHeading extends javax.swing.JPanel {
         jTextField36.setEnabled(false);
         jTextField36.setOpaque(false);
 
-        pt21.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        pt21.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         pt21.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt21.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pt21.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt21.setEnabled(false);
         pt21.setOpaque(false);
 
-        pt22.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        pt22.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         pt22.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pt22.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt22.setEnabled(false);
         pt22.setOpaque(false);
 
-        pt23.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        pt23.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         pt23.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pt23.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt23.setEnabled(false);
         pt23.setOpaque(false);
 
-        pt24.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        pt24.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         pt24.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt24.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pt24.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt24.setEnabled(false);
         pt24.setOpaque(false);
 
-        pt25.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        pt25.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         pt25.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt25.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pt25.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         pt25.setEnabled(false);
         pt25.setOpaque(false);
 
-        pt26.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        pt26.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         pt26.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pt26.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pt26.setDisabledTextColor(new java.awt.Color(0, 0, 0));

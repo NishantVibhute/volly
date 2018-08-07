@@ -673,4 +673,49 @@ public class RallyDao {
         return rallyDetailsList;
     }
 
+    public List<RallyEvaluationSkillScore> getRallyDetailsOfMatch(int matchId, int teamId, int skill, int rating) {
+        List<RallyEvaluationSkillScore> rallyDetailsList = new ArrayList<>();
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps1 = null;
+
+            String query = CommonUtil.getResourceProperty("get.rally.matchdetails.forDiagram");
+
+            if (skill != 0) {
+                query = query + " and skill=" + skill;
+            }
+
+            if (rating != 0) {
+                query = query + " and rating=" + rating;
+            }
+
+            ps1 = this.con.prepareStatement(query);
+            ps1.setInt(1, matchId);
+            ps1.setInt(2, teamId);
+
+            ResultSet rs1 = ps1.executeQuery();
+            while (rs1.next()) {
+                RallyEvaluationSkillScore ress = new RallyEvaluationSkillScore();
+                LinkedHashMap<Integer, String> detailsMap = new LinkedHashMap<>();
+                ress.setId(rs1.getInt(1));
+                ress.setSkillId(rs1.getInt(2));
+                ress.setPlayerId(rs1.getInt(3));
+                ress.setScore(rs1.getInt(4));
+                ress.setRallyId(rs1.getInt(5));
+
+                PreparedStatement ps3 = this.con.prepareStatement(CommonUtil.getResourceProperty("get.rallydetails.criteria"));
+                ps3.setInt(1, ress.getId());
+                ResultSet rs3 = ps3.executeQuery();
+                while (rs3.next()) {
+                    detailsMap.put(rs3.getInt(2), rs3.getString(3));
+                }
+                ress.setDetailsValues(detailsMap);
+                rallyDetailsList.add(ress);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RallyDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rallyDetailsList;
+    }
+
 }

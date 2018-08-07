@@ -420,6 +420,7 @@ public class PanMatchReportDetail extends javax.swing.JPanel {
 //            pnBut.setRally(rally.getRallyNum(), matchEvaluationId, initialPositionMap, evaluationType);
                 }
                 panRallyList.add(p);
+                printComponent.add(p);
 
                 if (totalRallies > 15) {
 
@@ -477,6 +478,7 @@ public class PanMatchReportDetail extends javax.swing.JPanel {
                             rallyNum++;
                         }
                         panRallyList.add(pan);
+                        printComponent.add(pan);
                     }
 
                 }

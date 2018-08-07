@@ -10,11 +10,18 @@ import com.vollyball.bean.PlayerReportBean;
 import com.vollyball.dao.ReportDao;
 import com.vollyball.dialog.CreateDialogPanMatchWiseReport;
 import com.vollyball.renderer.TableHeaderRenderer;
+import com.vollyball.renderer.ViewButtonRenderer;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -51,7 +58,8 @@ public class PanTableTeamSkillWiseReport extends javax.swing.JPanel {
         JTableHeader header = tbReport.getTableHeader();
         header.setBackground(heading);
         header.setOpaque(false);
-        header.setPreferredSize(new Dimension(100, 35));
+        header.setPreferredSize(new Dimension(100, 40));
+        header.setFont(new Font("Times New Romam", Font.BOLD, 14));
         header.setDefaultRenderer(new TableHeaderRenderer(tbReport));
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -60,11 +68,29 @@ public class PanTableTeamSkillWiseReport extends javax.swing.JPanel {
         tbReport.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        ViewButtonRenderer viewButtonRenderer = new ViewButtonRenderer();
+        tbReport.getColumnModel().getColumn(5).setCellRenderer(viewButtonRenderer);
         resizeColumns();
         Color ivory = new Color(255, 255, 255);
         tbReport.setOpaque(true);
         tbReport.setFillsViewportHeight(true);
         tbReport.setBackground(ivory);
+        tbReport.setRowHeight(35);
+        tbReport.setSelectionBackground(Color.WHITE);
+        tbReport.setSelectionForeground(Color.BLACK);
+
+        MouseMotionAdapter mma;
+        mma = new MouseMotionAdapter() {
+            public void mouseMoved(MouseEvent e) {
+                Point p = e.getPoint();
+                if (tbReport.columnAtPoint(p) == 5) {
+                    tbReport.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                } else {
+                    tbReport.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+            }
+        };
+        tbReport.addMouseMotionListener(mma);
 
         tbReport.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
@@ -72,16 +98,20 @@ public class PanTableTeamSkillWiseReport extends javax.swing.JPanel {
                     String selectedName = null;
 
                     int row = tbReport.getSelectedRow();
+                    int selectedCol = tbReport.getSelectedColumn();
+                    tbReport.clearSelection();
                     for (int i = 0; i <= row; i++) {
                         selectedName = (String) tbReport.getValueAt(row, 1);
 
                     }
 
                     if (selectedName != null) {
-                        CreateDialogPanMatchWiseReport createDialogPanMatchWiseReport = new CreateDialogPanMatchWiseReport();
-                        createDialogPanMatchWiseReport.setValues(playerId.get(row), skillName, skillId, cb.getId(), "team");
-                        createDialogPanMatchWiseReport.init();
-                        createDialogPanMatchWiseReport.show();
+                        if (selectedCol == 5) {
+                            CreateDialogPanMatchWiseReport createDialogPanMatchWiseReport = new CreateDialogPanMatchWiseReport();
+                            createDialogPanMatchWiseReport.setValues(playerId.get(row), skillName, skillId, cb.getId(), "team");
+                            createDialogPanMatchWiseReport.init();
+                            createDialogPanMatchWiseReport.show();
+                        }
                     }
                 }
             }
@@ -89,7 +119,7 @@ public class PanTableTeamSkillWiseReport extends javax.swing.JPanel {
 
     }
 
-    float[] columnWidthPercentage = {5.0f, 35.0f, 20.0f, 20.0f, 20.0f};
+    float[] columnWidthPercentage = {5.0f, 25.0f, 20.0f, 20.0f, 20.0f, 20.0f};
 
     private void resizeColumns() {
         int tW = tbReport.getPreferredSize().width;
@@ -122,7 +152,7 @@ public class PanTableTeamSkillWiseReport extends javax.swing.JPanel {
         for (PlayerReportBean pb : pbList) {
             playerId.put(i, pb);
             i++;
-            Object[] row = {i, pb.getName(), pb.getTotal(), pb.getSuccess(), pb.getSuccessrate()};
+            Object[] row = {i, pb.getName(), pb.getTotal(), pb.getSuccess(), pb.getSuccessrate(), new JPanel()};
             model.addRow(row);
 
         }
@@ -178,11 +208,11 @@ public class PanTableTeamSkillWiseReport extends javax.swing.JPanel {
 
             },
             new String [] {
-                "SR No.", "TEAM", "TOTAL ATTEMPT", "SUCCESSFUL ATTEMPT", "SUCCESS RATE "
+                "SR No.", "TEAM", "TOTAL ATTEMPT", "SUCCESSFUL ATTEMPT", "SUCCESS RATE ", "CHART"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

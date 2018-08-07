@@ -48,13 +48,13 @@ import javax.swing.table.TableColumnModel;
  * @author nishant.vibhute
  */
 public class PanTeamBestScorer extends javax.swing.JPanel {
-
+    
     DefaultTableModel model;
     JTable tbReport;
     TeamDao td = new TeamDao();
     DefaultTableModel dm;
     Map<String, Team> playerTeamMap = new HashMap<String, Team>();
-
+    
     ReportDao reportDao = new ReportDao();
     List<Team> teamList;
     CompetitionBean cb;
@@ -70,64 +70,65 @@ public class PanTeamBestScorer extends javax.swing.JPanel {
         cmbPlayer.addItem("All");
         playerTeamMap.put("All", null);
         for (Team t : teamList) {
-
+            
             playerTeamMap.put(t.getName(), t);
             cmbPlayer.addItem(t.getName());
-
+            
         }
         setRow(null);
-
+        
         tbReport.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-
+                    
                     String selectedName = null, teamName = "";
-
+                    
                     int matchesPlayed = 0;
-
+                    
                     int selectedRow = tbReport.getSelectedRow();
                     int selectedCol = tbReport.getSelectedColumn();
                     for (int i = 0; i <= selectedRow; i++) {
-
+                        
                         selectedName = (String) tbReport.getValueAt(selectedRow, 1);
-
+                        
                     }
+                    tbReport.clearSelection();
                     if (selectedName != null) {
                         if (selectedCol == 10) {
                             DialogTamDetail createDialogPanMatchWiseReport = new DialogTamDetail();
                             createDialogPanMatchWiseReport.init(cb.getId(), playerTeamMap.get(selectedName).getId());
-                            tbReport.clearSelection();
+                            
                             createDialogPanMatchWiseReport.show();
                         }
                     }
-
+                    
                 }
             }
         });
     }
-
+    
     public void setRow(Team Team) {
         List<PlayerScores> playerScoresList = new ArrayList<>();
-
+        
         for (int i = dm.getRowCount() - 1; i >= 0; i--) {
             dm.removeRow(i);
         }
-
+        
         if (Team == null) {
             for (Team p : teamList) {
                 PlayerScores playerScore = reportDao.getTeamScores(p);
                 playerScoresList.add(playerScore);
             }
-
+            
             Collections.sort(playerScoresList, new Comparator<PlayerScores>() {
                 @Override
                 public int compare(PlayerScores c1, PlayerScores c2) {
-
+                    
                     return Double.compare(c2.getAttemptRate(), c1.getAttemptRate());
                 }
             });
-
+            
             int i = 0;
             for (PlayerScores p : playerScoresList) {
                 Object[] row = {i + 1, p.getPlayerName(), p.getMatchesPlayed(), p.getServiceRatePerc(), p.getAttackRatePerc(), p.getBlockRatePerc(), p.getSetRatePerc(), p.getReceptionRatePerc(), p.getDefenceRatePerc(), p.getAttemptRatePerc(), new JPanel(), new JPanel()};
@@ -135,36 +136,36 @@ public class PanTeamBestScorer extends javax.swing.JPanel {
                 i++;
             }
         } else {
-
+            
             PlayerScores playerScore = reportDao.getTeamScores(Team);
             playerScoresList.add(playerScore);
-
+            
             int i = 0;
             for (PlayerScores p : playerScoresList) {
                 Object[] row = {i + 1, p.getPlayerName(), p.getMatchesPlayed(), p.getServiceRatePerc(), p.getAttackRatePerc(), p.getBlockRatePerc(), p.getSetRatePerc(), p.getReceptionRatePerc(), p.getDefenceRatePerc(), p.getAttemptRatePerc(), new JPanel(), new JPanel()};
                 dm.addRow(row);
                 i++;
             }
-
+            
         }
     }
-
+    
     public void createTable() {
         dm = new DefaultTableModel() {
             public boolean isCellEditable(int row, int column) {
                 return false;//This causes all cells to be not editable
             }
         };
-
+        
         dm.setDataVector(new Object[][]{},
                 new Object[]{"SR No.", "Team Name", "<html>Matches<br> Played</html>", "Service", "Attack", "Block", "Set", "Reception", "Defend", "Total", "Report", "Action"});
-
+        
         tbReport = new JTable(dm) {
             protected JTableHeader createDefaultTableHeader() {
                 return new GroupableTableHeader(columnModel);
             }
         };
-
+        
         tbReport.setFont(new java.awt.Font("Times New Roman", 0, 14));
         TableColumnModel cm = tbReport.getColumnModel();
         ColumnGroup g_name = new ColumnGroup("SuccessRate");
@@ -175,24 +176,25 @@ public class PanTeamBestScorer extends javax.swing.JPanel {
         g_name.add(cm.getColumn(7));
         g_name.add(cm.getColumn(8));
         g_name.add(cm.getColumn(9));
-
+        
         GroupableTableHeader header = (GroupableTableHeader) tbReport.getTableHeader();
         header.addColumnGroup(g_name);
-
+        
         JScrollPane scroll = new JScrollPane(tbReport);
-
+        
         Color heading = new Color(204, 204, 204);
         model = (DefaultTableModel) tbReport.getModel();
         JTableHeader tbheader = tbReport.getTableHeader();
-
+        
         tbheader.setOpaque(false);
         tbheader.setPreferredSize(new Dimension(100, 45));
         tbheader.setDefaultRenderer(new TableHeaderRenderer(tbReport));
+        tbheader.setFont(new java.awt.Font("Times New Roman", 1, 14));
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tbReport.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(0).setWidth(10);
-
+        
         tbReport.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tbReport.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
@@ -206,16 +208,16 @@ public class PanTeamBestScorer extends javax.swing.JPanel {
         tbReport.getColumnModel().getColumn(10).setCellRenderer(reportButtonRenderer);
         EditButtonRenderer editButtonRenderer = new EditButtonRenderer();
         tbReport.getColumnModel().getColumn(11).setCellRenderer(editButtonRenderer);
-
+        
         Color ivory = new Color(255, 255, 255);
         tbReport.setOpaque(true);
         tbReport.setFillsViewportHeight(true);
         tbReport.setBackground(ivory);
-
-        tbReport.setRowHeight(30);
+        
+        tbReport.setRowHeight(35);
         tbReport.setSelectionBackground(Color.WHITE);
         tbReport.setSelectionForeground(Color.BLACK);
-
+        
         MouseMotionAdapter mma;
         mma = new MouseMotionAdapter() {
             public void mouseMoved(MouseEvent e) {
@@ -231,12 +233,12 @@ public class PanTeamBestScorer extends javax.swing.JPanel {
         // Register the previous MouseMotionAdapter object as a listener
         // to mouse movement events originating from the table.
         tbReport.addMouseMotionListener(mma);
-
+        
         resizeColumns();
         panReport.add(scroll, BorderLayout.CENTER);
     }
     float[] columnWidthPercentage = {5.0f, 23.0f, 9.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f};
-
+    
     private void resizeColumns() {
         int tW = tbReport.getPreferredSize().width;
         TableColumn column;
@@ -401,7 +403,7 @@ public class PanTeamBestScorer extends javax.swing.JPanel {
         // TODO add your handling code here:
         setRow(playerTeamMap.get(cmbPlayer.getSelectedItem()));
     }//GEN-LAST:event_lblSearchMouseClicked
-
+    
     private void lblNewTeamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNewTeamMouseClicked
         // TODO add your handling code here:
         Controller.teamDialog = new CreateTeamDialog();
